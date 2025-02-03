@@ -1,0 +1,118 @@
+@import '../../styles/index.css';
+
+:root {
+    --bg: #ffffff;
+    --primary: #007bff;
+    --accent: #0056b3;
+    --disabled: #cccccc;
+    --bg-accent: #f8f9fa;
+}
+
+.quiz-container {
+    width: 500px;
+    background: var(--bg);
+    border-radius: 4px;
+    margin-top: 100px;
+    padding: 30px 60px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.quiz-container .active-question-no {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.quiz-container h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.quiz-container ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.quiz-container ul li {
+    border: 1px solid var(--disabled);
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 11px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.quiz-container ul .selected-answer {
+    background: var(--primary);
+    color: var(--bg);
+}
+
+.quiz-container .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border: 1px solid var(--disabled);
+    border-radius: 22px;
+}
+
+.quiz-container .footer button {
+    background: linear-gradient(0deg, var(--primary) 0.03%, var(--accent));
+    border-radius: 50px;
+    font-size: 18px;
+    color: var(--bg);
+    padding: 10px 42px;
+    margin: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.quiz-container .footer button:disabled {
+    background: var(--bg-accent);
+    color: var(--disabled);
+    cursor: not-allowed;
+}
+
+.quiz-container .result {
+    text-align: center;
+}
+
+.quiz-container .result h3 {
+    font-size: 24px;
+    letter-spacing: 1.4px;
+    margin: 0;
+}
+
+.quiz-container .result p {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.quiz-container .result p span {
+    color: var(--primary);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.quiz-container .result button {
+    background: linear-gradient(0deg, var(--primary) 0.03%, var(--accent));
+    border-radius: 50px;
+    font-size: 18px;
+    color: var(--bg);
+    padding: 10px 42px;
+    margin: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.quiz-container .result button:disabled {
+    background: var(--bg-accent);
+    color: var(--disabled);
+    cursor: not-allowed;
+}

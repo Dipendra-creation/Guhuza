@@ -1,0 +1,16 @@
+@import '../../styles/index.css';
+
+.answer-timer-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid --disabled;
+}
+
+.answer-timer-container .progress {
+    height: 5px;
+    transition: 1s;
+    width: 0;
+    transition-timing-function: linear;
+}
