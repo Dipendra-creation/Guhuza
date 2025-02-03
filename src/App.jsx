@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import './styles/index.css'
 import Home from "./Pages/Home";
 import Leaderboard from "./Pages/Leaderboard";
 import Play from "./Pages/Play";
@@ -10,7 +11,7 @@ import Navbar from "./components/NavBar/Navbar";
 
 function App() {
   return (
-    <div className=" overflow-x-hidden w-full h-screen">
+    <div className="nav-container">
       { <Navbar/> }
       
       <Routes>

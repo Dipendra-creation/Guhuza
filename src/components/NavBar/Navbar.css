@@ -1,6 +1,6 @@
 @import '../../styles/index.css';
 
-.logo-container {
-    background-color: var(--primary-color); 
-    border-radius: 50%;
+.navbar{
+    width: 100%;
+    
 }

@@ -3,22 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --primary: rgb(111, 155, 194);
-    --accent: #009999;
-    --bg: #ffffff;
-    --bg-accent: #e7e8e9;
-    --disabled: #9c9c9c;
-    --foreground: #2d264b;
-  }
+
 
 body {
-    font-family: monospace;
-    background: linear-gradient(0deg, var(--primary) 0.03%, var(--accent));
-    color: var(--foreground);
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 0 30px;
-    height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0; 
+}
+
+.nav-container {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #ced8ff;
 }
