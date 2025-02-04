@@ -6,15 +6,35 @@ import { MdLeaderboard } from "react-icons/md";
 import { FaPlay } from "react-icons/fa6";
 import { LuScrollText } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FiMenu, FiX } from "react-icons/fi"; // Import icons
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0); // To track scroll position
+  const [isHidden, setIsHidden] = useState(false); // To hide/show navbar
   const location = useLocation(); // Get the current URL
 
+  const handleScroll = useCallback(() => {
+    if (window.scrollY > lastScrollY) {
+      // Scrolling down, hide the navbar
+      setIsHidden(true);
+    } else {
+      // Scrolling up, show the navbar
+      setIsHidden(false);
+    }
+    setLastScrollY(window.scrollY); // Update the scroll position
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll); // Add scroll event listener
+    return () => {
+      window.removeEventListener('scroll', handleScroll); // Cleanup on unmount
+    };
+  }, [handleScroll]);
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isHidden ? 'hidden' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/home" className="logo">

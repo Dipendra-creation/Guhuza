@@ -12,7 +12,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
+    transition: top 0.5s ease-in-out; /* Smooth transition for hiding/showing */
+}
 
+/* Add 'hidden' class when navbar should be hidden */
+.navbar.hidden {
+    top: -70px; /* Adjust according to the height of the navbar */
 }
 
 /* Navbar Container */
@@ -40,8 +45,6 @@
     align-items: center;
     padding: 0;
     transition: transform 0.3s ease-in-out;
-    
-    
 }
 
 /* Navigation Item */
@@ -76,7 +79,9 @@
 
 /* Hover Effect */
 .nav-item a:hover {
-    color: #9fffff;    
+    color: #9fffff;  
+    border-bottom: 1px solid #9fffff;  
+    padding-bottom: 3px;
 }
 
 /* ===== HAMBURGER MENU STYLING ===== */
