@@ -12,14 +12,14 @@ import Navbar from "./components/NavBar/Navbar";
 function App() {
   return (
     <div className="nav-container">
-      { <Navbar/> }
+       <Navbar/> 
       
       <Routes>
 
         <Route path="/home" element={<Home/>} />
         <Route path="/leaderboard" element={<Leaderboard/>} />
         <Route path="/play" element={<Play/>} />
-        <Route path="/AboutGame" element={<AboutGame/>} />
+        <Route path="/aboutgame" element={<AboutGame/>} />
         <Route path="/profile" element={<Profile/>} />
         
 

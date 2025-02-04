@@ -1,39 +1,156 @@
 @import '../../styles/index.css';
 
-.navbar{
-    width: 100% auto;
-    height: 50px;
+.navbar {
+    width: 100%;
+    height: 70px; /* Fixed height */
+    background: rgb(37, 36, 36);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-family: "Helvetica", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+
+}
+
+/* Navbar Container */
+.navbar-container {
+    width: 100%;
+    margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: white;
-    padding: 15px 7px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: 0.5s;
-}
-.logo{
-    width: 160px;
-    cursor: pointer;
+    height: 70px; /* Ensures navbar height remains fixed */
 }
 
-ul{
- 
-    flex: 1;
-    text-align:right;
-    margin-right: 20px;
-  
+/* Logo Styling */
+.logo img {
+    width: 140px;
+    cursor: pointer;
+    margin-left: 10px;
 }
-ul li {
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    padding: 0;
+    transition: transform 0.3s ease-in-out;
+    
+    
+}
+
+/* Navigation Item */
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Space between icon and text */
     text-decoration: none;
-    display: inline-block;
-    margin: 10px 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: normal;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+/* Active Page Styling */
+.nav-item a.active {
+    color: #01FFFF; /* Change color for active link */
+    font-weight: bold;
+    border-bottom: 3px solid #01FFFF; /* Adds underline for active page */
+    padding-bottom: 5px;
+}
+
+/* Icon Styling */
+.nav-icon {
     font-size: 18px;
+}
+
+/* Hover Effect */
+.nav-item a:hover {
+    color: #9fffff;    
+}
+
+/* ===== HAMBURGER MENU STYLING ===== */
+.menu-icon {
+    display: none;
+    font-size: 28px;
+    color: white;
     cursor: pointer;
-    position: relative;
+    padding: 10px;
 }
 
-ul li link{
-    text-decoration: none;
-    color: black;
+/* Responsive Design */
+
+/* 📌 Tablet View (iPad) */
+@media (max-width: 1024px) {
+    .nav-item a {
+        font-size: 15px; /* Slightly smaller font */
+    }
+
+    .logo img {
+        width: 120px; /* Smaller logo */
+    }
+    ul{
+        margin-right: 10px;
+    }
 }
 
+/* 📌 Mobile View */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px; /* Ensures dropdown stays below navbar */
+        left: 0;
+        width: 100%;
+        background: rgb(37, 36, 36);
+        flex-direction: column;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-item {
+        margin: 10px 0;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .logo img {
+        width: 100px; /* Smaller logo on mobile */
+    }
+}
+
+/* 📌 Small Mobile View (Extra Small Screens) */
+@media (max-width: 480px) {
+    .nav-links {
+        padding: 15px 0;
+    }
+
+    .nav-item a {
+        font-size: 14px; /* Adjust text size */
+    }
+
+    .logo img {
+        width: 90px;
+    }
+}
+
+/* Push Content Below Navbar */
+.content {
+    padding-top: 80px; /* Prevents content from going under navbar */
+}
