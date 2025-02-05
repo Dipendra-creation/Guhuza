@@ -125,7 +125,7 @@ const Home = () => {
     <div className="grow shrink basis-0 flex-col justify-start items-start gap-[133px] inline-flex">
       <div className="self-stretch h-[281px] flex-col justify-start items-start gap-14 flex">
         <div className="self-stretch text-black text-[40px] font-bold font-['Roboto'] leading-[48px] bg-white p-4 bg-opacity-80">
-          Unlock Your Career Potential with Guhuza's Innovative Networking Solutions
+          Unlock Your Career Potential with Guhuza&apos;s Innovative Networking Solutions
         </div>
         <div className="self-stretch text-black text-lg font-normal font-['Roboto'] leading-[27px] bg-white p-4 bg-opacity-80">
           Guhuza empowers professionals to enhance their careers through engaging digital interactions. Our platform combines networking with gamified experiences, making career development enjoyable and effective.

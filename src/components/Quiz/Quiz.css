@@ -8,6 +8,15 @@
     --bg-accent: #f8f9fa;
 }
 
+
+
+.quiz-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
 .quiz-container {
     width: 500px;
     background: var(--bg);
