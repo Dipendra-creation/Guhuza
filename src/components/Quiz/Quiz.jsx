@@ -1,3 +1,4 @@
+// src/components/Quiz/Quiz.jsx
 import { useState } from "react";
 import { resultInitialState } from "../../constants";
 import PropTypes from "prop-types";
@@ -10,14 +11,17 @@ const Quiz = ({ questions, onNextLevel }) => {
   const [result, setResult] = useState(resultInitialState);
   const [showResult, setShowResult] = useState(false);
 
+  // Destructure current question details
   const { question, test_answer, answers } = questions[currentQuestion];
 
+  // Handler for when a user selects an answer
   const onAnswerClick = (answer, index) => {
     setAnswerIdx(index);
   };
 
+  // Handler for moving to the next question or finalizing the quiz
   const onClickNext = (finalAnswer) => {
-    setAnswerIdx(null);
+    // Update the result based on whether the answer was correct
     setResult((prev) =>
       finalAnswer
         ? {
@@ -32,14 +36,18 @@ const Quiz = ({ questions, onNextLevel }) => {
           }
     );
 
+    // Proceed to the next question or show the result if it's the last question
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
       setCurrentQuestion(0);
       setShowResult(true);
     }
+    // Reset the selected answer
+    setAnswerIdx(null);
   };
 
+  // Reset the quiz to try again
   const onTryAgain = () => {
     setCurrentQuestion(0);
     setAnswerIdx(null);
@@ -47,8 +55,9 @@ const Quiz = ({ questions, onNextLevel }) => {
     setShowResult(false);
   };
 
+  // Handler for when the answer timer expires
   const handleTimeUp = () => {
-    // If user selected an answer, check it; otherwise, count as wrong
+    // If an answer was selected, check if it's correct; otherwise, count as incorrect
     if (answerIdx !== null) {
       onClickNext(answerIdx === test_answer);
     } else {
@@ -74,9 +83,9 @@ const Quiz = ({ questions, onNextLevel }) => {
             <ul>
               {answers.map((answer, index) => (
                 <li
-                  onClick={() => onAnswerClick(answer, index)}
                   key={index}
-                  className={answerIdx === index ? "selected-answer" : null}
+                  onClick={() => onAnswerClick(answer, index)}
+                  className={answerIdx === index ? "selected-answer" : ""}
                 >
                   {answer}
                 </li>
