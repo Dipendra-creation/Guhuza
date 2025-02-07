@@ -19,7 +19,7 @@ const Home = () => {
         </div>
         <div className="home-text-container">
           <div className="home-description">
-            At Guhuza, we revolut ionize professional networking through engaging digital
+            At Guhuza, we revolutionize professional networking through engaging digital
             solutions. Join our vibrant community and elevate your career with interactive tools
             designed for success.
           </div>

@@ -13,7 +13,37 @@ body {
     padding: 20px;
     background: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-left: 6px solid #222;
+    border-radius: 10px;
 }
+.section {
+    margin-bottom: 20px;
+    padding: 25px;
+    background: #ffffff;
+    border-left: 6px solid #222;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease-in-out;
+    line-height: 1.8;
+}
+
+.section p {
+    color: #333;
+    font-size: 16px;
+    text-align: justify;
+    margin-bottom: 12px;
+}
+
+.section strong {
+    color: #000;
+    font-weight: bold;
+}
+
+.section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.18);
+}
+
 
 h1, h2 {
     color: #333;
@@ -126,7 +156,8 @@ p {
     padding: 10px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5px rgba(170, 160, 160, 0.1);
+    
 }
 
 .achievement-item img {
