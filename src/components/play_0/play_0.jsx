@@ -1,6 +1,19 @@
 import "./play_0.css";
+import { useState } from "react";
+import Play1 from "../play_1/play_1";
 
-const play0 = () => {
+const Play0 = () => {
+  const [startGame, setStartGame] = useState(false);
+
+  // Function to start the game
+  const handleStartGame = () => {
+    setStartGame(true); // Switch to Play_1 component
+  };
+
+  // If the game starts, render Play_1 instead
+  if (startGame) {
+    return <Play1 />;
+  }
   return (
     <div className="instructions-container">
       {/* Welcome Section */}
@@ -18,12 +31,12 @@ const play0 = () => {
       <div className="instructions-box">
         <ol className="instructions-list">
           <li>
-            <strong>Starting the Game:</strong> Click on the <b>&quot;Play&quot;</b> button on the home screen to begin the quiz.
+            <strong>Starting the Game:</strong> Click on the <b>"Play"</b> button on the home screen to begin the quiz.
           </li>
           <li>
             <strong>Answering Questions:</strong> Each question has multiple-choice answers. 
             Click on the correct option before the timer runs out. After selecting an answer, 
-            click <b>&quot;Next&quot;</b> to move to the next question.
+            click <b>"Next"</b> to move to the next question.
           </li>
           <li>
             <strong>Scoring System:</strong>
@@ -43,7 +56,7 @@ const play0 = () => {
           </li>
           <li>
             <strong>Advancing to the Next Level:</strong> After completing a level, click 
-            <b>&quot;Next Level&quot;</b> to continue. The game progresses up to <b>Level 50</b>.
+            <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.
           </li>
           <li>
             <strong>Leaderboard:</strong> Track your ranking and total score in the 
@@ -66,9 +79,11 @@ const play0 = () => {
 
       {/* Start Button */}
       <div className="button-container">
-        <a href="/play" className="play-button">Start Playing</a>
+      <button className="play-button" onClick={handleStartGame}>
+          Start Playing
+        </button>
       </div>
     </div>
   );
 };
-export default play0;
+export default Play0;
