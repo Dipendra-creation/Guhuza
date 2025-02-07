@@ -5,6 +5,58 @@ body {
     box-sizing: border-box;
     background-color: #f9f9f9;
 }
+.how-to-earn {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
+    text-align: left;
+}
+
+how-to-earn h1 {
+    font-size: 24px;
+    color: #222;
+    text-align: center;
+    position: relative;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-earn p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-left: 4px solid #222;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .how-to-earn {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .how-to-earn h1 {
+        font-size: 22px;
+    }
+
+    .how-to-earn p {
+        font-size: 14px;
+    }
+}
+
 
 .container {
     width: 80%;
@@ -13,7 +65,7 @@ body {
     padding: 20px;
     background: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-left: 6px solid #222;
+   
     border-radius: 10px;
 }
 .section {
@@ -43,7 +95,85 @@ body {
     transform: translateY(-3px);
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.18);
 }
+/* How to Play Section */
+.container-play {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px auto;
+    width: 80%;
+    max-width: 800px;
+    text-align: left;
+    position: relative;
+    padding-top: 50px;
+}
 
+.container-play h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.container-play p {
+    font-size: 16px;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #222;
+}
+
+/* Rules Section */
+.container-rules {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px auto;
+    width: 80%;
+    max-width: 800px;
+    text-align: left;
+    position: relative;
+    padding-top: 50px;
+}
+
+.container-rules h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.container-rules p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #222;
+}
+
+@media (max-width: 768px) {
+    .container-play {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+    .container-play h1 {
+        font-size: 22px;
+    }
+
+
+    
 
 h1, h2 {
     color: #333;
@@ -157,6 +287,7 @@ p {
     background: white;
     border-radius: 8px;
     box-shadow: 0px 0px 5px rgba(170, 160, 160, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     
 }
 
@@ -164,14 +295,237 @@ p {
     width: 80px;
     height: 80px;
     object-fit: contain;
-    margin-bottom: 10px;
+}
+.achievement-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out;
 }
 
 .achievement-item p {
-    margin: 0;
+    margin-top: 10px;
     font-weight: bold;
     color: #333;
+    text-align: center;
 }
+
+.achievement-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.achievement-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out;
+}
+
+.achievement-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.achievement-item:hover img {
+    transform: scale(1.1);
+}
+
+.achievement-tooltip {
+    position: relative;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(222, 217, 217, 0.75);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 10;
+    pointer-events: none;
+}
+
+
+.achievement-item:hover .achievement-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.achievement-item::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(58, 38, 38, 0.75);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.achievement-item:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+/*
+
+/* How to Play Section */
+/* How to Play Section */
+.container-play {
+    text-align: center;
+    padding: 25px;
+}
+
+.container-play h1, .container-play h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.container-play p {
+    font-size: 16px;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #222;
+}
+
+.container-play ul {
+    text-align: left;
+    margin: 15px 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.container-play ul li {
+    position:block;
+    font-size: 16px;
+    color: #333;
+    padding: 8px 12px;
+    border-left: 4px solid #444;
+    background: #f2f2f2;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-play {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .container-play h1, .container-play h2 {
+        font-size: 22px;
+    }
+    
+    .container-play p, .container-play ul li {
+        font-size: 14px;
+    }
+}
+
+
+/* Rules Section */
+.container-rules {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px auto;
+    width: 80%;
+    
+    text-align: left;
+    position: relative;
+    padding-top: 50px;
+}
+
+.container-rules h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.container-rules p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #222;
+}
+
+/* Terms and Conditions Section */
+.container-terms {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px auto;
+   
+    
+    text-align: left;
+}
+
+.container-terms h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.container-terms p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #222;
+}
+
 
 @media (max-width: 768px) {
     .achievement-row {
@@ -181,6 +535,35 @@ p {
     .achievement-item {
         width: 80%;
     }
+    .achievement-item img {
+        width: 60px;
+        height: 60px;
+    }
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container, .how-to-earn, .container-play, .container-rules, .container-terms {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .how-to-earn h1, .container-play h1, .container-play h2, .container-rules h2, .container-terms h2 {
+        font-size: 22px;
+    }
+    
+    .how-to-earn p, .container-play p, .container-rules p, .container-terms p, .container-play ul li {
+        font-size: 14px;
+    }
+    
+    .badges-container, .achievement-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .badge, .achievement-item {
+        width: 80%;
+    }
+    
     .achievement-item img {
         width: 60px;
         height: 60px;
