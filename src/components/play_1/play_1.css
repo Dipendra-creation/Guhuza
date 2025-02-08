@@ -1,0 +1,98 @@
+.play-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 900px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.levels-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.category-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #3c5a74;
+    padding: 15px;
+    border-radius: 8px;
+    width: 18%;
+}
+
+.category-title {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background: #2b455e;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.level-button {
+    background: #5f8abf;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.level-button:hover {
+    background: #4c7cad;
+}
+
+/* Highlight selected level */
+.level-button.selected {
+    background: #2b455e;
+    font-weight: bold;
+}
+
+/* Start button */
+.start-button {
+    margin-top: 20px;
+    background: #28a745;
+    color: white;
+    font-size: 18px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 200px;
+}
+
+.start-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.start-button:hover:not(:disabled) {
+    background: #218838;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .levels-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .category-column {
+        width: 90%;
+    }
+}

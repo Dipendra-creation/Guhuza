@@ -1,6 +1,6 @@
 // src/pages/Play.jsx
-import { useState, useEffect } from 'react';
-import Quiz from '../components/Quiz/Quiz';
+import { useState, useEffect } from "react";
+import Quiz from "../components/Quiz/Quiz";
 
 const Play = () => {
   const [level, setLevel] = useState(1);
@@ -8,16 +8,14 @@ const Play = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch questions for the given level using async/await
   const fetchQuestions = async (currentLevel) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/quiz?level=${currentLevel}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch quiz data');
+        throw new Error("Failed to fetch quiz data");
       }
       const data = await response.json();
-      // Assuming your API returns an object with a "test" property that has a "question" array
       setQuestions(data.test.question);
     } catch (err) {
       setError(err.message);
@@ -26,17 +24,14 @@ const Play = () => {
     }
   };
 
-  // When the level changes, fetch new questions
   useEffect(() => {
     fetchQuestions(level);
   }, [level]);
 
-  // Handler for moving to the next level
   const handleNextLevel = () => {
     setLevel((prevLevel) => prevLevel + 1);
   };
 
-  // Render loading or error states if necessary
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -44,8 +39,14 @@ const Play = () => {
     return <div>Error: {error}</div>;
   }
 
-  // Pass the questions and next level callback to the Quiz component
-  return <Quiz questions={questions} onNextLevel={handleNextLevel} />;
+  return (
+    <Quiz
+      questions={questions}
+      onNextLevel={handleNextLevel}
+      currentLevel={level}
+      maxLevel={50} // Adjust the maximum level as needed
+    />
+  );
 };
 
 export default Play;

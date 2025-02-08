@@ -31,12 +31,12 @@ const Play0 = () => {
       <div className="instructions-box">
         <ol className="instructions-list">
           <li>
-            <strong>Starting the Game:</strong> Click on the <b>"Play"</b> button on the home screen to begin the quiz.
+            <strong>Starting the Game:</strong> Click on the <b>&quot;Play&quot;</b> button on the home screen to begin the quiz.
           </li>
           <li>
             <strong>Answering Questions:</strong> Each question has multiple-choice answers. 
             Click on the correct option before the timer runs out. After selecting an answer, 
-            click <b>"Next"</b> to move to the next question.
+            click <b>&quot;Next&quot;</b> to move to the next question.
           </li>
           <li>
             <strong>Scoring System:</strong>
@@ -56,7 +56,7 @@ const Play0 = () => {
           </li>
           <li>
             <strong>Advancing to the Next Level:</strong> After completing a level, click 
-            <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.
+            <b>&quot;Next Level&quot;</b> to continue. The game progresses up to <b>Level 50</b>.
           </li>
           <li>
             <strong>Leaderboard:</strong> Track your ranking and total score in the 

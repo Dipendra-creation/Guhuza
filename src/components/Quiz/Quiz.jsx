@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 
-const Quiz = ({ questions, onNextLevel }) => {
+const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answerIdx, setAnswerIdx] = useState(null);
   const [result, setResult] = useState(resultInitialState);
@@ -21,7 +21,6 @@ const Quiz = ({ questions, onNextLevel }) => {
 
   // Handler for moving to the next question or finalizing the quiz
   const onClickNext = (finalAnswer) => {
-    // Update the result based on whether the answer was correct
     setResult((prev) =>
       finalAnswer
         ? {
@@ -36,14 +35,12 @@ const Quiz = ({ questions, onNextLevel }) => {
           }
     );
 
-    // Proceed to the next question or show the result if it's the last question
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
       setCurrentQuestion(0);
       setShowResult(true);
     }
-    // Reset the selected answer
     setAnswerIdx(null);
   };
 
@@ -55,9 +52,8 @@ const Quiz = ({ questions, onNextLevel }) => {
     setShowResult(false);
   };
 
-  // Handler for when the answer timer expires
+  // Handle time up
   const handleTimeUp = () => {
-    // If an answer was selected, check if it's correct; otherwise, count as incorrect
     if (answerIdx !== null) {
       onClickNext(answerIdx === test_answer);
     } else {
@@ -103,20 +99,12 @@ const Quiz = ({ questions, onNextLevel }) => {
         ) : (
           <div className="result">
             <h3>Result</h3>
-            <p>
-              Total Questions: <span>{questions.length}</span>
-            </p>
-            <p>
-              Total GP: <span>{result.GP}</span>
-            </p>
-            <p>
-              Correct Answers: <span>{result.correctAnswers}</span>
-            </p>
-            <p>
-              Wrong Answers: <span>{result.wrongAnswers}</span>
-            </p>
+            <p>Total Questions: <span>{questions.length}</span></p>
+            <p>Total GP: <span>{result.GP}</span></p>
+            <p>Correct Answers: <span>{result.correctAnswers}</span></p>
+            <p>Wrong Answers: <span>{result.wrongAnswers}</span></p>
             <button onClick={onTryAgain}>Try again</button>
-            <button onClick={onNextLevel}>Next Level</button>
+            {hasNextLevel ? <button onClick={onNextLevel}>Next Level</button> : null}
           </div>
         )}
       </div>
@@ -125,15 +113,9 @@ const Quiz = ({ questions, onNextLevel }) => {
 };
 
 Quiz.propTypes = {
-  questions: PropTypes.arrayOf(
-    PropTypes.shape({
-      question: PropTypes.string.isRequired,
-      comment: PropTypes.string,
-      test_answer: PropTypes.number.isRequired,
-      answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    })
-  ).isRequired,
+  questions: PropTypes.array.isRequired,
   onNextLevel: PropTypes.func.isRequired,
+  hasNextLevel: PropTypes.bool.isRequired,
 };
 
 export default Quiz;
