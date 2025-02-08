@@ -7,6 +7,7 @@ const Play = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const MAX_LEVEL = 50;
 
   const fetchQuestions = async (currentLevel) => {
     setLoading(true);
@@ -44,7 +45,7 @@ const Play = () => {
       questions={questions}
       onNextLevel={handleNextLevel}
       currentLevel={level}
-      maxLevel={50} // Adjust the maximum level as needed
+      maxLevel={MAX_LEVEL}
     />
   );
 };

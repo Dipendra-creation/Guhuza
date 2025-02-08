@@ -5,21 +5,24 @@ import PropTypes from "prop-types";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 
-const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
+const Quiz = ({ questions, onNextLevel, currentLevel, maxLevel }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answerIdx, setAnswerIdx] = useState(null);
   const [result, setResult] = useState(resultInitialState);
   const [showResult, setShowResult] = useState(false);
 
-  // Destructure current question details
+  // Compute whether there is a next level based on the current level and maximum allowed level.
+  const hasNextLevel = currentLevel < maxLevel;
+
+  // Destructure the current question details.
   const { question, test_answer, answers } = questions[currentQuestion];
 
-  // Handler for when a user selects an answer
+  // Handler for when a user selects an answer.
   const onAnswerClick = (answer, index) => {
     setAnswerIdx(index);
   };
 
-  // Handler for moving to the next question or finalizing the quiz
+  // Handler for moving to the next question or finalizing the quiz.
   const onClickNext = (finalAnswer) => {
     setResult((prev) =>
       finalAnswer
@@ -38,13 +41,15 @@ const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
+      // End of current level – show the results.
       setCurrentQuestion(0);
       setShowResult(true);
     }
+    // Reset the selected answer.
     setAnswerIdx(null);
   };
 
-  // Reset the quiz to try again
+  // Reset the quiz to try the level again.
   const onTryAgain = () => {
     setCurrentQuestion(0);
     setAnswerIdx(null);
@@ -52,7 +57,7 @@ const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
     setShowResult(false);
   };
 
-  // Handle time up
+  // Handler for when the timer expires.
   const handleTimeUp = () => {
     if (answerIdx !== null) {
       onClickNext(answerIdx === test_answer);
@@ -88,6 +93,10 @@ const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
               ))}
             </ul>
             <div className="footer">
+              {/* Display the current level */}
+              <p>
+                Level: <span>{currentLevel}</span>
+              </p>
               <button
                 onClick={() => onClickNext(answerIdx === test_answer)}
                 disabled={answerIdx === null}
@@ -99,12 +108,22 @@ const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
         ) : (
           <div className="result">
             <h3>Result</h3>
-            <p>Total Questions: <span>{questions.length}</span></p>
-            <p>Total GP: <span>{result.GP}</span></p>
-            <p>Correct Answers: <span>{result.correctAnswers}</span></p>
-            <p>Wrong Answers: <span>{result.wrongAnswers}</span></p>
+            <p>
+              Total Questions: <span>{questions.length}</span>
+            </p>
+            <p>
+              Total GP: <span>{result.GP}</span>
+            </p>
+            <p>
+              Correct Answers: <span>{result.correctAnswers}</span>
+            </p>
+            <p>
+              Wrong Answers: <span>{result.wrongAnswers}</span>
+            </p>
             <button onClick={onTryAgain}>Try again</button>
-            {hasNextLevel ? <button onClick={onNextLevel}>Next Level</button> : null}
+            {hasNextLevel && (
+            <button onClick={onNextLevel}>Next Level</button>
+            )}
           </div>
         )}
       </div>
@@ -115,7 +134,8 @@ const Quiz = ({ questions, onNextLevel, hasNextLevel }) => {
 Quiz.propTypes = {
   questions: PropTypes.array.isRequired,
   onNextLevel: PropTypes.func.isRequired,
-  hasNextLevel: PropTypes.bool.isRequired,
+  currentLevel: PropTypes.number.isRequired,
+  maxLevel: PropTypes.number.isRequired,
 };
 
 export default Quiz;
