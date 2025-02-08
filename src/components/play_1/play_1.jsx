@@ -21,9 +21,8 @@ const Play1 = () => {
         throw new Error("Failed to fetch quiz data");
       }
       const data = await response.json();
-
       setQuestions(data.test.question);
-      setStartQuiz(true); // Start the quiz
+      setStartQuiz(true); // Start the quiz after questions are loaded
     } catch (err) {
       setError(err.message);
     } finally {
@@ -66,7 +65,7 @@ const Play1 = () => {
 
   return (
     <div className="play-container">
-      <h2>Select a Quiz Level to Begin</h2>
+      <h2 className="header-title">Select a Quiz Level to Begin</h2>
       <div className="levels-grid">
         {[...Array(5)].map((_, categoryIndex) => {
           const categoryNames = [

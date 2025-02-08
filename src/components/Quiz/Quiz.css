@@ -127,3 +127,15 @@
     color: var(--disabled);
     cursor: not-allowed;
 }
+
+.level{
+    display: flex;
+    justify-content: center;
+    color: rgb(64, 69, 62);
+    align-items: center;
+    margin-left: 10px;
+    .current-level{
+            padding: 4px;
+  
+    }
+}

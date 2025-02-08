@@ -4,10 +4,12 @@
     max-width: 900px;
 }
 
-h2 {
+.header-title {
     font-size: 24px;
     color: #333;
     margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .levels-grid {
@@ -87,12 +89,28 @@ h2 {
     margin-top: 10px;
 }
 
+/* Responsive adjustments for tablet screens */
 @media (max-width: 768px) {
     .levels-grid {
-        flex-direction: column;
-        align-items: center;
+      flex-direction: column;
+      align-items: center;
     }
     .category-column {
-        width: 90%;
+      width: 40%;
+      max-width: none;
     }
-}
+  }
+  
+  /* Responsive adjustments for mobile screens */
+  @media (max-width: 480px) {
+    .header-title {
+      font-size: 1.5rem;
+    }
+    .level-button {
+      font-size: 0.9rem;
+    }
+    .start-button {
+      width: 100%;
+      font-size: 1rem;
+    }
+  }

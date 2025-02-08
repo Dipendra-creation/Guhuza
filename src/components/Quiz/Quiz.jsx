@@ -1,6 +1,7 @@
 // src/components/Quiz/Quiz.jsx
 import { useState } from "react";
 import { resultInitialState } from "../../constants";
+import '../fetch.jsx';
 import PropTypes from "prop-types";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
@@ -94,8 +95,8 @@ const Quiz = ({ questions, onNextLevel, currentLevel, maxLevel }) => {
             </ul>
             <div className="footer">
               {/* Display the current level */}
-              <p>
-                Level: <span>{currentLevel}</span>
+              <p className="level">
+                Level: <span className="current-level">{currentLevel}</span>
               </p>
               <button
                 onClick={() => onClickNext(answerIdx === test_answer)}
