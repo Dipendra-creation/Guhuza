@@ -1,9 +1,10 @@
-import Login from '../components/Login/login'
+import '../components/Lucky spin/Lucky_spin.jsx'
+import LuckyDrawWheel from '../components/Lucky spin/Lucky_spin.jsx'
 
 const Profile = () => {
   return (
     <div>
-      <Login />
+      <LuckyDrawWheel/>
     </div>
   )
 }
