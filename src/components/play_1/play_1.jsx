@@ -3,6 +3,7 @@ import "./play_1.css";
 import { useState } from "react";
 import Quiz from "../Quiz/Quiz";
 
+
 const MAX_LEVEL = 50; // Define the maximum level
 
 const Play1 = () => {
