@@ -7,9 +7,9 @@ async function main(){
     //you will  write your prisma queries here
    const user = await prisma.user.create({
         data: {
-            fullname: 'John Doe',
-            email: 'john@doe.com',
-            password: '123456'
+            fullname: 'Dipendra ojha',
+            email: 'ojhadipendra@gmail.com',
+            password: '1234568'
         }
     })
     console.log(user)
