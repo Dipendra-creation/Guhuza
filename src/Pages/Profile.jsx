@@ -1,10 +1,10 @@
-import '../components/Lucky spin/Lucky_spin.jsx'
-import LuckyDrawWheel from '../components/Lucky spin/Lucky_spin.jsx'
+import "../styles/profile.css";
+import { FaDisplay } from "react-icons/fa6";
 
 const Profile = () => {
   return (
-    <div>
-      <LuckyDrawWheel/>
+    <div className="profile">
+      <FaDisplay />
     </div>
   )
 }
