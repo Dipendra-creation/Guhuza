@@ -48,30 +48,35 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+
           <li className="nav-item">
             <Link to="/home" className={location.pathname === "/home" ? "active" : ""}>
               <IoHome className="nav-icon" />
               <span>Home</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/leaderboard" className={location.pathname === "/leaderboard" ? "active" : ""}>
-              <MdLeaderboard className="nav-icon" />
-              <span>Leaderboard</span>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/play" className={location.pathname === "/play" ? "active" : ""}>
-              <FaPlay className="nav-icon" />
-              <span>Play</span>
-            </Link>
-          </li>
+
           <li className="nav-item">
             <Link to="/aboutgame" className={location.pathname === "/aboutgame" ? "active" : ""}>
               <LuScrollText className="nav-icon" />
               <span>About Game</span>
             </Link>
           </li>
+
+          <li className="nav-item">
+            <Link to="/play" className={location.pathname === "/play" ? "active" : ""}>
+              <FaPlay className="nav-icon" />
+              <span>Play</span>
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <Link to="/leaderboard" className={location.pathname === "/leaderboard" ? "active" : ""}>
+              <MdLeaderboard className="nav-icon" />
+              <span>Leaderboard</span>
+            </Link>
+          </li>
+
           <li className="nav-item">
             <Link to="/profile" className={location.pathname === "/profile" ? "active" : ""}>
               <CgProfile className="nav-icon" />

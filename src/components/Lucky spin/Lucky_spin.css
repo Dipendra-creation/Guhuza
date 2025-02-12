@@ -1,0 +1,105 @@
+/* Container for the entire lucky draw component */
+.lucky-draw-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Container for the wheel and pointer */
+  .wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+  
+  /* The wheel itself with a conic-gradient for segments */
+  .wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #333;
+    /* Default transition; this will be overridden inline with a random duration */
+    transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+    background: conic-gradient(
+      #ff0000 0deg 30deg,
+      #ff7f00 30deg 60deg,
+      #ffff00 60deg 90deg,
+      #7fff00 90deg 120deg,
+      #00ff00 120deg 150deg,
+      #00ff7f 150deg 180deg,
+      #00ffff 180deg 210deg,
+      #007fff 210deg 240deg,
+      #0000ff 240deg 270deg,
+      #7f00ff 270deg 300deg,
+      #ff00ff 300deg 330deg,
+      #ff007f 330deg 360deg
+    );
+    position: relative;
+  }
+  
+  /* Center circle in the middle of the wheel */
+  .wheel::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  
+  /* The pointer displayed above the wheel */
+  .pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 24px solid #333;
+    z-index: 3;
+  }
+  
+  /* Style for the prize labels on each segment */
+  .wheel-label {
+    position: absolute;
+    width: 60px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    pointer-events: none;
+  }
+  
+  /* Spin button styling */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Disabled button state */
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Display the spin result */
+  .result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }

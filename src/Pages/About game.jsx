@@ -19,17 +19,7 @@ const AboutGame = () => {
                     </p>
                 </div>
                 </div>
-                <div className="container">
-                    <h1><strong>How to Earn These Badges</strong></h1>
-                    <div className="section">
-                     <p>In Guhuza, players can earn badges and experience points (GP | GxP) by participating in quizzes and engaging with the platform. Each correct answer rewards 10 GP, while each incorrect answer deducts 5 GP. Players can boost their scores by sharing the game (100 GP per share) or referring friends (100 GP per referral). A daily lucky draw offers between 10 and 100 GP. To complete a level, players must answer seven questions. Additionally, daily rewards are given for seven consecutive days, ranging from 10 GP to 70 GP. Higher scores place players at the top of the leaderboard, increasing visibility for companies posting job opportunities.</p>
-                        <p>Achievements are categorized as follows:</p>
-                        <p><strong>Ranking Achievements:</strong> "Leaderboard King" is awarded to the 1st place holder, "Silver Strategist" for 2nd place, and "Bronze Challenger" for 3rd place.</p>
-                        <p><strong>Engagement Achievements:</strong> "Loyal Player" is earned by logging in for 30 consecutive days, "Social Influencer" by sharing achievements on social media, and "Referral Master" by referring 20 friends.</p>
-                        <p><strong>Milestone Achievements:</strong> "Undisputed Champion" is given to players who hold 1st place for three consecutive months, while "Ultimate Quiz Master" is awarded for completing all 50 game levels.</p>
-                        <p><strong>Level Completion Achievements:</strong> "Elite Finisher" is awarded for completing Level 40, "Determined Player" for Level 30, "Expert Mind" for Levels 31-40, and "Master of Knowledge" for Levels 41-50.</p>
-                    </div>
-                </div>
+
                 <div className="section achievements-container">
                 <h1><b>Badges</b></h1>
              <div className="achievements-grid">
@@ -58,6 +48,17 @@ const AboutGame = () => {
             </div>
 
              </div>
+                </div>
+                <div className="container">
+                    <h1><strong>How to Earn These Badges</strong></h1>
+                    <div className="section">
+                     <p>In Guhuza, players can earn badges and experience points (GP | GxP) by participating in quizzes and engaging with the platform. Each correct answer rewards 10 GP, while each incorrect answer deducts 5 GP. Players can boost their scores by sharing the game (100 GP per share) or referring friends (100 GP per referral). A daily lucky draw offers between 10 and 100 GP. To complete a level, players must answer seven questions. Additionally, daily rewards are given for seven consecutive days, ranging from 10 GP to 70 GP. Higher scores place players at the top of the leaderboard, increasing visibility for companies posting job opportunities.</p>
+                        <p>Achievements are categorized as follows:</p>
+                        <p><strong>Ranking Achievements:</strong> "Leaderboard King" is awarded to the 1st place holder, "Silver Strategist" for 2nd place, and "Bronze Challenger" for 3rd place.</p>
+                        <p><strong>Engagement Achievements:</strong> "Loyal Player" is earned by logging in for 30 consecutive days, "Social Influencer" by sharing achievements on social media, and "Referral Master" by referring 20 friends.</p>
+                        <p><strong>Milestone Achievements:</strong> "Undisputed Champion" is given to players who hold 1st place for three consecutive months, while "Ultimate Quiz Master" is awarded for completing all 50 game levels.</p>
+                        <p><strong>Level Completion Achievements:</strong> "Elite Finisher" is awarded for completing Level 40, "Determined Player" for Level 30, "Expert Mind" for Levels 31-40, and "Master of Knowledge" for Levels 41-50.</p>
+                    </div>
                 </div>
                 <div className="container-play">
     <h1><b>How to Play</b></h1>
@@ -91,7 +92,7 @@ const AboutGame = () => {
                     <p>Daily lucky draw spin from 10 GP - 100 GP.</p>
                     <p>To complete the level, you have to answer 7 questions.</p>
                     <p>Daily rewards for 7 days range from 10 GP - 70 GP.</p>
-                    <p>Time limit applies to each question.</p>
+                    <p>Time limit of 10 seconds applies to each question.</p>
                     <p>People with more points will appear at the top of the list for companies posting jobs.</p>
                     <p>Players must progress sequentially through levels to unlock new challenges.</p>
     <p>Each question has a time limit, and unanswered questions will be skipped automatically.</p>

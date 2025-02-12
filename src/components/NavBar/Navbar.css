@@ -59,7 +59,7 @@
     gap: 6px; /* Space between icon and text */
     text-decoration: none;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: normal;
     transition: color 0.3s, border-bottom 0.3s;
 }
