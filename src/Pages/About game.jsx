@@ -131,7 +131,7 @@ const AboutGame = () => {
         Guhuza reserves the right to modify or update the terms and conditions at any time. Continued participation after changes indicates acceptance of the revised terms.
     </p>
 
-    By playing the Guhuza Quiz, you acknowledge and agree to these terms. For any inquiries or concerns, please contact support.
+    By playing the Guhuza Quiz, you acknowledge and agree to these terms. For any inquiries or concerns, please contact support. 
 </div>
 </div>
     
