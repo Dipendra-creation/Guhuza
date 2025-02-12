@@ -10,7 +10,9 @@ const handleClick = () => {
 
 const Home = () => {
   return (
+
     <div className="home-container">
+     
       <div className="home-content">
         <div className="home-heading-container">
           <div className="home-heading">
@@ -147,6 +149,7 @@ const Home = () => {
     <img className=" h-[640px] border border-black border-opacity-30" src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
   </div>
 </div>
+
     </div>
   );
 };

@@ -131,7 +131,6 @@ const Quiz = ({ questions, onNextLevel, currentLevel, maxLevel }) => {
     </div>
   );
 };
-
 Quiz.propTypes = {
   questions: PropTypes.array.isRequired,
   onNextLevel: PropTypes.func.isRequired,
