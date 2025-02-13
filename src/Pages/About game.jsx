@@ -9,20 +9,20 @@ const AboutGame = () => {
                 <div className="how-to-earn">
                     <div className='title'>  <strong><h1>How to Earn GP</h1></strong>
                     <p>
-                        In Guhuza, players earn **Guhuza Points (GP) | Guhuza Experience (GxP)** by actively participating in quizzes and engaging in platform activities. Correct answers reward **10 GP**, while incorrect responses result in a **5 GP deduction**. To boost your progress, you can earn additional GP by **sharing the game (100 GP per share)** or **referring friends (100 GP per referral)** who successfully sign up and play.
+                        In Guhuza, players earn <b>Guhuza Points</b> (GP) | Guhuza Experience (GxP) by actively participating in quizzes and engaging in platform activities. Correct answers reward 10 GP, while incorrect responses result in a <b>5 GP deduction</b>. To boost your progress, you can earn additional GP by <b>sharing the game</b> (100 GP per share) or <b>referring friends (100 GP per referral)</b>who successfully sign up and play.
                     </p>
                     <p>
-                        A **daily lucky draw** grants a random GP reward between **10 GP - 100 GP**. To complete a level, players must correctly answer **7 questions**. Additionally, players receive **daily login rewards** for **seven consecutive days**, ranging from **10 GP to 70 GP**.
+                        A<b> daily lucky draw</b> grants a random GP reward between 10 GP - 100 GP. To complete a level, players must correctly answer 7 questions. Additionally, players receive daily <b> login rewards for seven consecutive days</b>, ranging from 10 GP to 70 GP.
                     </p>
                     <p>
-                        Each question is timed, ensuring a fast-paced and competitive experience. Players with higher GP scores appear at the top of the leaderboard, increasing their visibility to **companies posting jobs** on the platform. Strategic gameplay and consistency are key to maximizing rewards and climbing the leaderboard.
+                        Each question is timed, ensuring a fast-paced and competitive experience. Players with higher GP scores appear at the top of the leaderboard, increasing their visibility to companies posting jobs on the platform. Strategic gameplay and consistency are key to maximizing rewards and climbing the leaderboard.
                     </p>
                 </div>
                 </div>
 
-                <div className="section achievements-container">
-                <h1><b>Badges</b></h1>
-             <div className="achievements-grid">
+        <div className="section achievements-container">
+         <h1><b>Badges</b></h1>
+         <div className="achievements-grid">
         <div className="achievement-row">
                  <div className="achievement-item" data-title="Achieve 1st rank to earn this badge"> <img src="/src/assets/badges/1st Ranking.png" alt="Leaderboard King" /><p>Leaderboard King</p></div>
                 <div className="achievement-item" data-title="Achieve 2nd rank to earn this badge"><img src="/src/assets/badges/2nd Ranking.png" alt="Silver Strategist" /><p>Silver Strategist</p></div>
@@ -49,9 +49,10 @@ const AboutGame = () => {
 
              </div>
                 </div>
-                <div className="container">
-                    <h1><strong>How to Earn These Badges</strong></h1>
+                <div className="container1">
+                    
                     <div className="section">
+                    <h1><strong>How to Earn These Badges</strong></h1>
                      <p>In Guhuza, players can earn badges and experience points (GP | GxP) by participating in quizzes and engaging with the platform. Each correct answer rewards 10 GP, while each incorrect answer deducts 5 GP. Players can boost their scores by sharing the game (100 GP per share) or referring friends (100 GP per referral). A daily lucky draw offers between 10 and 100 GP. To complete a level, players must answer seven questions. Additionally, daily rewards are given for seven consecutive days, ranging from 10 GP to 70 GP. Higher scores place players at the top of the leaderboard, increasing visibility for companies posting job opportunities.</p>
                         <p>Achievements are categorized as follows:</p>
                         <p><strong>Ranking Achievements:</strong> "Leaderboard King" is awarded to the 1st place holder, "Silver Strategist" for 2nd place, and "Bronze Challenger" for 3rd place.</p>
@@ -60,33 +61,34 @@ const AboutGame = () => {
                         <p><strong>Level Completion Achievements:</strong> "Elite Finisher" is awarded for completing Level 40, "Determined Player" for Level 30, "Expert Mind" for Levels 31-40, and "Master of Knowledge" for Levels 41-50.</p>
                     </div>
                 </div>
+                <div className="game-container">
                 <div className="container-play">
-    <h1><b>How to Play</b></h1>
+                    <h1><b>How to Play</b></h1>
 
-    <p>Answer quiz questions correctly to earn GP.</p>
-    <p>Share your progress to gain extra points.</p>
-    <p>Refer friends to earn referral rewards.</p>
-    <p>Participate in the daily lucky draw to boost your points.</p>
+                    <p>Answer quiz questions correctly to earn GP.</p>
+                    <p>Share your progress to gain extra points.</p>
+                    <p>Refer friends to earn referral rewards.</p>
+                    <p>Participate in the daily lucky draw to boost your points.</p>
 
-    <h2><strong>Level Progression</strong></h2>
-    <p>Players must complete smaller levels and pass to unlock the next stage.</p>
-    <p>There are five distinct player categories based on levels:</p>
+                    <h2><strong>Level Progression</strong></h2>
+                    <p>Players must complete smaller levels and pass to unlock the next stage.</p>
+                    <p>There are five distinct player categories based on levels:</p>
 
-    <ul>
-        <li><strong>Level 1-10:</strong> Intern</li>
-        <li><strong>Level 11-20:</strong> Associate</li>
-        <li><strong>Level 21-30:</strong> Specialist</li>
-        <li><strong>Level 31-40:</strong> Expert</li>
-        <li><strong>Level 41-50:</strong> Master</li>
-    </ul>
+                    <ul>
+                        <li><strong>Level 1-10:</strong> Intern</li>
+                        <li><strong>Level 11-20:</strong> Associate</li>
+                        <li><strong>Level 21-30:</strong> Specialist</li>
+                        <li><strong>Level 31-40:</strong> Expert</li>
+                        <li><strong>Level 41-50:</strong> Master</li>
+                    </ul>
 
     
-</div>
+                </div>
 
 
                 <div className="container-rules">
-                <h2><strong>Rules</strong></h2>
-                <p>Any points will be called as Guhuza Point | Guhuza Experience (GP | GxP).</p>
+                    <h2><strong>Rules</strong></h2>
+                    <p>Any points will be called as Guhuza Point | Guhuza Experience (GP | GxP).</p>
                     <p>Each correct answer will give you 10 GP, while each wrong answer will deduct 5 GP.</p>
                     <p>Each share will earn you 100 GP, and each referral will earn you 100 GP.</p>
                     <p>Daily lucky draw spin from 10 GP - 100 GP.</p>
@@ -95,15 +97,12 @@ const AboutGame = () => {
                     <p>Time limit of 10 seconds applies to each question.</p>
                     <p>People with more points will appear at the top of the list for companies posting jobs.</p>
                     <p>Players must progress sequentially through levels to unlock new challenges.</p>
-    <p>Each question has a time limit, and unanswered questions will be skipped automatically.</p>
-    <p>Players are not allowed to go back to previous questions once they proceed.</p>
-                    </div>
-                
-                    
-                  
-                 
+                    <p>Each question has a time limit, and unanswered questions will be skipped automatically.</p>
+                    <p>Players are not allowed to go back to previous questions once they proceed.</p>
+                </div>
+                </div>
+                 <div className="container-terms">
 
-    <div className="container-terms">
     <h2><strong>Terms and Conditions</strong></h2>
     By participating in the Guhuza Quiz, players agree to abide by all rules and regulations set forth by the platform.
     
@@ -131,7 +130,7 @@ const AboutGame = () => {
         Guhuza reserves the right to modify or update the terms and conditions at any time. Continued participation after changes indicates acceptance of the revised terms.
     </p>
 
-    By playing the Guhuza Quiz, you acknowledge and agree to these terms. For any inquiries or concerns, please contact support.
+    By playing the Guhuza Quiz, you acknowledge and agree to these terms. For any inquiries or concerns, please contact support. 
 </div>
 </div>
     

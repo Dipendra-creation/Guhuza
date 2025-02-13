@@ -40,7 +40,8 @@ const Leaderboard = () => {
 
   return (
     <div className="leaderboard-container">
-    
+      <h2>🏆 Guhuza Leaderboard 🏆</h2>
+
       {/* Search Bar */}
       <input
         type="text"
@@ -51,7 +52,7 @@ const Leaderboard = () => {
 
       {/* Sorting Options */}
       <div className="sorting">
-        
+        <label>Sort By: </label>
         <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
           <option value="gp">Points (GP)</option>
           <option value="name">Name</option>

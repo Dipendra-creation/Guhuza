@@ -5,30 +5,27 @@ body {
     box-sizing: border-box;
     background-color: #f9f9f9;
 }
+.container {
+    width: 80%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #222;
+    border-radius: 10px;
+}
 .how-to-earn {
     background: #ffffff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
-    width: 80%;
-    max-width: 800px;
     text-align: left;
+     border-left: 4px solid #222;
 }
 
-how-to-earn h1 {
-    font-size: 24px;
-    color: #222;
-    text-align: center;
-    position: relative;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ffffff;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+
 
 .how-to-earn p {
     font-size: 16px;
@@ -37,9 +34,10 @@ how-to-earn h1 {
     text-align: justify;
     margin-bottom: 15px;
     padding: 10px;
-    border-left: 4px solid #222;
+   border-color: black 2px;
     background: #f9f9f9;
     border-radius: 5px;
+    
 }
 
 @media (max-width: 768px) {
@@ -58,21 +56,20 @@ how-to-earn h1 {
 }
 
 
-.container {
-    width: 80%;
-    max-width: 1000px;
+container1 {
     margin: auto;
     padding: 20px;
     background: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
    
     border-radius: 10px;
+    border-left: 4px solid #222;
 }
 .section {
     margin-bottom: 20px;
-    padding: 25px;
+    padding: 50px;
     background: #ffffff;
-    border-left: 6px solid #222;
+  
     border-radius: 10px;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.12);
     transition: all 0.3s ease-in-out;
@@ -96,168 +93,10 @@ how-to-earn h1 {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.18);
 }
 /* How to Play Section */
-.container-play {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto 20px auto;
-    width: 80%;
-    max-width: 800px;
-    text-align: left;
-    position: relative;
-    padding-top: 50px;
-}
 
-.container-play h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 15px;
-}
-
-.container-play p {
-    font-size: 16px;
-    color: #555;
-    text-align: justify;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid #222;
-}
 
 /* Rules Section */
-.container-rules {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto 20px auto;
-    width: 80%;
-    max-width: 800px;
-    text-align: left;
-    position: relative;
-    padding-top: 50px;
-}
 
-.container-rules h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.container-rules p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.8;
-    text-align: justify;
-    margin-bottom: 15px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid #222;
-}
-
-@media (max-width: 768px) {
-    .container-play {
-        width: 90%;
-        padding: 15px;
-    }
-}
-
-    .container-play h1 {
-        font-size: 22px;
-    }
-
-
-    
-
-h1, h2 {
-    color: #333;
-    text-align: left;
-    margin-bottom: 10px;
-}
-
-p {
-    line-height: 1.6;
-    color: #666;
-    text-align: justify;
-}
-
-.nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: #333;
-    color: white;
-}
-
-.nav-bar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    padding: 8px 15px;
-    background: #555;
-    border-radius: 5px;
-}
-
-.nav-bar a:hover {
-    background: #777;
-}
-
-.badges-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    background: #fff;
-    padding: 15px;
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-}
-
-.badge {
-    width: 30%;
-    min-width: 150px;
-    text-align: center;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.badge img {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background: #eee;
-}
-
-.section {
-    margin-bottom: 30px;
-    padding: 15px;
-    border-left: 4px solid #333;
-    background: #fafafa;
-}
-
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-    }
-    .badges-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .badge {
-        width: 80%;
-    }
-    .nav-bar {
-        flex-direction: column;
-        align-items: center;
-    }
-}
 .achievements-container {
     text-align: center;
     margin: 20px auto;
@@ -345,7 +184,7 @@ p {
     bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(222, 217, 217, 0.75);
+    background: rgba(252, 231, 231, 0.75);
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
@@ -371,7 +210,7 @@ p {
     bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(58, 38, 38, 0.75);
+    background: rgba(118, 117, 117, 0.75);
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
@@ -388,6 +227,28 @@ p {
     opacity: 1;
     visibility: visible;
 }
+.badge {
+    width: 30%;
+    min-width: 150px;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.badge img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background: #eee;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border-left: 4px solid #333;
+    background: #fafafa;
+}
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
@@ -402,8 +263,17 @@ body {
 /* How to Play Section */
 /* How to Play Section */
 .container-play {
+   
     text-align: center;
     padding: 25px;
+    width:50%;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    padding-top: 50px;
+    margin-top: 20px;
 }
 
 .container-play h1, .container-play h2 {
@@ -430,6 +300,7 @@ body {
     margin: 15px 0;
     padding: 0;
     list-style-type: none;
+    
 }
 
 .container-play ul li {
@@ -441,6 +312,41 @@ body {
     background: #f2f2f2;
     margin-bottom: 8px;
     border-radius: 5px;
+}
+.play-rules-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 80%;
+    max-width: 1000px;
+    margin: 40px auto;
+    align-items: flex-start;
+}
+
+
+
+
+.game-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 10px;
+
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: left;
+}
+
+.container-play, .container-rules {
+    flex: 1; /* Equal width for both containers */
+    padding: 20px;
+    border: 2px ;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design */
@@ -462,16 +368,17 @@ body {
 
 /* Rules Section */
 .container-rules {
+   
+    text-align: center;
+    padding: 25px;
+    width:50%;
     background: #ffffff;
     border-radius: 10px;
     padding: 25px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto 20px auto;
-    width: 80%;
-    
     text-align: left;
-    position: relative;
     padding-top: 50px;
+    margin-top: 20px;
 }
 
 .container-rules h2 {
@@ -485,14 +392,15 @@ body {
 .container-rules p {
     font-size: 16px;
     color: #555;
-    line-height: 1.8;
     text-align: justify;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding: 10px;
     background: #f9f9f9;
     border-radius: 5px;
     border-left: 4px solid #222;
 }
+
+
 
 /* Terms and Conditions Section */
 .container-terms {
@@ -500,7 +408,7 @@ body {
     border-radius: 10px;
     padding: 25px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto 20px auto;
+    margin: 20px auto 20px auto;
    
     
     text-align: left;
@@ -510,7 +418,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     color: #222;
-    text-align: center;
+   
     margin-bottom: 15px;
 }
 
@@ -518,12 +426,11 @@ body {
     font-size: 16px;
     color: #555;
     line-height: 1.8;
-    text-align: justify;
-    margin-bottom: 15px;
-    padding: 10px;
-    background: #f9f9f9;
+    
+  
+    padding: 4px;
     border-radius: 5px;
-    border-left: 4px solid #222;
+   
 }
 
 

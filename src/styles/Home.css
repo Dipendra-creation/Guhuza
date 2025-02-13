@@ -96,8 +96,6 @@
   font-family: 'Roboto', sans-serif;
   line-height: 67.2px;
 }
-
-/* Text container */
 .home-text-container {
   flex-grow: 1;
   flex-shrink: 1;
@@ -127,8 +125,6 @@
   align-items: flex-start;
   gap: 1rem;
 }
-
-/* Button styling */
 .home-button {
   display: flex;
   justify-content: center;
