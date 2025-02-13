@@ -8,11 +8,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-<<<<<<< HEAD
-    
-    
-=======
->>>>>>> bd35885967ec3277c62946c5db1d2ad7d72ffc48
   },
 
   
