@@ -175,25 +175,33 @@ const Leaderboard: FC = () => {
         </button>
       </div>
 
+      
       {/* Podium for Top 3 */}
-      <div className="podium">
-        {sortedData.slice(0, 3).map((player, index) => (
-          <div
-            key={player.id}
-            className={`player ${
-              index === 0 ? "first" : index === 1 ? "second" : "third"
-            }`}
-          >
-            <img src={player.img} alt={player.name} />
-            <p>{player.name}</p>
-            <span className="rank">
-              {index + 1}
-              {index === 0 ? "st" : index === 1 ? "nd" : "rd"}
-            </span>
-            <span className="gp">{player.gp} GP</span>
-          </div>
-        ))}
-      </div>
+<div className="podium">
+  {/* Second Place (Left) */}
+  <div className="player second">
+    <img src={sortedData[1]?.img} alt={sortedData[1]?.name} />
+    <p>{sortedData[1]?.name}</p>
+    <span className="rank">2nd</span>
+    <span className="gp">{sortedData[1]?.gp} GP</span>
+  </div>
+
+  {/* First Place (Center) */}
+  <div className="player first">
+    <img src={sortedData[0]?.img} alt={sortedData[0]?.name} />
+    <p>{sortedData[0]?.name}</p>
+    <span className="rank">1st</span>
+    <span className="gp">{sortedData[0]?.gp} GP</span>
+  </div>
+
+  {/* Third Place (Right) */}
+  <div className="player third">
+    <img src={sortedData[2]?.img} alt={sortedData[2]?.name} />
+    <p>{sortedData[2]?.name}</p>
+    <span className="rank">3rd</span>
+    <span className="gp">{sortedData[2]?.gp} GP</span>
+  </div>
+</div>
 
       {/* Leaderboard Table */}
       <table className="leaderboard-table">
