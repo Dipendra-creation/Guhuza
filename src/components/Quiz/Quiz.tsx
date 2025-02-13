@@ -68,6 +68,13 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setResult(resultInitialState);
     setShowResult(false);
   };
+  const handleNextLevel = (): void => {
+    onNextLevel();
+    setCurrentQuestion(0);
+    setAnswerIdx(null);
+    setResult(resultInitialState);
+    setShowResult(false);
+  };
 
   const handleTimeUp = (): void => {
     if (answerIdx !== null) {
@@ -125,13 +132,15 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
             <p>
               Wrong Answers: <span>{result.wrongAnswers}</span>
             </p>
+            <p>
+              Level: <span>{currentLevel}</span>
+            </p>
             <button onClick={onTryAgain}>Try again</button>
-            {hasNextLevel && <button onClick={onNextLevel}>Next Level</button>}
+            {hasNextLevel && <button onClick={handleNextLevel}>Next Level</button>}
           </div>
         )}
       </div>
     </div>
   );
 };
-
 export default Quiz;
