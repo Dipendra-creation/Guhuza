@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview"
     
+    
   },
+
+  
   "dependencies": {
     "@tailwindcss/vite": "^4.0.3",
     "guhuza": "file:",
