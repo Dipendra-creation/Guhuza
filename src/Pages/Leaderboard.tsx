@@ -23,7 +23,7 @@ type SortOrder = "asc" | "desc";
 const Leaderboard: FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<Player[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortBy>("gp");
+  const [sortBy, setSortBy] = useState<SortBy>("gp"); 
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
   useEffect(() => {
@@ -128,7 +128,9 @@ const Leaderboard: FC = () => {
   // Memoized sorting function for performance
   const sortedData = useMemo(() => {
     const data = [...filteredData];
-    if (sortBy === "gp") {
+    if (sortBy === "gp")
+      
+      {
       data.sort((a, b) =>
         sortOrder === "asc" ? a.gp - b.gp : b.gp - a.gp
       );
@@ -163,6 +165,7 @@ const Leaderboard: FC = () => {
           value={sortBy}
         >
           <option value="gp">Points (GP)</option>
+          <option value="name">Name</option>
         </select>
         <button
           onClick={() =>
