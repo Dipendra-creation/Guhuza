@@ -1,24 +1,31 @@
+import React, { useEffect, useState, useRef } from 'react';
 import './AnswerTimer.css';
-import { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 
-function AnswerTimer({ duration, onTimeUp }) {
-  const [counter, setCounter] = useState(0);
-  const intervalRef = useRef(null);
-  const timeoutRef = useRef(null);
+interface AnswerTimerProps {
+  duration: number;
+  onTimeUp: () => void;
+}
+
+const AnswerTimer: React.FC<AnswerTimerProps> = ({ duration, onTimeUp }) => {
+  const [counter, setCounter] = useState<number>(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setCounter((cur) => cur + 1);
     }, 1000);
 
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
   useEffect(() => {
     if (counter === duration) {
-      clearInterval(intervalRef.current);
-
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
       timeoutRef.current = setTimeout(() => {
         onTimeUp();
       }, 1000);
@@ -44,17 +51,12 @@ function AnswerTimer({ duration, onTimeUp }) {
               ? 'lightgreen'
               : progressLoaded < 80
               ? 'orange'
-              : 'red'
+              : 'red',
         }}
         className="progress"
       ></div>
     </div>
   );
-}
-
-AnswerTimer.propTypes = {
-  duration: PropTypes.number.isRequired,
-  onTimeUp: PropTypes.func.isRequired,
 };
 
 export default AnswerTimer;

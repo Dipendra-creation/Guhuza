@@ -1,15 +1,15 @@
 import React, { useState, useRef } from 'react';
 import './Lucky_spin.css';
 
-const prizes = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200];
+const prizes: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200];
 const SEGMENT_COUNT = prizes.length;
 const SEGMENT_ANGLE = 360 / SEGMENT_COUNT;
 
-const LuckyDrawWheel = () => {
-  const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
-  const [result, setResult] = useState(null);
-  const wheelRef = useRef(null);
+const LuckyDrawWheel: React.FC = () => {
+  const [spinning, setSpinning] = useState<boolean>(false);
+  const [rotation, setRotation] = useState<number>(0);
+  const [result, setResult] = useState<number | null>(null);
+  const wheelRef = useRef<HTMLDivElement>(null);
 
   const spinWheel = () => {
     if (spinning) return;
@@ -49,7 +49,6 @@ const LuckyDrawWheel = () => {
         >
           {/* Render each prize label positioned along the circular path */}
           {prizes.map((prize, index) => {
-            // Calculate the rotation angle for each label
             const rotationAngle = index * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
             return (
               <div
@@ -58,7 +57,7 @@ const LuckyDrawWheel = () => {
                 style={{
                   left: '50%',
                   top: '50%',
-                  transform: `rotate(${rotationAngle}deg) translate(0, -120px) rotate(-${rotationAngle}deg)`
+                  transform: `rotate(${rotationAngle}deg) translate(0, -120px) rotate(-${rotationAngle}deg)`,
                 }}
               >
                 {prize} GP
@@ -71,7 +70,7 @@ const LuckyDrawWheel = () => {
       <button onClick={spinWheel} disabled={spinning}>
         {spinning ? 'Spinning...' : 'Spin'}
       </button>
-      {result && !spinning && (
+      {result !== null && !spinning && (
         <div className="result">You won {result} GP!</div>
       )}
     </div>

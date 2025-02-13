@@ -1,20 +1,17 @@
-// src/components/Play1.jsx
+import React, { useState } from "react";
 import "./play_1.css";
-import { useState } from "react";
 import Quiz from "../Quiz/Quiz";
 
+const MAX_LEVEL: number = 50;
 
-const MAX_LEVEL = 50; // Define the maximum level
+const Play1: React.FC = () => {
+  const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [startQuiz, setStartQuiz] = useState<boolean>(false);
 
-const Play1 = () => {
-  const [selectedLevel, setSelectedLevel] = useState(null);
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [startQuiz, setStartQuiz] = useState(false);
-
-  // Function to fetch questions for a given level
-  const fetchQuestions = async (level) => {
+  const fetchQuestions = async (level: number): Promise<void> => {
     setLoading(true);
     try {
       const response = await fetch(`/api/quiz?level=${level}`);
@@ -25,41 +22,41 @@ const Play1 = () => {
       setQuestions(data.test.question);
       setStartQuiz(true); // Start the quiz after questions are loaded
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle level selection
-  const handleLevelSelect = (level) => {
+  const handleLevelSelect = (level: number): void => {
     setSelectedLevel(level);
   };
 
-  // Start the quiz when the user clicks "Start Quiz"
-  const handleStartQuiz = () => {
-    if (selectedLevel) {
+  const handleStartQuiz = (): void => {
+    if (selectedLevel !== null) {
       fetchQuestions(selectedLevel);
     }
   };
 
-  // Move to the next level manually (if not at the max level)
-  const handleNextLevel = () => {
-    if (selectedLevel < MAX_LEVEL) {
+  const handleNextLevel = (): void => {
+    if (selectedLevel !== null && selectedLevel < MAX_LEVEL) {
       const nextLevel = selectedLevel + 1;
       setSelectedLevel(nextLevel);
       fetchQuestions(nextLevel);
     }
   };
 
-  // Render the Quiz component when the quiz starts
   if (startQuiz) {
     return (
       <Quiz
         questions={questions}
         onNextLevel={handleNextLevel}
-        currentLevel={selectedLevel}
-        hasNextLevel={selectedLevel < MAX_LEVEL}
+        currentLevel={selectedLevel!}
+        maxLevel={MAX_LEVEL}
       />
     );
   }
