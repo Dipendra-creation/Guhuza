@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import ProtectedRoute from "../components/ProtectedRoute";
 import "../styles/leaderboard.css";
 
 interface Player {
@@ -145,92 +146,96 @@ const Leaderboard: FC = () => {
   }, [filteredData, sortBy, sortOrder]);
 
   return (
-    <div className="leaderboard-container">
-      <h2 className="header-title">🏆 Leaderboard 🏆</h2>
+    <ProtectedRoute>
+      <div className="leaderboard-container">
+        <h2 className="header-title">🏆 Leaderboard 🏆</h2>
 
-      {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search by name..."
-        className="search-input"
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
+        {/* Search Bar */}
+        <input
+          type="text"
+          placeholder="Search by name..."
+          className="search-input"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
 
-      {/* Sorting Options */}
-      <div className="sorting">
-        <label>Sort By: </label>
-        <select
-          onChange={(e) => setSortBy(e.target.value as SortBy)}
-          value={sortBy}
-        >
-          <option value="gp">Points (GP)</option>
-          <option value="name">Name</option>
-        </select>
-        <button
-          onClick={() =>
-            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-          }
-        >
-          {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
-        </button>
-      </div>
+        {/* Sorting Options */}
+        <div className="sorting">
+          <label>Sort By: </label>
+          <select
+            onChange={(e) => setSortBy(e.target.value as SortBy)}
+            value={sortBy}
+          >
+            <option value="gp">Points (GP)</option>
+            <option value="name">Name</option>
+          </select>
+          <button
+            onClick={() =>
+              setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+            }
+          >
+            {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
+          </button>
+        </div>
 
-      
-      {/* Podium for Top 3 */}
-<div className="podium">
-  {/* Second Place (Left) */}
-  <div className="player second">
-    <img src={sortedData[1]?.img} alt={sortedData[1]?.name} />
-    <p>{sortedData[1]?.name}</p>
-    <span className="rank">2nd</span>
-    <span className="gp">{sortedData[1]?.gp} GP</span>
-  </div>
-
-  {/* First Place (Center) */}
-  <div className="player first">
-    <img src={sortedData[0]?.img} alt={sortedData[0]?.name} />
-    <p>{sortedData[0]?.name}</p>
-    <span className="rank">1st</span>
-    <span className="gp">{sortedData[0]?.gp} GP</span>
-  </div>
-
-  {/* Third Place (Right) */}
-  <div className="player third">
-    <img src={sortedData[2]?.img} alt={sortedData[2]?.name} />
-    <p>{sortedData[2]?.name}</p>
-    <span className="rank">3rd</span>
-    <span className="gp">{sortedData[2]?.gp} GP</span>
-  </div>
-</div>
-
-<table className="leaderboard-table">
-  <thead>
-    <tr>
-      <th>Place</th>
-      <th>Name</th>
-      <th>Badges</th>
-      <th>GP</th>
-    </tr>
-  </thead>
-  <tbody>
-    {sortedData.map((player, index) => (
-      <tr key={player.id} className={index < 3 ? "top-three" : ""}>
-        <td>{index + 1}</td>
-        <td>
-          <div className="player-info">
-            <img src={player.img} alt={player.name} className="player-img" />
-            <span>{player.name}</span>
+        {/* Podium for Top 3 */}
+        <div className="podium">
+          {/* Second Place (Left) */}
+          <div className="player second">
+            <img src={sortedData[1]?.img} alt={sortedData[1]?.name} />
+            <p>{sortedData[1]?.name}</p>
+            <span className="rank">2nd</span>
+            <span className="gp">{sortedData[1]?.gp} GP</span>
           </div>
-        </td>
-        <td>{player.badge}</td>
-        <td>{player.gp}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
 
-    </div>
+          {/* First Place (Center) */}
+          <div className="player first">
+            <img src={sortedData[0]?.img} alt={sortedData[0]?.name} />
+            <p>{sortedData[0]?.name}</p>
+            <span className="rank">1st</span>
+            <span className="gp">{sortedData[0]?.gp} GP</span>
+          </div>
+
+          {/* Third Place (Right) */}
+          <div className="player third">
+            <img src={sortedData[2]?.img} alt={sortedData[2]?.name} />
+            <p>{sortedData[2]?.name}</p>
+            <span className="rank">3rd</span>
+            <span className="gp">{sortedData[2]?.gp} GP</span>
+          </div>
+        </div>
+
+        <table className="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Place</th>
+              <th>Name</th>
+              <th>Badges</th>
+              <th>GP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedData.map((player, index) => (
+              <tr key={player.id} className={index < 3 ? "top-three" : ""}>
+                <td>{index + 1}</td>
+                <td>
+                  <div className="player-info">
+                    <img
+                      src={player.img}
+                      alt={player.name}
+                      className="player-img"
+                    />
+                    <span>{player.name}</span>
+                  </div>
+                </td>
+                <td>{player.badge}</td>
+                <td>{player.gp}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </ProtectedRoute>
   );
 };
 

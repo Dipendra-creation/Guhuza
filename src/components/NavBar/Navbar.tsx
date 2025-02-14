@@ -13,7 +13,18 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [isHidden, setIsHidden] = useState<boolean>(false);
+  const [user, setUser] = useState<any>(null);
   const location = useLocation();
+
+  // Check for user data in localStorage when the component mounts
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
+    }
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (window.scrollY > lastScrollY) {
@@ -70,12 +81,25 @@ const Navbar: React.FC = () => {
               <span>Leaderboard</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
-              <CgProfile className="nav-icon" />
-              <span>Profile</span>
-            </Link>
-          </li>
+          {/* Conditional rendering: if user is logged in, show profile info; if not, show Sign Up button */}
+          {user ? (
+            <li className="nav-item">
+              <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
+                {user.img ? (
+                  <img src={user.img} alt={user.username} className="nav-user-img" />
+                ) : (
+                  <CgProfile className="nav-icon" />
+                )}
+                <span>{user.username}</span>
+              </Link>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <Link to="/sign-up" className={location.pathname === '/sign-up' ? 'active' : ''}>
+                <span>Sign Up</span>
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

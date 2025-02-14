@@ -104,7 +104,7 @@
     .logo img {
         width: 120px; /* Smaller logo */
     }
-    ul{
+    ul {
         margin-right: 10px;
     }
 }
@@ -126,7 +126,7 @@
     .nav-links.open {
         display: flex;
     }
-
+    
     .nav-item {
         margin: 10px 0;
     }
@@ -158,4 +158,44 @@
 /* Push Content Below Navbar */
 .content {
     padding-top: 80px; /* Prevents content from going under navbar */
+}
+
+/* Additional CSS for User Profile in Navbar */
+.nav-user-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Styles for the user info when logged in */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 16px;
+}
+
+/* Styles for authentication buttons when no user is logged in */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.signup-btn,
+.signin-btn {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.signup-btn:hover,
+.signin-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
