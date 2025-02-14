@@ -1,23 +1,23 @@
 'use client';
 
 import { useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if token exists in localStorage
     const token = localStorage.getItem('token');
     if (!token) {
       // If no token, redirect to sign-in page
-      router.push('/sign-in');
+      navigate('/sign-in');
     }
-  }, [router]);
+  }, [navigate]);
 
   return <>{children}</>;
 };

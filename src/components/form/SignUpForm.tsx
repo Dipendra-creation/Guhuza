@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useNavigate, Link } from 'react-router-dom'; // Updated import
 import axios from 'axios';
 import {
   Form,
@@ -16,7 +16,6 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Link from 'next/link';
 
 const FormSchema = z
   .object({
@@ -34,7 +33,7 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
-  const router = useRouter();
+  const navigate = useNavigate(); // Use useNavigate from react-router-dom
   const [error, setError] = useState('');
   
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -67,7 +66,7 @@ const SignUpForm = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       // Redirect to the profile page
-      router.push('/profile');
+      navigate('/profile');
     } catch (err: any) {
       console.error('Signup error:', err);
       setError(err.response?.data?.error || 'Signup failed. Please try again.');
@@ -146,7 +145,7 @@ const SignUpForm = () => {
       </form>
       <p className="text-center text-sm text-gray-600 mt-2">
         Already have an account?{' '}
-        <Link className="text-blue-500 hover:underline" href="/sign-in">
+        <Link className="text-blue-500 hover:underline" to="/sign-in">
           Sign in
         </Link>
       </p>

@@ -199,3 +199,18 @@
 .signin-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+/* Sign Out Button Styling */
+.signout-btn {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 16px;
+}
+
+.signout-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

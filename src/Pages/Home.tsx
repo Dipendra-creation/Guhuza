@@ -4,6 +4,7 @@ import { GrSend } from "react-icons/gr";
 import { PiPlugsConnectedBold, PiFeatherDuotone } from "react-icons/pi";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
+// Function to handle button click
 const handleClick = (): void => {
   window.location.href = 'https://guhuza.com/job-seeker/register';
 };
