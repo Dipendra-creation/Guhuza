@@ -34,7 +34,7 @@ const Leaderboard: FC = () => {
           id: 1,
           name: "Jitendra Bikram Khadka",
           gp: 1500,
-          badge: "🏆",
+          badge: "🏆", 
           
           img: "https://scontent.fyto1-2.fna.fbcdn.net/v/t39.30808-1/458256326_1039419947730235_3090612020628879208_n.jpg?stp=cp6_dst-jpg_s480x480_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e99d92&_nc_ohc=v8t1rTFf-wYQ7kNvgFBPp6u&_nc_oc=Adi9k4YwOUcDN9qY7N9TFHG_k2hQIOsAmq9OUicnm5KVWFfyd948z1YwJoMFyvmcYLIrL1S1VoRFsjSI6jzob1gm&_nc_zt=24&_nc_ht=scontent.fyto1-2.fna&_nc_gid=AnUVGopSjL-sM_nt9pqx7so&oh=00_AYA3RYBrHLDKNabCGIC_IFuueNTlxYXzlKw1KACy1uezIA&oe=67B357AC",
         },
