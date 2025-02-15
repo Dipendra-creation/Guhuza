@@ -104,7 +104,7 @@ const AboutGame = () => {
                  <div className="container-terms">
 
     <h2><strong>Terms and Conditions</strong></h2>
-    By participating in the Guhuza Quiz, players agree to abide by all rules and regulations set forth by the platform.
+    By participating in the Guhuza Quiz, Players agree to abide by all rules and regulations set forth by the platform.
     
     <p><strong>1. Fair Play and Conduct:</strong> 
         Players must engage in the quiz with integrity and honesty. Any attempt to manipulate the system, use automated tools, or engage in fraudulent activities will result in disqualification and potential account suspension.
