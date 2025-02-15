@@ -1,5 +1,273 @@
-.profile{
-    width: 100px;
-    border: 1px solid black;
-    height: 100px;
+/* Main container for the profile page */
+.Profile-continer {
+    max-width: 935px; /* Instagram-like width */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add some padding */
+    font-family: Arial, sans-serif; /* Use a clean font */
+    background-color: #fafafa; /* Light background color */
+}
+
+/* Header section containing profile picture and info */
+.Header {
+    display: flex;
+    flex-direction: column; /* Stack items vertically on small screens */
+    align-items: center; /* Center items horizontally */
+    margin-bottom: 20px; /* Space below the header */
+}
+
+/* Profile picture container */
+.Profile-picture {
+    width: 150px; /* Fixed width */
+    height: 150px; /* Fixed height */
+    border-radius: 50%; /* Make it circular */
+    overflow: hidden; /* Ensure the image stays within the circle */
+    margin-bottom: 20px; /* Space below the picture */
+    border: 2px solid #dbdbdb; /* Light border for the profile picture */
+}
+
+/* Profile picture image */
+.Profile-picture img {
+    width: 100%; /* Fill the container */
+    height: 100%; /* Fill the container */
+    object-fit: cover; /* Ensure the image covers the area */
+}
+
+/* Profile info section */
+.Profile-info {
+    text-align: center; /* Center text on small screens */
+}
+
+.Profile-info h1 {
+    font-size: 28px; /* Large font for the name */
+    margin: 0 0 10px; /* Space below the name */
+    color: #262626; /* Dark text color */
+}
+
+.bio {
+    font-size: 16px; /* Medium font size */
+    color: #262626; /* Dark text color */
+    margin-bottom: 20px; /* Space below the bio */
+}
+
+.Edit-profile {
+    padding: 6px 24px; /* Padding for the button */
+    background-color: transparent; /* Transparent background */
+    border: 1px solid #dbdbdb; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 14px; /* Medium font size */
+    font-weight: 600; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    color: #262626; /* Dark text color */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    margin-bottom: 20px; /* Space below the button */
+}
+
+.Edit-profile:hover {
+    background-color: #f0f0f0; /* Light background on hover */
+}
+
+/* Status section (e.g., High Score, Badges Earned) */
+.Status {
+    display: flex;
+    flex-wrap: wrap; /* Wrap items on small screens */
+    gap: 10px; /* Space between status boxes */
+    justify-content: center; /* Center items horizontally */
+}
+
+.Status-box {
+    flex: 1 1 150px; /* Flexible width for each box */
+    background-color: #ffffff; /* White background */
+    padding: 15px; /* Padding inside the box */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text */
+}
+
+.Status-box p {
+    margin: 0; /* Remove default margin */
+    font-size: 16px; /* Medium font size */
+    color: #262626; /* Dark text color */
+}
+
+.Status-box strong {
+    display: block; /* Make the label a block element */
+    font-size: 14px; /* Smaller font size for the label */
+    color: #8e8e8e; /* Light gray color for the label */
+    margin-bottom: 5px; /* Space between label and value */
+}
+
+.Status-box:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+/* Badges section */
+.Badges-section {
+    margin-top: 30px; /* Space above the badges section */
+}
+
+.Badges-section h2 {
+    font-size: 24px; /* Large font for the section title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #262626; /* Dark text color */
+}
+
+/* Badges grid layout */
+.Badges-grid {
+    display: grid; /* Grid layout for badges */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between badges */
+}
+
+/* Individual badge item */
+.Badge {
+    display: flex;
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center items horizontally */
+    background-color: #ffffff; /* White background */
+    padding: 15px; /* Padding inside the badge */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    position: relative; /* For tooltip positioning */
+}
+
+.Badge:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+/* Badge image */
+.Badge img {
+    width: 80px; /* Fixed width for badge images */
+    height: 80px; /* Fixed height for badge images */
+    margin-bottom: 10px; /* Space between image and text */
+}
+
+/* Badge name */
+.Badge p {
+    font-size: 14px; /* Medium font size for badge name */
+    color: #262626; /* Dark text color */
+    margin: 0; /* Remove default margin */
+}
+
+/* Tooltip for badge description */
+.Badge::before {
+    content: attr(data-title); /* Display the data-title attribute as tooltip */
+    position: absolute;
+    bottom: 100%; /* Position above the badge */
+    left: 50%; /* Center the tooltip */
+    transform: translateX(-50%); /* Center the tooltip */
+    background-color: #333; /* Dark background for tooltip */
+    color: #fff; /* White text for tooltip */
+    padding: 5px 10px; /* Padding inside the tooltip */
+    border-radius: 4px; /* Rounded corners for tooltip */
+    font-size: 12px; /* Small font size for tooltip */
+    opacity: 0; /* Hide by default */
+    visibility: hidden; /* Hide by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+.Badge:hover::before {
+    opacity: 1; /* Show tooltip on hover */
+    visibility: visible; /* Show tooltip on hover */
+}
+
+/* Recent Activity Section */
+.Posts-grid {
+    margin-top: 30px; /* Space above the posts section */
+}
+
+.Posts-grid h2 {
+    font-size: 24px; /* Large font for the section title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #262626; /* Dark text color */
+    text-align: center; /* Center text on small screens */
+}
+
+/* Posts grid layout */
+.Posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between posts */
+}
+
+/* Individual post item */
+.Post {
+    background-color: #ffffff; /* White background */
+    padding: 15px; /* Padding inside the post */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text */
+}
+
+.Post p {
+    font-size: 16px; /* Medium font size for post text */
+    color: #262626; /* Dark text color */
+    margin: 0; /* Remove default margin */
+}
+
+/* Share Profile Section */
+.Share-profile {
+    margin-top: 30px; /* Space above the share profile section */
+    text-align: center; /* Center the content */
+}
+
+.Share-profile h2 {
+    font-size: 24px; /* Large font for the section title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #262626; /* Dark text color */
+}
+
+/* Share buttons container */
+.Share-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Wrap buttons on small screens */
+    gap: 10px; /* Space between buttons */
+    justify-content: center; /* Center buttons horizontally */
+}
+
+/* Individual share button */
+.Share-button {
+    display: flex;
+    align-items: center; /* Center icon and text vertically */
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #007bff; /* Blue background */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Medium font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.Share-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.Share-icon {
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/* Responsive adjustments for tablets and larger screens */
+@media (min-width: 768px) {
+    .Header {
+        flex-direction: row; /* Display items in a row */
+        align-items: flex-start; /* Align items to the top */
+    }
+
+    .Profile-picture {
+        margin-right: 30px; /* Add margin between picture and info */
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+
+    .Profile-info {
+        text-align: left; /* Align text to the left */
+    }
+
+    .Status {
+        justify-content: flex-start; /* Align status boxes to the left */
+    }
 }

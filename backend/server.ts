@@ -4,23 +4,32 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const app = express();
 
+// Configure Multer to store uploaded files in the 'uploads' directory
+const upload = multer({ dest: '../uploads/' });
+
+// Extend Express Request to include the file property
+interface MulterRequest extends express.Request {
+  file?: Express.Multer.File;
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
+// JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_jwt_key';
 
 // =========================
 //  Signup Endpoint
 // =========================
-app.post('/api/auth/signup', async (req, res) => {
+app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, res) => {
   const { email, username, password, firstName, lastName } = req.body;
-
   try {
     // Check if a user with the same email exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -31,7 +40,10 @@ app.post('/api/auth/signup', async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user
+    // Determine the image path if an image was uploaded
+    const imagePath = req.file ? req.file.path : null;
+
+    // Create the user, including the image path if available
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -39,6 +51,7 @@ app.post('/api/auth/signup', async (req, res) => {
         password: hashedPassword,
         firstName,
         lastName,
+        image: imagePath, // Save the image file path (or URL if you process it further)
       },
     });
 
@@ -56,7 +69,6 @@ app.post('/api/auth/signup', async (req, res) => {
 // =========================
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     // Find the user by email
     const user = await prisma.user.findUnique({ where: { email } });
