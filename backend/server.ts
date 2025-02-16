@@ -34,10 +34,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_jwt_key';
 app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, res) => {
   const { email, username, password, firstName, lastName } = req.body;
   try {
-    // Check if a user with the same email exists
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    // Check if a user with the same email or username exists
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
+
     if (existingUser) {
-      return res.status(400).json({ error: 'A user with that email already exists' });
+      return res
+        .status(400)
+        .json({ error: 'A user with that email or username already exists' });
     }
 
     // Hash the password
@@ -46,7 +53,9 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
     // Determine the image path if an image was uploaded
     const imagePath = req.file ? req.file.path : null;
 
-    // Create the user, including the image path if available
+    // Create the user, including the image path if available.
+    // Although Prisma defaults exist for score, correctAnswers, wrongAnswers, and highestLevelCompleted,
+    // you can explicitly set them here if desired.
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -55,6 +64,10 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
         firstName,
         lastName,
         image: imagePath,
+        score: 0,
+        correctAnswers: 0,
+        wrongAnswers: 0,
+        highestLevelCompleted: 0,
       },
     });
 
@@ -62,7 +75,7 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
     const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token, user: newUser });
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error('Signup error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -89,7 +102,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user });
   } catch (error) {
-    console.error("Login error:", error);
+    console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -107,13 +120,13 @@ app.get('/api/profile', async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      include: { scores: true as any, badges: true as any },
+      include: { scores: true, badges: true },
     });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     res.json({ user });
   } catch (error) {
-    console.error("Profile error:", error);
+    console.error('Profile error:', error);
     res.status(401).json({ error: 'Invalid token' });
   }
 });
@@ -154,7 +167,7 @@ app.put('/api/auth/update-score', async (req, res) => {
 
     res.json({ user: updatedUser });
   } catch (error) {
-    console.error("Error updating score:", error);
+    console.error('Error updating score:', error);
     res.status(401).json({ error: 'Invalid token or update failed' });
   }
 });
