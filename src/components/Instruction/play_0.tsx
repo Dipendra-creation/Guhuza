@@ -196,32 +196,32 @@ const Play0: React.FC = () => {
             <li>
               <strong>Scoring System:</strong>
               <ul className="sub-list">
-                <li>Correct Answer: <b>+10 points</b></li>
-                <li>Wrong Answer: <b>-5 points</b></li>
-                <li>Unanswered (Time Out): <b>-5 points</b></li>
+                <li>✅ Correct Answer: <b>+10 points</b></li>
+                <li>❌ Wrong Answer: <b>-5 points</b></li>
+                <li>⁉️ Unanswered (Time Out): <b>-5 points</b></li>
               </ul>
             </li>
             <li>
-              <strong>Timer System:</strong> Each question has a <b>10-second</b> countdown. If no answer is selected within the time, it will be considered incorrect.
+              <strong>⏰ Timer System:</strong> Each question has a <b>10-second</b> countdown. If no answer is selected within the time, it will be considered incorrect.
             </li>
             <li>
-              <strong>Completing a Level:</strong> Each level consists of <b>10 questions</b>. After completing all questions, you will receive a score summary.
+              <strong>✔️ Completing a Level:</strong> Each level consists of <b>10 questions</b>. After completing all questions, you will receive a score summary.
             </li>
             <li>
-              <strong>Advancing to the Next Level:</strong> After completing a level, click <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.
+              <strong>⬆️ Advancing to the Next Level:</strong> After completing a level, click <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.
             </li>
             <li>
-              <strong>Leaderboard:</strong> Track your ranking and total score in the <b>Leaderboard</b> section to see how you compare with other players.
+              <strong>🪜 Leaderboard:</strong> Track your ranking and total score in the <b>Leaderboard</b> section to see how you compare with other players.
             </li>
             <li>
-              <strong>Profile & Progress:</strong> Your completed levels, scores, and progress are stored in the <b>Profile</b> section for future reference.
+              <strong>👨‍🎤 Profile & Progress:</strong> Your completed levels, scores, and progress are stored in the <b>Profile</b> section for future reference.
             </li>
             <li>
               <strong>Troubleshooting:</strong>
               <ul className="sub-list">
-                <li>If the game does not load, refresh the page.</li>
-                <li>Ensure a stable internet connection.</li>
-                <li>Check the <b>Leaderboard</b> if the quiz is temporarily unavailable.</li>
+                <li>🔃 If the game does not load, refresh the page.</li>
+                <li>🛜 Ensure a stable internet connection.</li>
+                <li>🥇 Check the <b>Leaderboard</b> if the quiz is temporarily unavailable.</li>
               </ul>
             </li>
           </ol>

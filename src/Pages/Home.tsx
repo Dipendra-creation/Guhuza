@@ -37,10 +37,10 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <video className="home-video" controls>
-        <source src="https://guhuza.com/video/intro.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <video className="home-video" controls autoPlay muted loop>
+  <source src="https://guhuza.com/video/intro.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
       <div className="w-full h-[149px] flex justify-center items-center flex-col gap-4">
         <div className="justify-start items-center inline-flex">

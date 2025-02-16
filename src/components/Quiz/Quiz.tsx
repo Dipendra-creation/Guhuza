@@ -23,7 +23,12 @@ interface QuizProps {
   maxLevel: number;
 }
 
-const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLevel }) => {
+const Quiz: React.FC<QuizProps> = ({
+  questions,
+  onNextLevel,
+  currentLevel,
+  maxLevel,
+}) => {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answerIdx, setAnswerIdx] = useState<number | null>(null);
   const [result, setResult] = useState<QuizResult>(resultInitialState);
@@ -38,15 +43,16 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setAnswerIdx(index);
   };
 
-  // This function calculates delta values for each question, updates local state,
-  // and sends the delta values to the backend so that the user's score is incremented.
+  // This function calculates the delta for the current question,
+  // updates local state for immediate feedback, and sends the delta values
+  // to the backend so that the user's stored score is incremented.
   const onClickNext = async (finalAnswer: boolean): Promise<void> => {
-    // Calculate delta values for the current question:
+    // Calculate delta values for this question:
     const deltaGP = finalAnswer ? 10 : -5;
     const deltaCorrect = finalAnswer ? 1 : 0;
     const deltaWrong = finalAnswer ? 0 : 1;
 
-    // Update local result state immediately for user feedback:
+    // Update local state for feedback:
     setResult((prev) => ({
       ...prev,
       GP: prev.GP + deltaGP,
@@ -54,11 +60,11 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
       wrongAnswers: prev.wrongAnswers + deltaWrong,
     }));
 
-    // Update the user's score in the backend:
+    // Send delta values to the backend to increment the stored score:
     await updateUserScore(deltaGP, deltaCorrect, deltaWrong);
 
-    // Move to the next question or, if it was the last question, show the result:
-    if (currentQuestion !== questions.length - 1) {
+    // Move to the next question or, if this is the last question, show results:
+    if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
       setCurrentQuestion(0);
@@ -67,24 +73,33 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setAnswerIdx(null);
   };
 
-  // Function to send delta values to the backend so that the existing score is incremented.
+  /**
+   * Function to update the user's score in the database.
+   * Accepts delta values and an optional newLevelCompleted parameter.
+   */
   const updateUserScore = async (
     deltaGP: number,
     deltaCorrect: number,
-    deltaWrong: number
+    deltaWrong: number,
+    newLevelCompleted?: number
   ) => {
     const token = localStorage.getItem("token");
     if (!token) return;
     try {
       setIsUpdatingScore(true);
       setUpdateError(null);
+      // Build the payload to send to the backend:
+      const payload: any = {
+        deltaGP,
+        deltaCorrect,
+        deltaWrong,
+      };
+      if (newLevelCompleted !== undefined) {
+        payload.newLevelCompleted = newLevelCompleted;
+      }
       await axios.put(
         "http://localhost:5001/api/auth/update-score",
-        {
-          deltaGP,
-          deltaCorrect,
-          deltaWrong,
-        },
+        payload,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -105,9 +120,10 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setUpdateError(null);
   };
 
+  // When the level is completed and the user clicks "Next Level",
+  // update the highestLevelCompleted in the backend before moving on.
   const handleNextLevel = async (): Promise<void> => {
-    // Optionally, you can update the score again at level end if needed.
-    // For now, we assume every question updates the score.
+    await updateUserScore(0, 0, 0, currentLevel + 1);
     onNextLevel();
     setCurrentQuestion(0);
     setAnswerIdx(null);
@@ -128,7 +144,11 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
       <div className="quiz-container">
         {!showResult ? (
           <>
-            <AnswerTimer key={currentQuestion} duration={10} onTimeUp={handleTimeUp} />
+            <AnswerTimer
+              key={currentQuestion}
+              duration={10}
+              onTimeUp={handleTimeUp}
+            />
             <span className="active-question-no">
               Question {currentQuestion + 1} of {questions.length}
             </span>

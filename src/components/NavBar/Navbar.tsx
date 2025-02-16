@@ -27,6 +27,17 @@ const Navbar: React.FC = () => {
     }
   }, []);
 
+  // Helper function: Convert a relative image path to an absolute URL.
+  const getImageUrl = (imagePath: string): string => {
+    // If the path already starts with "http", assume it's a full URL.
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    // Otherwise, extract the filename and prepend your static files URL.
+    const filename = imagePath.split('/').pop();
+    return `http://localhost:5001/uploads/${filename}`;
+  };
+
   const handleScroll = useCallback(() => {
     if (window.scrollY > lastScrollY) {
       // Scrolling down: hide the navbar
@@ -90,13 +101,16 @@ const Navbar: React.FC = () => {
               <span>Leaderboard</span>
             </Link>
           </li>
-          {/* Conditional rendering: if user is logged in, show profile info and sign out; if not, show Sign Up button */}
           {user ? (
             <>
               <li className="nav-item">
                 <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
-                  {user.img ? (
-                    <img src={user.img} alt={user.username} className="nav-user-img" />
+                  {user.image ? (
+                    <img
+                      src={getImageUrl(user.image)}
+                      alt={user.username}
+                      className="nav-user-img"
+                    />
                   ) : (
                     <CgProfile className="nav-icon" />
                   )}
@@ -110,9 +124,9 @@ const Navbar: React.FC = () => {
               </li>
             </>
           ) : (
-            <li className="nav-item">
+            <li >
               <Link to="/sign-up" className={location.pathname === '/sign-up' ? 'active' : ''}>
-                <span>Sign Up</span>
+                <span className='signup-btn'>Sign Up</span>
               </Link>
             </li>
           )}

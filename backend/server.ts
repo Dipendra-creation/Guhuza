@@ -62,7 +62,7 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
     const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token, user: newUser });
   } catch (error) {
-    console.error(error);
+    console.error("Signup error:", error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -89,7 +89,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user });
   } catch (error) {
-    console.error(error);
+    console.error("Login error:", error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -113,7 +113,7 @@ app.get('/api/profile', async (req, res) => {
 
     res.json({ user });
   } catch (error) {
-    console.error(error);
+    console.error("Profile error:", error);
     res.status(401).json({ error: 'Invalid token' });
   }
 });
@@ -129,17 +129,27 @@ app.put('/api/auth/update-score', async (req, res) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    // Expecting delta values from the frontend (e.g., 10 or -5)
-    const { deltaGP, deltaCorrect, deltaWrong } = req.body;
+    // Expecting delta values from the frontend and an optional new level completed
+    const { deltaGP, deltaCorrect, deltaWrong, newLevelCompleted } = req.body;
 
-    // Increment the existing score fields by the delta values
+    // Build the update data using the increment operator:
+    let dataToUpdate: any = {
+      score: { increment: deltaGP },
+      correctAnswers: { increment: deltaCorrect },
+      wrongAnswers: { increment: deltaWrong },
+    };
+
+    // If newLevelCompleted is provided and it's higher than current, update it:
+    if (newLevelCompleted !== undefined) {
+      const currentUser = await prisma.user.findUnique({ where: { id: decoded.userId } });
+      if (currentUser && newLevelCompleted > currentUser.highestLevelCompleted) {
+        dataToUpdate.highestLevelCompleted = newLevelCompleted;
+      }
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: decoded.userId },
-      data: {
-        score: { increment: deltaGP },
-        correctAnswers: { increment: deltaCorrect },
-        wrongAnswers: { increment: deltaWrong },
-      },
+      data: dataToUpdate,
     });
 
     res.json({ user: updatedUser });
