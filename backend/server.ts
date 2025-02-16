@@ -104,7 +104,7 @@ app.get('/api/profile', async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      include: { scores: true, badges: true },
+      include: { scores: true as any, badges: true as any },
     });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
