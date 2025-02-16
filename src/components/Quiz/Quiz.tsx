@@ -35,17 +35,26 @@ const Quiz: React.FC<QuizProps> = ({
   const [showResult, setShowResult] = useState<boolean>(false);
   const [isUpdatingScore, setIsUpdatingScore] = useState<boolean>(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
+  // New state to track if the answer has been checked
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const hasNextLevel = currentLevel < maxLevel;
   const { question, test_answer, answers } = questions[currentQuestion];
 
+  // Only allow answer selection if not checked already
   const onAnswerClick = (answer: string, index: number): void => {
+    if (isChecked) return;
     setAnswerIdx(index);
   };
 
-  // This function calculates the delta for the current question,
-  // updates local state for immediate feedback, and sends the delta values
-  // to the backend so that the user's stored score is incremented.
+  // When user clicks "Check", we set isChecked to true (which also stops the timer)
+  const handleCheckClick = (): void => {
+    if (answerIdx === null) return;
+    setIsChecked(true);
+  };
+
+  // This function handles moving to the next question after checking the answer.
+  // It also updates the user’s score and resets isChecked for the next question.
   const onClickNext = async (finalAnswer: boolean): Promise<void> => {
     // Calculate delta values for this question:
     const deltaGP = finalAnswer ? 10 : -5;
@@ -71,11 +80,11 @@ const Quiz: React.FC<QuizProps> = ({
       setShowResult(true);
     }
     setAnswerIdx(null);
+    setIsChecked(false); // reset for next question
   };
 
   /**
    * Function to update the user's score in the database.
-   * Accepts delta values and an optional newLevelCompleted parameter.
    */
   const updateUserScore = async (
     deltaGP: number,
@@ -88,7 +97,6 @@ const Quiz: React.FC<QuizProps> = ({
     try {
       setIsUpdatingScore(true);
       setUpdateError(null);
-      // Build the payload to send to the backend:
       const payload: any = {
         deltaGP,
         deltaCorrect,
@@ -118,10 +126,10 @@ const Quiz: React.FC<QuizProps> = ({
     setResult(resultInitialState);
     setShowResult(false);
     setUpdateError(null);
+    setIsChecked(false);
   };
 
-  // When the level is completed and the user clicks "Next Level",
-  // update the highestLevelCompleted in the backend before moving on.
+  // When the level is completed and the user clicks "Next Level"
   const handleNextLevel = async (): Promise<void> => {
     await updateUserScore(0, 0, 0, currentLevel + 1);
     onNextLevel();
@@ -129,13 +137,15 @@ const Quiz: React.FC<QuizProps> = ({
     setAnswerIdx(null);
     setResult(resultInitialState);
     setShowResult(false);
+    setIsChecked(false);
   };
 
+  // If time is up and the user hasn't checked yet, we can simulate a check.
   const handleTimeUp = (): void => {
-    if (answerIdx !== null) {
-      onClickNext(answerIdx === test_answer);
-    } else {
-      onClickNext(false);
+    if (!isChecked) {
+      // If an answer was selected, we simply mark it as checked.
+      // Otherwise, you might want to mark the question as unanswered.
+      setIsChecked(true);
     }
   };
 
@@ -144,33 +154,59 @@ const Quiz: React.FC<QuizProps> = ({
       <div className="quiz-container">
         {!showResult ? (
           <>
-            <AnswerTimer
-              key={currentQuestion}
-              duration={10}
-              onTimeUp={handleTimeUp}
-            />
+            {/* Only show the timer if the user hasn’t clicked "Check" */}
+            {!isChecked && (
+              <AnswerTimer
+                key={currentQuestion}
+                duration={10}
+                onTimeUp={handleTimeUp}
+              />
+            )}
             <span className="active-question-no">
               Question {currentQuestion + 1} of {questions.length}
             </span>
             <h2>{question}</h2>
             <ul>
-              {answers.map((answer, index) => (
-                <li
-                  key={index}
-                  onClick={() => onAnswerClick(answer, index)}
-                  className={answerIdx === index ? "selected-answer" : ""}
-                >
-                  {answer}
-                </li>
-              ))}
+              {answers.map((answer, index) => {
+                let liClass = "";
+                if (isChecked) {
+                  // When checked, highlight the correct answer in green
+                  // and if the user’s selection is wrong, highlight it in red.
+                  if (index === test_answer) {
+                    liClass = "correct-answer";
+                  } else if (index === answerIdx && answerIdx !== test_answer) {
+                    liClass = "wrong-answer";
+                  }
+                } else {
+                  liClass = answerIdx === index ? "selected-answer" : "";
+                }
+                return (
+                  <li
+                    key={index}
+                    onClick={() => onAnswerClick(answer, index)}
+                    className={liClass}
+                  >
+                    {answer}
+                  </li>
+                );
+              })}
             </ul>
             <div className="footer">
               <p className="level">
                 Level: <span className="current-level">{currentLevel}</span>
               </p>
+              {/* Show the Check button only if the answer hasn’t been checked */}
+              {!isChecked && (
+                <button
+                  onClick={handleCheckClick}
+                  disabled={answerIdx === null || isUpdatingScore}
+                >
+                  Check
+                </button>
+              )}
               <button
                 onClick={() => onClickNext(answerIdx === test_answer)}
-                disabled={answerIdx === null || isUpdatingScore}
+                disabled={!isChecked || isUpdatingScore}
               >
                 {currentQuestion === questions.length - 1 ? "Submit" : "Next"}
               </button>
