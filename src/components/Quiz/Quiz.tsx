@@ -240,7 +240,7 @@ const Quiz: React.FC<QuizProps> = ({
                     <div className="spinner"></div>
                   </>
                 ) : (
-                  "Next Level"
+                  "Unlock Next Level"
                 )}
               </button>
             )}

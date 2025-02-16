@@ -103,7 +103,7 @@ const Navbar: React.FC = () => {
           </li>
           {user ? (
             <>
-              <li className="nav-item">
+              <li className="nav-item " id='profile-link'>
                 <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
                   {user.image ? (
                     <img

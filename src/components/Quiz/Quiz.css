@@ -63,9 +63,9 @@
 }
 
 .quiz-container ul .selected-answer {
-  background: #0056b3;
-  color: #ffffff;
-  font-weight: bold;
+  border:1px solid #0056b3;
+  background: #a2caf4;
+  color: #685e5e;
 }
 
 /* New classes for feedback after checking the answer */
