@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const app = express();
 
-// Configure Multer to store uploaded files in the 'uploads' directory (moved outside the Vite root)
+// Configure Multer to store uploaded files in the 'uploads' directory (outside the Vite root)
 const upload = multer({ dest: '../uploads/' });
 
 // Extend Express Request to include the file property
@@ -21,6 +21,9 @@ interface MulterRequest extends express.Request {
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the uploads folder so images can be accessed via URL
+app.use('/uploads', express.static('../uploads'));
 
 // JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_jwt_key';
@@ -126,15 +129,16 @@ app.put('/api/auth/update-score', async (req, res) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    const { level, GP, correctAnswers, wrongAnswers } = req.body;
+    // Expecting delta values from the frontend (e.g., 10 or -5)
+    const { deltaGP, deltaCorrect, deltaWrong } = req.body;
 
-    // Update the user's score fields.
+    // Increment the existing score fields by the delta values
     const updatedUser = await prisma.user.update({
       where: { id: decoded.userId },
       data: {
-        score: GP,                // Store total game points
-        correctAnswers: correctAnswers,
-        wrongAnswers: wrongAnswers,
+        score: { increment: deltaGP },
+        correctAnswers: { increment: deltaCorrect },
+        wrongAnswers: { increment: deltaWrong },
       },
     });
 

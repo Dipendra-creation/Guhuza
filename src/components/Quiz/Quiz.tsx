@@ -38,33 +38,41 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setAnswerIdx(index);
   };
 
-  const onClickNext = (finalAnswer: boolean): void => {
-    setResult((prev) =>
-      finalAnswer
-        ? {
-            ...prev,
-            GP: prev.GP + 10,
-            correctAnswers: prev.correctAnswers + 1,
-          }
-        : {
-            ...prev,
-            GP: prev.GP - 5,
-            wrongAnswers: prev.wrongAnswers + 1,
-          }
-    );
+  // This function calculates delta values for each question, updates local state,
+  // and sends the delta values to the backend so that the user's score is incremented.
+  const onClickNext = async (finalAnswer: boolean): Promise<void> => {
+    // Calculate delta values for the current question:
+    const deltaGP = finalAnswer ? 10 : -5;
+    const deltaCorrect = finalAnswer ? 1 : 0;
+    const deltaWrong = finalAnswer ? 0 : 1;
 
+    // Update local result state immediately for user feedback:
+    setResult((prev) => ({
+      ...prev,
+      GP: prev.GP + deltaGP,
+      correctAnswers: prev.correctAnswers + deltaCorrect,
+      wrongAnswers: prev.wrongAnswers + deltaWrong,
+    }));
+
+    // Update the user's score in the backend:
+    await updateUserScore(deltaGP, deltaCorrect, deltaWrong);
+
+    // Move to the next question or, if it was the last question, show the result:
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      // End of level – show result and update user score
       setCurrentQuestion(0);
       setShowResult(true);
     }
     setAnswerIdx(null);
   };
 
-  // Function to update the user's score in the database
-  const updateUserScore = async () => {
+  // Function to send delta values to the backend so that the existing score is incremented.
+  const updateUserScore = async (
+    deltaGP: number,
+    deltaCorrect: number,
+    deltaWrong: number
+  ) => {
     const token = localStorage.getItem("token");
     if (!token) return;
     try {
@@ -73,10 +81,9 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
       await axios.put(
         "http://localhost:5001/api/auth/update-score",
         {
-          level: currentLevel,
-          GP: result.GP,
-          correctAnswers: result.correctAnswers,
-          wrongAnswers: result.wrongAnswers,
+          deltaGP,
+          deltaCorrect,
+          deltaWrong,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -99,14 +106,13 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
   };
 
   const handleNextLevel = async (): Promise<void> => {
-    await updateUserScore();
-    if (!updateError) {
-      onNextLevel();
-      setCurrentQuestion(0);
-      setAnswerIdx(null);
-      setResult(resultInitialState);
-      setShowResult(false);
-    }
+    // Optionally, you can update the score again at level end if needed.
+    // For now, we assume every question updates the score.
+    onNextLevel();
+    setCurrentQuestion(0);
+    setAnswerIdx(null);
+    setResult(resultInitialState);
+    setShowResult(false);
   };
 
   const handleTimeUp = (): void => {
@@ -144,7 +150,7 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
               </p>
               <button
                 onClick={() => onClickNext(answerIdx === test_answer)}
-                disabled={answerIdx === null}
+                disabled={answerIdx === null || isUpdatingScore}
               >
                 {currentQuestion === questions.length - 1 ? "Submit" : "Next"}
               </button>

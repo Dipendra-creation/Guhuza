@@ -10,13 +10,23 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   image?: string;
-  // Additional fields from the database can be added here if available
+  score: number;
 }
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+
+  // Helper function to convert relative image path to absolute URL
+  const getImageUrl = (path?: string): string | null => {
+    if (!path) return null;
+    // Assuming the path stored is something like "../uploads/filename.jpg"
+    // We extract the filename and prepend our backend URL.
+    const parts = path.split('/');
+    const filename = parts[parts.length - 1];
+    return `http://localhost:5001/uploads/${filename}`;
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -53,21 +63,16 @@ const Profile: React.FC = () => {
     return <div>No profile data available.</div>;
   }
 
-  // Set default values for additional fields (not yet in database)
-  const highScore = 0;
-  const badgesEarned = 0;
-  const achievementCompleted = 0;
-  const totalShare = 0;
-  const totalReferral = 0;
+  const imageUrl = getImageUrl(profile.image);
 
   return (
     <ProtectedRoute>
-      <div className="Profile-continer">
+      <div className="Profile-container">
         {/* Header Section */}
         <div className="Header">
           <div className="Profile-picture">
-            {profile.image ? (
-              <img src={profile.image} alt="Profile" />
+            {imageUrl ? (
+              <img src={imageUrl} alt="Profile" />
             ) : (
               <div className="no-image">No Image</div>
             )}
@@ -81,27 +86,17 @@ const Profile: React.FC = () => {
             <div className="Status">
               <div className="Status-box">
                 <p>
-                  <strong>High Score:</strong> <span>{highScore}</span>
+                  <strong>Total GP:</strong> <span>{profile.score}</span>
                 </p>
               </div>
               <div className="Status-box">
                 <p>
-                  <strong>Badges Earned:</strong> <span>{badgesEarned}</span>
+                  <strong>Badges Earned:</strong> <span>5</span>
                 </p>
               </div>
               <div className="Status-box">
                 <p>
-                  <strong>Achievement Completed:</strong> <span>{achievementCompleted}</span>
-                </p>
-              </div>
-              <div className="Status-box">
-                <p>
-                  <strong>Total Share:</strong> <span>{totalShare}</span>
-                </p>
-              </div>
-              <div className="Status-box">
-                <p>
-                  <strong>Total Referral:</strong> <span>{totalReferral}</span>
+                  <strong>Achievement Completed:</strong> <span>10</span>
                 </p>
               </div>
             </div>
@@ -112,7 +107,6 @@ const Profile: React.FC = () => {
         <div className="Badges-section">
           <h2>Badges Earned</h2>
           <div className="Badges-grid">
-            {/* Replace these with dynamic data if available; for now static */}
             <div className="Badge" data-title="Achieve 2nd rank to earn this badge">
               <img src="/src/assets/badges/2nd Ranking.png" alt="Silver Strategist" />
               <p>Silver Strategist</p>
@@ -120,14 +114,6 @@ const Profile: React.FC = () => {
             <div className="Badge" data-title="Log in for 30 consecutive days">
               <img src="/src/assets/badges/30 day login.png" alt="Loyal Player" />
               <p>Loyal Player</p>
-            </div>
-            <div className="Badge" data-title="Share your achievements on social media">
-              <img src="/src/assets/badges/20 share.png" alt="Social Influencer" />
-              <p>Social Influencer</p>
-            </div>
-            <div className="Badge" data-title="Complete Level 30">
-              <img src="/src/assets/badges/30 level completed.png" alt="Determined Player" />
-              <p>Determined Player</p>
             </div>
           </div>
         </div>
@@ -152,41 +138,11 @@ const Profile: React.FC = () => {
         <div className="Share-profile">
           <h2>Share Profile</h2>
           <div className="Share-buttons">
-            <a
-              href="https://www.instagram.com/guhuza_/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="Share-button"
-            >
-              <span className="Share-icon">IG</span>
-              Instagram
+            <a href="https://www.instagram.com/guhuza_/" target="_blank" rel="noopener noreferrer" className="Share-button">
+              <span className="Share-icon">IG</span> Instagram
             </a>
-            <a
-              href="https://www.facebook.com/Guhuza#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="Share-button"
-            >
-              <span className="Share-icon">FB</span>
-              Facebook
-            </a>
-            <a
-              href="https://x.com/?lang=en&mx=2"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="Share-button"
-            >
-              <span className="Share-icon">TW</span>
-              Twitter
-            </a>
-            <a
-              href="https://www.linkedin.com/company/guhuza/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="Share-button"
-            >
-              <span className="Share-icon">LI</span>
-              Linkedin
+            <a href="https://www.facebook.com/Guhuza#" target="_blank" rel="noopener noreferrer" className="Share-button">
+              <span className="Share-icon">FB</span> Facebook
             </a>
           </div>
         </div>
