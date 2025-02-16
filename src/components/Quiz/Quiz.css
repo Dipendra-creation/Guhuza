@@ -1,145 +1,179 @@
 @import '../../styles/index.css';
 
 :root {
-    --bg: #ffffff;
-    --primary: #007bff;
-    --accent: #0056b3;
-    --disabled: #cccccc;
-    --bg-accent: #f8f9fa;
+  --bg: #ffffff;
+  --primary: #007bff;
+  --accent: #0056b3;
+  --disabled: #cccccc;
+  --bg-accent: #f8f9fa;
+  --error-color: #e74c3c;
 }
 
-
-
+/* Quiz Wrapper */
 .quiz-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
 }
 
+/* Quiz Container */
 .quiz-container {
-    width: 900px;
-    background: var(--bg);
-    border-radius: 10px;
-    margin-top: 100px;
-    padding: 30px 60px;
-    box-sizing: border-box;
-    position: relative;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    justify-content: center;
-
-
-    
+  width: 900px;
+  background: var(--bg);
+  border-radius: 10px;
+  margin-top: 100px;
+  padding: 30px 60px;
+  box-sizing: border-box;
+  position: relative;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Active Question Number */
 .quiz-container .active-question-no {
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--primary);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--primary);
 }
 
+/* Question Header */
 .quiz-container h2 {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
 }
 
+/* Answer List */
 .quiz-container ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-    justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
 }
 
 .quiz-container ul li {
-    border: 1px solid var(--disabled);
-    background: var(--bg);
-    border-radius: 16px;
-    padding: 11px;
-    margin-top: 15px;
-    cursor: pointer;
+  border: 1px solid var(--disabled);
+  background: var(--bg);
+  border-radius: 16px;
+  padding: 11px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.quiz-container ul li:hover {
+  background: var(--bg-accent);
 }
 
 .quiz-container ul .selected-answer {
-    background: var(--primary);
-    color: var(--bg);
+  background: var(--primary);
+  color: var(--bg);
 }
 
+/* Footer for Question Navigation */
 .quiz-container .footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    border: 1px solid var(--disabled);
-    border-radius: 22px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  border: 1px solid var(--disabled);
+  border-radius: 22px;
+  padding: 10px;
 }
 
 .quiz-container .footer button {
-    background: linear-gradient(0deg, var(--primary) 0.03%, var(--accent));
-    border-radius: 50px;
-    font-size: 18px;
-    color: var(--bg);
-    padding: 10px 42px;
-    margin: 10px;
-    outline: none;
-    border: none;
-    cursor: pointer;
+  background: linear-gradient(0deg, var(--primary) 0%, var(--accent));
+  border-radius: 50px;
+  font-size: 18px;
+  color: var(--bg);
+  padding: 10px 42px;
+  margin: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .quiz-container .footer button:disabled {
-    background: var(--bg-accent);
-    color: var(--disabled);
-    cursor: not-allowed;
+  background: var(--bg-accent);
+  color: var(--disabled);
+  cursor: not-allowed;
 }
 
+/* Result Section */
 .quiz-container .result {
-    text-align: center;
+  text-align: center;
 }
 
 .quiz-container .result h3 {
-    font-size: 24px;
-    letter-spacing: 1.4px;
-    margin: 0;
+  font-size: 24px;
+  letter-spacing: 1.4px;
+  margin: 0;
 }
 
 .quiz-container .result p {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 10px 0;
 }
 
 .quiz-container .result p span {
-    color: var(--primary);
-    font-size: 22px;
-    font-weight: 700;
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 700;
 }
 
+/* Result Buttons */
 .quiz-container .result button {
-    background: linear-gradient(0deg, var(--primary) 0.03%, var(--accent));
-    border-radius: 50px;
-    font-size: 18px;
-    color: var(--bg);
-    padding: 10px 42px;
-    margin: 10px;
-    outline: none;
-    border: none;
-    cursor: pointer;
+  background: linear-gradient(0deg, var(--primary) 0%, var(--accent));
+  border-radius: 50px;
+  font-size: 18px;
+  color: var(--bg);
+  padding: 10px 42px;
+  margin: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .quiz-container .result button:disabled {
-    background: var(--bg-accent);
-    color: var(--disabled);
-    cursor: not-allowed;
+  background: var(--bg-accent);
+  color: var(--disabled);
+  cursor: not-allowed;
 }
 
-.level{
-    display: flex;
-    justify-content: center;
-    color: rgb(64, 69, 62);
-    align-items: center;
-    margin-left: 10px;
-    .current-level{
-            padding: 4px;
-  
-    }
+/* Level Display */
+.level {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(64, 69, 62);
+  margin-left: 10px;
+}
+
+.level .current-level {
+  padding: 4px;
+}
+
+/* Update Error Message */
+.update-error {
+  color: var(--error-color);
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Spinner for Updating Score */
+.spinner {
+  border: 3px solid var(--bg-accent);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

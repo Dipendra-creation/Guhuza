@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const app = express();
 
-// Configure Multer to store uploaded files in the 'uploads' directory
+// Configure Multer to store uploaded files in the 'uploads' directory (moved outside the Vite root)
 const upload = multer({ dest: '../uploads/' });
 
 // Extend Express Request to include the file property
@@ -51,7 +51,7 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
         password: hashedPassword,
         firstName,
         lastName,
-        image: imagePath, // Save the image file path (or URL if you process it further)
+        image: imagePath,
       },
     });
 
@@ -112,6 +112,36 @@ app.get('/api/profile', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(401).json({ error: 'Invalid token' });
+  }
+});
+
+// =========================
+//  Update Score Endpoint
+// =========================
+app.put('/api/auth/update-score', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader)
+    return res.status(401).json({ error: 'No token provided' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
+    const { level, GP, correctAnswers, wrongAnswers } = req.body;
+
+    // Update the user's score fields.
+    const updatedUser = await prisma.user.update({
+      where: { id: decoded.userId },
+      data: {
+        score: GP,                // Store total game points
+        correctAnswers: correctAnswers,
+        wrongAnswers: wrongAnswers,
+      },
+    });
+
+    res.json({ user: updatedUser });
+  } catch (error) {
+    console.error("Error updating score:", error);
+    res.status(401).json({ error: 'Invalid token or update failed' });
   }
 });
 

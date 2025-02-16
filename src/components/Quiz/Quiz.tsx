@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { resultInitialState } from "../../constants";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
+import axios from "axios";
 
 interface Question {
   question: string;
   test_answer: number;
   answers: string[];
-  // Add any additional properties if needed
 }
 
 interface QuizResult {
@@ -28,9 +28,10 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
   const [answerIdx, setAnswerIdx] = useState<number | null>(null);
   const [result, setResult] = useState<QuizResult>(resultInitialState);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [isUpdatingScore, setIsUpdatingScore] = useState<boolean>(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   const hasNextLevel = currentLevel < maxLevel;
-
   const { question, test_answer, answers } = questions[currentQuestion];
 
   const onAnswerClick = (answer: string, index: number): void => {
@@ -55,11 +56,38 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      // End of current level – show the results.
+      // End of level – show result and update user score
       setCurrentQuestion(0);
       setShowResult(true);
     }
     setAnswerIdx(null);
+  };
+
+  // Function to update the user's score in the database
+  const updateUserScore = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      setIsUpdatingScore(true);
+      setUpdateError(null);
+      await axios.put(
+        "http://localhost:5001/api/auth/update-score",
+        {
+          level: currentLevel,
+          GP: result.GP,
+          correctAnswers: result.correctAnswers,
+          wrongAnswers: result.wrongAnswers,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating user score:", error);
+      setUpdateError("Unable to update score, please try again.");
+    } finally {
+      setIsUpdatingScore(false);
+    }
   };
 
   const onTryAgain = (): void => {
@@ -67,13 +95,18 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
     setAnswerIdx(null);
     setResult(resultInitialState);
     setShowResult(false);
+    setUpdateError(null);
   };
-  const handleNextLevel = (): void => {
-    onNextLevel();
-    setCurrentQuestion(0);
-    setAnswerIdx(null);
-    setResult(resultInitialState);
-    setShowResult(false);
+
+  const handleNextLevel = async (): Promise<void> => {
+    await updateUserScore();
+    if (!updateError) {
+      onNextLevel();
+      setCurrentQuestion(0);
+      setAnswerIdx(null);
+      setResult(resultInitialState);
+      setShowResult(false);
+    }
   };
 
   const handleTimeUp = (): void => {
@@ -135,12 +168,25 @@ const Quiz: React.FC<QuizProps> = ({ questions, onNextLevel, currentLevel, maxLe
             <p>
               Level: <span>{currentLevel}</span>
             </p>
+            {updateError && <p className="update-error">{updateError}</p>}
             <button onClick={onTryAgain}>Try again</button>
-            {hasNextLevel && <button onClick={handleNextLevel}>Next Level</button>}
+            {hasNextLevel && (
+              <button onClick={handleNextLevel} disabled={isUpdatingScore}>
+                {isUpdatingScore ? (
+                  <>
+                    Updating...
+                    <div className="spinner"></div>
+                  </>
+                ) : (
+                  "Next Level"
+                )}
+              </button>
+            )}
           </div>
         )}
       </div>
     </div>
   );
 };
+
 export default Quiz;
