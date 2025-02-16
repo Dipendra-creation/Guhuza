@@ -1,5 +1,3 @@
-Based on the extracted data from package.json, here is a README.md file for your GitHub repository:
-
 Guhuza - Interactive Job Quiz Game
 
 📌 Overview
