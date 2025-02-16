@@ -23,6 +23,7 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "guhuza": "file:",
     "init": "^0.1.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.475.0",
