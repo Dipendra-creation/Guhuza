@@ -3,31 +3,29 @@
 .navbar {
     width: 100%;
     height: 70px; /* Fixed height */
-    background: rgb(37, 36, 36);
+    background: linear-gradient(90deg, rgb(37,36,36) 0%, rgb(45,44,44) 100%);
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
     font-family: "Helvetica", Arial, sans-serif;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: center;
-    transition: top 0.5s ease-in-out; /* Smooth transition for hiding/showing */
+    transition: top 0.5s ease-in-out;
 }
 
-/* Add 'hidden' class when navbar should be hidden */
 .navbar.hidden {
-    top: -70px; /* Adjust according to the height of the navbar */
+    top: -70px;
 }
 
-/* Navbar Container */
 .navbar-container {
     width: 100%;
     margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px; /* Ensures navbar height remains fixed */
+    height: 70px;
 }
 
 /* Logo Styling */
@@ -56,19 +54,25 @@
 .nav-item a {
     display: flex;
     align-items: center;
+    padding: 0px 5px;
     gap: 6px; /* Space between icon and text */
     text-decoration: none;
     color: white;
     font-size: 18px;
     font-weight: normal;
-    transition: color 0.3s, border-bottom 0.3s;
+    transition: color 0.3s, border-bottom 0.3s, transform 0.2s;
 }
 
-/* Active Page Styling */
+.nav-item a:hover {
+    color: #9fffff;
+    border-bottom: 1px solid #9fffff;
+    transform: translateY(-2px);
+}
+
 .nav-item a.active {
-    color: #01FFFF; /* Change color for active link */
+    color: #01ffff; /* Active link color */
     font-weight: bold;
-    border-bottom: 3px solid #01FFFF; /* Adds underline for active page */
+    border-bottom: 3px solid #01ffff;
     padding-bottom: 5px;
 }
 
@@ -77,14 +81,7 @@
     font-size: 18px;
 }
 
-/* Hover Effect */
-.nav-item a:hover {
-    color: #9fffff;  
-    border-bottom: 1px solid #9fffff;  
-    padding-bottom: 3px;
-}
-
-/* ===== HAMBURGER MENU STYLING ===== */
+/* Hamburger Menu Styling */
 .menu-icon {
     display: none;
     font-size: 28px;
@@ -95,61 +92,54 @@
 
 /* Responsive Design */
 
-/* 📌 Tablet View (iPad) */
+/* Tablet View (iPad) */
 @media (max-width: 1024px) {
     .nav-item a {
-        font-size: 15px; /* Slightly smaller font */
+        font-size: 15px;
     }
-
     .logo img {
-        width: 120px; /* Smaller logo */
+        width: 120px;
     }
     ul {
         margin-right: 10px;
     }
 }
 
-/* 📌 Mobile View */
+/* Mobile View */
 @media (max-width: 768px) {
     .nav-links {
         display: none;
         position: absolute;
-        top: 70px; /* Ensures dropdown stays below navbar */
+        top: 70px;
         left: 0;
         width: 100%;
-        background: rgb(37, 36, 36);
+        background: rgb(37,36,36);
         flex-direction: column;
         text-align: center;
         padding: 10px 0;
     }
-
     .nav-links.open {
         display: flex;
     }
-    
     .nav-item {
         margin: 10px 0;
     }
-
     .menu-icon {
         display: block;
     }
-
     .logo img {
-        width: 100px; /* Smaller logo on mobile */
+        width: 100px;
     }
 }
 
-/* 📌 Small Mobile View (Extra Small Screens) */
+/* Small Mobile View (Extra Small Screens) */
 @media (max-width: 480px) {
     .nav-links {
         padding: 15px 0;
     }
-
     .nav-item a {
-        font-size: 14px; /* Adjust text size */
+        font-size: 14px;
     }
-
     .logo img {
         width: 90px;
     }
@@ -157,16 +147,19 @@
 
 /* Push Content Below Navbar */
 .content {
-    padding-top: 80px; /* Prevents content from going under navbar */
+    padding-top: 80px;
 }
 
 /* Additional CSS for User Profile in Navbar */
 .nav-user-img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 8px;
+    border: 1px solid white;
 }
+
 
 /* Styles for the user info when logged in */
 .user-info {
@@ -184,28 +177,28 @@
     gap: 10px;
 }
 
-.signup-btn,
-.signin-btn {
+.signup-btn {
     background: transparent;
     border: 1px solid white;
     color: white;
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background 0.3s ease;
+    font-size: 16px;
 }
 
-.signup-btn:hover,
-.signin-btn:hover {
+.signup-btn:hover,.signin-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
 /* Sign Out Button Styling */
 .signout-btn {
     background: transparent;
     border: 1px solid white;
     color: white;
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s ease;
     font-size: 16px;
