@@ -16,6 +16,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { Boxes } from '../ui/background-boxes';
 
 const FormSchema = z
   .object({
@@ -38,7 +39,7 @@ const FormSchema = z
 const SignUpForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -62,7 +63,7 @@ const SignUpForm = () => {
       formData.append('lastName', values.lastName || '');
       formData.append('email', values.email);
       formData.append('password', values.password);
-      
+
       // If an image file is selected, append it
       if (values.image && values.image[0]) {
         formData.append('image', values.image[0]);
@@ -77,11 +78,11 @@ const SignUpForm = () => {
           },
         }
       );
-      
+
       // Save token and user data in localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
+
       // Redirect to the profile page
       navigate('/profile');
     } catch (err: any) {
@@ -91,151 +92,153 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="johndoe"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="John"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Doe"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="mail@example.com"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Re-Enter your password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Re-Enter your password"
-                        {...field}
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Upload Profile Image</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        onChange={(e) => {
-                          // Update the field value with the FileList
-                          field.onChange(e.target.files);
-                        }}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button
-              className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
-              type="submit"
-            >
-              Sign up
-            </Button>
-          </form>
-          <p className="text-center text-sm text-gray-600 mt-4">
-            Already have an account?{' '}
-            <Link className="text-blue-500 hover:underline" to="/sign-in">
-              Sign in
-            </Link>
-          </p>
-        </Form>
+    <div className="relative min-h-screen bg-gray-100">
+      {/* Background Boxes with hover events enabled */}
+      <Boxes />
+
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg relative z-10">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+              {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="johndoe"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Doe"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="mail@example.com"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter your password"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Re-Enter your password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Re-Enter your password"
+                          {...field}
+                          className="border border-gray-300 rounded-md p-2 w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Upload Profile Image</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          onChange={(e) => field.onChange(e.target.files)}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Button
+                className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
+                type="submit"
+              >
+                Sign up
+              </Button>
+            </form>
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Already have an account?{' '}
+              <Link className="text-blue-500 hover:underline" to="/sign-in">
+                Sign in
+              </Link>
+            </p>
+          </Form>
+        </div>
       </div>
     </div>
   );

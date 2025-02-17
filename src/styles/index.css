@@ -44,6 +44,16 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem; 
+      --sky-300: #7dd3fc;
+      --pink-300: #f9a8d4;
+      --green-300: #6ee7b7;
+      --yellow-300: #fcd34d;
+      --red-300: #fca5a5;
+      --purple-300: #d8b4fe;
+      --blue-300: #93c5fd;
+      --indigo-300: #a5b4fc;
+      --violet-300: #c4b5fd;
+
   }
   .dark {
     --background: 222.2 84% 4.9%;

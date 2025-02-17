@@ -16,4 +16,6 @@
   },
   "include": ["src/**/*", "backend/**/*", "prisma/db.ts", "app","src", "types"],
   "exclude": ["node_modules", "dist"]
+
+  
 }
