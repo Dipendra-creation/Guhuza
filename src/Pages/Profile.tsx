@@ -5,7 +5,12 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import '../styles/profile.css';
-import { GrInstagram } from "react-icons/gr";
+
+// Import social media icons from react-icons
+import { 
+  FaInstagram, FaFacebookF, FaLinkedinIn, 
+  FaEdit, FaUser,FaEnvelope,FaPhone, FaMapMarkerAlt
+ } from 'react-icons/fa';
 
 interface Badge {
   id: number;
@@ -34,6 +39,12 @@ interface UserProfile {
   highestLevelCompleted: number;
   badges: Badge[];
   scores: Score[];
+
+  // Additional fields if needed
+  contactNo?: string;
+  address?: string;
+  rank?: number;
+  joinedAt?: string;
 }
 
 const Profile: React.FC = () => {
@@ -41,10 +52,9 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
-  // Ref for the profile container (for screenshot capture)
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Helper function to convert relative image path to an absolute URL
+  // Helper: Convert relative image path to absolute URL
   const getImageUrl = (path?: string): string | null => {
     if (!path) return null;
     const parts = path.split('/');
@@ -73,29 +83,21 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     fetchProfile();
-    // Poll for profile updates every 30 seconds for real-time updates
     const interval = setInterval(fetchProfile, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  /**
-   * Capture the screenshot of the profile, download it,
-   * then open the corresponding social media site and instruct the user to share manually.
-   */
+  // Capture screenshot & prompt user to share
   const handleShareScreenshot = async (platform: 'facebook' | 'instagram' | 'linkedin') => {
     if (!profileRef.current) return;
     try {
-      // Capture the screenshot with useCORS enabled.
       const canvas = await html2canvas(profileRef.current, { useCORS: true });
       const dataUrl = canvas.toDataURL('image/png');
-
-      // Create a temporary link to download the screenshot.
       const link = document.createElement('a');
       link.href = dataUrl;
       link.download = 'profile.png';
       link.click();
 
-      // Give a short delay to ensure the download starts.
       setTimeout(() => {
         if (platform === 'facebook') {
           window.open('https://www.facebook.com/', '_blank');
@@ -110,6 +112,28 @@ const Profile: React.FC = () => {
       }, 500);
     } catch (error) {
       console.error('Error capturing screenshot:', error);
+    }
+  };
+
+  // Example sign out
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
+
+  // Example delete account
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('Are you sure you want to delete your account?')) return;
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      await axios.delete('http://localhost:5001/api/users/delete', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error deleting account:', error);
     }
   };
 
@@ -129,95 +153,143 @@ const Profile: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <div className="Profile-container" ref={profileRef}>
-        {/* Header Section */}
-        <div className="Header">
-          <div className="Profile-picture">
-            {imageUrl ? (
-              <img src={imageUrl} alt="Profile" crossOrigin="anonymous" />
-            ) : (
-              <div className="no-image">No Image</div>
-            )}
-          </div>
-          <div className="Profile-info">
-            <h1>{profile.username}</h1>
-            <p className="bio">
-              Hey, I am {profile.username}. {profile.firstName} {profile.lastName}
-            </p>
-            <button className="Edit-profile">Edit Profile</button>
-            <div className="Status">
-              <div className="Status-box">
-                <p>
-                  <strong>Total GP:</strong> <span>{profile.score}</span>
-                </p>
-              </div>
-              <div className="Status-box">
-                <p>
-                  <strong>Badges Earned:</strong> <span>{profile.badges.length}</span>
-                </p>
-              </div>
-              <div className="Status-box">
-                <p>
-                  <strong>Achievement Completed:</strong>{' '}
-                  <span>{profile.highestLevelCompleted}</span>
-                </p>
-              </div>
+      <div className="profile-container" ref={profileRef}>
+        {/* ===== Header Section ===== */}
+        <div className="profile-header">
+          {/* Left side: Profile Picture & Basic Info */}
+          <div className="header-left">
+            <div className="profile-picture-wrapper">
+              {imageUrl ? (
+                <img src={imageUrl} alt="Profile" crossOrigin="anonymous" />
+              ) : (
+                <div className="no-image">No Image</div>
+              )}
             </div>
+            <div className="basic-info">
+              <h2>Hello {profile.firstName || profile.username}</h2>
+              <p className="bio">
+              Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
+               I'm passionate about creating innovative solutions and continuously learning new skills. 
+               Welcome to my profile.
+              </p>
+                 <span className="user-gp">{profile.score} GP</span>
+            </div>
+          </div>
+
+          {/* Right side: Change Profile Button */}
+          <div className="header-right">
+            <button className="change-profile-btn">Change Profile</button>
           </div>
         </div>
 
-        {/* Badges Section */}
-        <div className="Badges-section">
-          <h2>Badges Earned</h2>
-          <div className="Badges-grid">
+        {/* ===== Stats Row ===== */}
+        <div className="stats-row">
+          <div className="stats-item">
+            <span className="stat-title">Joined</span>
+            <span className="stat-value">
+              {profile.joinedAt
+                ? new Date(profile.joinedAt).toLocaleDateString()
+                : 'N/A'}
+            </span>
+          </div>
+          <div className="stats-item">
+            <span className="stat-title">Rank</span>
+            <span className="stat-value">{profile.rank || 'N/A'}</span>
+          </div>
+          <div className="stats-item">
+            <span className="stat-title">Correct Answer</span>
+            <span className="stat-value">{profile.correctAnswers}</span>
+          </div>
+          <div className="stats-item">
+            <span className="stat-title">Wrong Answer</span>
+            <span className="stat-value">{profile.wrongAnswers}</span>
+          </div>
+          <div className="stats-item">
+            <span className="stat-title">Highest Level</span>
+            <span className="stat-value">{profile.highestLevelCompleted}</span>
+          </div>
+          <div className="stats-item">
+            <span className="stat-title">Status</span>
+            <span className="stat-value">Job Seeker</span>
+          </div>
+        </div>
+
+   {/* ===== Personal Information ===== */}
+<div className="personal-info-section">
+  <div className="section-header">
+    <h3><b>Personal Information</b></h3>
+    <button className="edit-profile-btn">
+      <FaEdit className="edit-icon" /> Edit Info
+    </button>
+  </div>
+  <div className="info-items">
+    <div className="info-item">
+      <span className="info-label"><FaUser  /> First Name:</span>
+      <span className="info-value">{profile.firstName}</span>
+    </div>
+    <div className="info-item">
+      <span className="info-label"><FaUser  /> Last Name:</span>
+      <span className="info-value">{profile.lastName}</span>
+    </div>
+    <div className="info-item">
+      <span className="info-label"><FaEnvelope /> Email:</span>
+      <span className="info-value">{profile.email}</span>
+    </div>
+    <div className="info-item">
+      <span className="info-label"><FaPhone /> Contact No:</span>
+      <span className="info-value">{profile.contactNo || 'N/A'}</span>
+    </div>
+    <div className="info-item">
+      <span className="info-label"><FaMapMarkerAlt /> Address:</span>
+      <span className="info-value">{profile.address || 'N/A'}</span>
+    </div>
+  </div>
+</div>
+
+
+        {/* ===== Badges Section ===== */}
+        <div className="badges-section">
+          <h3>Badges</h3>
+          <div className="badges-list">
             {profile.badges.length > 0 ? (
               profile.badges.map((badge) => (
-                <div key={badge.id} className="Badge" data-title={badge.description || badge.name}>
+                <div key={badge.id} className="badge-item">
                   <img src={badge.image} alt={badge.name} />
                   <p>{badge.name}</p>
                 </div>
               ))
             ) : (
-              <p>No badges earned yet.</p>
+              <p>No badges yet.</p>
             )}
           </div>
+          
         </div>
 
-        {/* Recent Activity Section */}
-        <div className="Posts-grid">
-          <h2>Recent Activity</h2>
-          <div className="Posts">
-            {profile.scores && profile.scores.length > 0 ? (
-              profile.scores
-                .sort((a, b) => new Date(b.achievedAt).getTime() - new Date(a.achievedAt).getTime())
-                .map((score) => (
-                  <div key={score.id} className="Post">
-                    <p>
-                      Scored {score.points} GP on {new Date(score.achievedAt).toLocaleString()}
-                    </p>
-                  </div>
-                ))
-            ) : (
-              <p>No recent activity.</p>
-            )}
-          </div>
+        {/* ===== Action Buttons (Sign Out & Delete) ===== */}
+        <div className="action-buttons">
+          <button className="sign-out-btn" onClick={handleSignOut}>
+            Sign out
+          </button>
+          <button className="delete-account-btn" onClick={handleDeleteAccount}>
+            Delete Account
+          </button>
         </div>
 
-        {/* Share Profile Section */}
-        <div className="Share-profile">
-          <h2>Share Profile</h2>
-          <div className="Share-buttons">
-            <button className="Share-button" onClick={() => handleShareScreenshot('instagram')}>
-              <span className="Share-icon"><GrInstagram /></span> Instagram
-            </button>
-            <button className="Share-button" onClick={() => handleShareScreenshot('facebook')}>
-              <span className="Share-icon">FB</span> Facebook
-            </button>
-            <button className="Share-button" onClick={() => handleShareScreenshot('linkedin')}>
-              <span className="Share-icon">IN</span> LinkedIn
-            </button>
-          </div>
-        </div>
+        {/* ===== Footer Section with Share Profile ===== */}
+<footer className="profile-footer">
+  <div className="share-buttons">
+    <button onClick={() => handleShareScreenshot('instagram')}>
+      <FaInstagram className="Share-icon" />
+    </button>
+    <button onClick={() => handleShareScreenshot('facebook')}>
+      <FaFacebookF className="Share-icon" />
+    </button>
+    <button onClick={() => handleShareScreenshot('linkedin')}>
+      <FaLinkedinIn className="Share-icon" />
+    </button>
+  </div>
+  <p>© 2023 YourApp. All rights reserved</p>
+</footer>
       </div>
     </ProtectedRoute>
   );
