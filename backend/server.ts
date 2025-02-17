@@ -171,6 +171,8 @@ app.put('/api/auth/update-score', async (req, res) => {
     res.status(401).json({ error: 'Invalid token or update failed' });
   }
 });
+declare module 'html2canvas';
+
 
 // Start the server
 const PORT = process.env.PORT || 5001;
