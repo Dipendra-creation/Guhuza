@@ -5,6 +5,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import '../styles/profile.css';
+import { GrInstagram } from "react-icons/gr";
 
 interface Badge {
   id: number;
@@ -207,7 +208,7 @@ const Profile: React.FC = () => {
           <h2>Share Profile</h2>
           <div className="Share-buttons">
             <button className="Share-button" onClick={() => handleShareScreenshot('instagram')}>
-              <span className="Share-icon">IG</span> Instagram
+              <span className="Share-icon"><GrInstagram /></span> Instagram
             </button>
             <button className="Share-button" onClick={() => handleShareScreenshot('facebook')}>
               <span className="Share-icon">FB</span> Facebook

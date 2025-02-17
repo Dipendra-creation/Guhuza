@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
 
+
 const prisma = new PrismaClient();
 const app = express();
 
@@ -171,7 +172,7 @@ app.put('/api/auth/update-score', async (req, res) => {
     res.status(401).json({ error: 'Invalid token or update failed' });
   }
 });
-declare module 'html2canvas';
+
 
 
 // Start the server
