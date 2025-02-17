@@ -57,24 +57,29 @@ const SignInForm: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <div className="bg-black relative overflow-hidden">
       {/* Animated Background Boxes */}
       <Boxes />
 
       <div className="flex items-center justify-center min-h-screen">
-        <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg relative z-10">
+        <div className="max-w-md w-full p-8 bg-[rgba(255,255,255,0.15)] 
+            shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] 
+            backdrop-blur-[6px] 
+            rounded-[10px] 
+            border 
+            border-[rgba(255,255,255,0.18)]  rounded-lg relative z-10 ">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
               {error && (
                 <p className="text-red-500 text-sm mb-4">{error}</p>
               )}
-              <div className="space-y-4">
+              <div className="space-y-4 ">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className='text-white'>Email</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="mail@example.com"
@@ -91,7 +96,7 @@ const SignInForm: React.FC = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className='text-white'>Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -113,7 +118,7 @@ const SignInForm: React.FC = () => {
               </Button>
             </form>
             <p className="text-center text-sm text-gray-600 mt-4">
-              Don&apos;t have an account?{' '}
+              Don't have an account?{' '}
               <Link
                 className="text-blue-500 hover:underline"
                 to="/sign-up"
@@ -127,5 +132,4 @@ const SignInForm: React.FC = () => {
     </div>
   );
 };
-
 export default SignInForm;

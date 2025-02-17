@@ -92,12 +92,17 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <div className="relative bg-black overflow-hidden">
       {/* Background Boxes with hover events enabled */}
       <Boxes />
 
       <div className="flex items-center justify-center min-h-screen">
-        <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg relative z-10">
+        <div className="max-w-md w-full p-8 bg-[rgba(255,255,255,0.15)] 
+            shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] 
+            backdrop-blur-[6px] 
+            rounded-[10px] 
+            border 
+            border-[rgba(255,255,255,0.18)] ">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
@@ -107,7 +112,7 @@ const SignUpForm = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel className='text-white'>Username</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="johndoe"
@@ -124,7 +129,7 @@ const SignUpForm = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel className='text-white'>First Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="John"
@@ -141,7 +146,7 @@ const SignUpForm = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel className='text-white'>Last Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Doe"
@@ -158,7 +163,7 @@ const SignUpForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className='text-white'>Email</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="mail@example.com"
@@ -175,7 +180,7 @@ const SignUpForm = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className='text-white'>Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -193,7 +198,7 @@ const SignUpForm = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Re-Enter your password</FormLabel>
+                      <FormLabel className='text-white'>Re-Enter your password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -211,12 +216,12 @@ const SignUpForm = () => {
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Upload Profile Image</FormLabel>
-                      <FormControl>
+                      <FormLabel className='text-white'>Upload Profile Image</FormLabel>
+                      <FormControl className='text-white'>
                         <Input
                           type="file"
                           onChange={(e) => field.onChange(e.target.files)}
-                          className="w-full"
+                          className="w-full text-gray-200"
                         />
                       </FormControl>
                       <FormMessage />
