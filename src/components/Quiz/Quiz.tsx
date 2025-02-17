@@ -4,6 +4,11 @@ import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 import axios from "axios";
 
+// 1) IMPORT YOUR MASCOTS
+import GerrieInfo from "../../assets/Gerrie Mascot/Gerrie_info.png";
+import GerrieHappy from "../../assets/Gerrie Mascot/Happy_Gerrie.png";
+import GerrieSad from "../../assets/Gerrie Mascot/Sad_gerrie.png";
+
 interface Question {
   question: string;
   test_answer: number;
@@ -35,7 +40,7 @@ const Quiz: React.FC<QuizProps> = ({
   const [showResult, setShowResult] = useState<boolean>(false);
   const [isUpdatingScore, setIsUpdatingScore] = useState<boolean>(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
-  // New state to track if the answer has been checked
+  // Track if the answer has been checked
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const hasNextLevel = currentLevel < maxLevel;
@@ -47,21 +52,18 @@ const Quiz: React.FC<QuizProps> = ({
     setAnswerIdx(index);
   };
 
-  // When user clicks "Check", we set isChecked to true (which also stops the timer)
+  // When user clicks "Check", mark it as checked
   const handleCheckClick = (): void => {
     if (answerIdx === null) return;
     setIsChecked(true);
   };
 
-  // This function handles moving to the next question after checking the answer.
-  // It also updates the user’s score and resets isChecked for the next question.
+  // Move to the next question (or show results), also update the score
   const onClickNext = async (finalAnswer: boolean): Promise<void> => {
-    // Calculate delta values for this question:
     const deltaGP = finalAnswer ? 10 : -5;
     const deltaCorrect = finalAnswer ? 1 : 0;
     const deltaWrong = finalAnswer ? 0 : 1;
 
-    // Update local state for feedback:
     setResult((prev) => ({
       ...prev,
       GP: prev.GP + deltaGP,
@@ -69,10 +71,8 @@ const Quiz: React.FC<QuizProps> = ({
       wrongAnswers: prev.wrongAnswers + deltaWrong,
     }));
 
-    // Send delta values to the backend to increment the stored score:
     await updateUserScore(deltaGP, deltaCorrect, deltaWrong);
 
-    // Move to the next question or, if this is the last question, show results:
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
@@ -80,12 +80,9 @@ const Quiz: React.FC<QuizProps> = ({
       setShowResult(true);
     }
     setAnswerIdx(null);
-    setIsChecked(false); // reset for next question
+    setIsChecked(false);
   };
 
-  /**
-   * Function to update the user's score in the database.
-   */
   const updateUserScore = async (
     deltaGP: number,
     deltaCorrect: number,
@@ -105,13 +102,9 @@ const Quiz: React.FC<QuizProps> = ({
       if (newLevelCompleted !== undefined) {
         payload.newLevelCompleted = newLevelCompleted;
       }
-      await axios.put(
-        "http://localhost:5001/api/auth/update-score",
-        payload,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.put("http://localhost:5001/api/auth/update-score", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
     } catch (error) {
       console.error("Error updating user score:", error);
       setUpdateError("Unable to update score, please try again.");
@@ -129,7 +122,6 @@ const Quiz: React.FC<QuizProps> = ({
     setIsChecked(false);
   };
 
-  // When the level is completed and the user clicks "Next Level"
   const handleNextLevel = async (): Promise<void> => {
     await updateUserScore(0, 0, 0, currentLevel + 1);
     onNextLevel();
@@ -140,21 +132,56 @@ const Quiz: React.FC<QuizProps> = ({
     setIsChecked(false);
   };
 
-  // If time is up and the user hasn't checked yet, we can simulate a check.
   const handleTimeUp = (): void => {
     if (!isChecked) {
-      // If an answer was selected, we simply mark it as checked.
-      // Otherwise, you might want to mark the question as unanswered.
       setIsChecked(true);
     }
   };
 
+  // Decide which mascot image + comment to show during the question phase
+  const getMascotAndComment = () => {
+    if (!isChecked) {
+      return {
+        image: GerrieInfo,
+        comment: "Select an option",
+      };
+    } else if (answerIdx === test_answer) {
+      return {
+        image: GerrieHappy,
+        comment: "Great job!",
+      };
+    } else {
+      return {
+        image: GerrieSad,
+        comment: "Don’t worry, try again!",
+      };
+    }
+  };
+
+  // If we want a final comment based on the score:
+  const getScoreComment = () => {
+    const total = questions.length;
+    const correct = result.correctAnswers;
+    const ratio = correct / total;
+
+    if (ratio === 1) return "Perfect score! You nailed it!";
+    if (ratio >= 0.7) return "Awesome job! Keep it up!";
+    if (ratio >= 0.4) return "Not bad! A bit more practice will help!";
+    return "Don’t worry, practice makes perfect!";
+  };
+
+  // For question phase
+  const { image, comment } = getMascotAndComment();
+
   return (
     <div className="quiz-wrapper">
+      {/* LEFT SIDE: Show a relevant mascot + bubble */}
+
+
+
       <div className="quiz-container">
         {!showResult ? (
           <>
-            {/* Only show the timer if the user hasn’t clicked "Check" */}
             {!isChecked && (
               <AnswerTimer
                 key={currentQuestion}
@@ -170,8 +197,6 @@ const Quiz: React.FC<QuizProps> = ({
               {answers.map((answer, index) => {
                 let liClass = "";
                 if (isChecked) {
-                  // When checked, highlight the correct answer in green
-                  // and if the user’s selection is wrong, highlight it in red.
                   if (index === test_answer) {
                     liClass = "correct-answer";
                   } else if (index === answerIdx && answerIdx !== test_answer) {
@@ -195,7 +220,6 @@ const Quiz: React.FC<QuizProps> = ({
               <p className="level">
                 Level: <span className="current-level">{currentLevel}</span>
               </p>
-              {/* Show the Check button only if the answer hasn’t been checked */}
               {!isChecked && (
                 <button
                   onClick={handleCheckClick}
@@ -213,7 +237,14 @@ const Quiz: React.FC<QuizProps> = ({
             </div>
           </>
         ) : (
+          // RESULT SCREEN
           <div className="result">
+            {/* Show the info mascot + final comment bubble */}
+            <div className="mascot-container result-mascot">
+              <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />
+              <div className="comment-bubble">{getScoreComment()}</div>
+            </div>
+
             <h3>Result</h3>
             <p>
               Total Questions: <span>{questions.length}</span>
@@ -247,6 +278,12 @@ const Quiz: React.FC<QuizProps> = ({
           </div>
         )}
       </div>
+      {!showResult && (
+        <div className="mascot-container">
+          <img src={image} alt="Mascot" className="mascot-image" />
+          <div className="comment-bubble">{comment}</div>
+        </div>
+      )}
     </div>
   );
 };

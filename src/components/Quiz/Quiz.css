@@ -1,15 +1,66 @@
 @import '../../styles/index.css';
 
-/* Quiz Wrapper */
+/* Layout for the quiz + mascot side by side */
 .quiz-wrapper {
   display: flex;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
+  gap: 2rem;
+  padding: 20px;
+  background-color: #f4f4f9; /* optional */
   height: 100vh;
-  background-color: #f4f4f9;
 }
 
-/* Quiz Container */
+/* Mascot container on the left (or inside result) */
+.mascot-container {
+  position: relative;
+  width: 120px; /* Adjust as needed */
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 100px;
+}
+
+.mascot-image {
+  width: 100%;
+  height: auto;
+}
+
+/* The speech/comment bubble */
+.comment-bubble {
+  position: absolute;
+  top: 0;
+  left: 130px; /* Adjust to move bubble horizontally */
+  background: #fff;
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  width: max-content;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  font-weight: 500;
+  color: #333;
+}
+
+/* Little pointer for the bubble */
+.comment-bubble::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 30px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #a89d9d;
+  transform: rotate(-35deg);
+  border-radius: 50px;
+  /* If you want a small border around the triangle:
+     border-right: 10px solid #444; (then you need an inner pseudo-element for the white part) */
+}
+
+/* For the result screen's mascot, if you want to tweak styles further */
+.result-mascot {
+  margin: 0 auto 20px; /* center it in the result container */
+}
+
+/* Keep your existing .quiz-container rules */
 .quiz-container {
   width: 900px;
   background: #ffffff;
@@ -63,17 +114,16 @@
 }
 
 .quiz-container ul .selected-answer {
-  border:1px solid #0056b3;
+  border: 1px solid #0056b3;
   background: #a2caf4;
   color: #685e5e;
 }
 
-/* New classes for feedback after checking the answer */
+/* Highlighting correct/wrong answers after checking */
 .quiz-container ul li.correct-answer {
   background: rgb(171, 241, 171);
   border-color: green;
   color: #685e5e;
-  
 }
 
 .quiz-container ul li.wrong-answer {
@@ -88,23 +138,24 @@
   justify-content: space-between;
   margin-top: 20px;
   border-radius: 22px;
-  padding: 12px;
+  padding: 5px;
   background: #f1f1f1;
 }
 
 /* Buttons */
 .quiz-container .footer button,
 .quiz-container .result button {
-  background: linear-gradient(0deg, #007bff 0%, #0056b3);
-  border-radius: 50px;
+  background: rgb(75, 178, 219);
+  border-radius: 20px;
   font-size: 18px;
   color: #ffffff;
-  padding: 12px 42px;
+  padding: 5px 30px;
   margin: 10px;
   outline: none;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  border: 1px solid #0056b3;
 }
 
 .quiz-container .footer button:hover,
@@ -178,6 +229,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
