@@ -117,7 +117,7 @@ const SignUpForm = () => {
                         <Input
                           placeholder="johndoe"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -134,7 +134,7 @@ const SignUpForm = () => {
                         <Input
                           placeholder="John"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -151,7 +151,7 @@ const SignUpForm = () => {
                         <Input
                           placeholder="Doe"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -168,7 +168,7 @@ const SignUpForm = () => {
                         <Input
                           placeholder="mail@example.com"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -186,7 +186,7 @@ const SignUpForm = () => {
                           type="password"
                           placeholder="Enter your password"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -204,7 +204,7 @@ const SignUpForm = () => {
                           type="password"
                           placeholder="Re-Enter your password"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -221,7 +221,7 @@ const SignUpForm = () => {
                         <Input
                           type="file"
                           onChange={(e) => field.onChange(e.target.files)}
-                          className="w-full text-gray-200"
+                          className="w-full  text-white"
                         />
                       </FormControl>
                       <FormMessage />

@@ -274,8 +274,8 @@ const Profile: React.FC = () => {
             Delete Account
           </button>
         </div>
-
-        {/* ===== Footer Section with Share Profile ===== */}
+      </div>
+              {/* ===== Footer Section with Share Profile ===== */}
 <footer className="profile-footer">
   <div className="share-buttons">
     <button onClick={() => handleShareScreenshot('instagram')}>
@@ -290,7 +290,6 @@ const Profile: React.FC = () => {
   </div>
   <p>© 2023 YourApp. All rights reserved</p>
 </footer>
-      </div>
     </ProtectedRoute>
   );
 };
