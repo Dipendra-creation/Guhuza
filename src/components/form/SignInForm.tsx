@@ -67,7 +67,7 @@ const SignInForm: React.FC = () => {
             backdrop-blur-[6px] 
             rounded-[10px] 
             border 
-            border-[rgba(255,255,255,0.18)]  rounded-lg relative z-10 ">
+            border-[rgba(255,255,255,0.18)] relative z-10 ">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
               {error && (
@@ -84,7 +84,7 @@ const SignInForm: React.FC = () => {
                         <Input
                           placeholder="mail@example.com"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -102,7 +102,7 @@ const SignInForm: React.FC = () => {
                           type="password"
                           placeholder="Enter your password"
                           {...field}
-                          className="border border-gray-300 rounded-md p-2 w-full"
+                          className="border border-gray-300 rounded-md p-2 w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />
