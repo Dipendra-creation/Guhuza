@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FC, useMemo } from "react";
 import axios from "axios";
+import jwtDecode, { JwtPayload as JwtDecodePayload } from "jwt-decode";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProtectedRoute from "../components/ProtectedRoute";
 import "../styles/leaderboard.css";
@@ -45,12 +46,13 @@ const Leaderboard: FC = () => {
             id: user.id,
             name,
             gp: user.score,
-            badge: "", // You can add logic here to set badges if needed.
+            badge: "", // Logic for badges if needed.
             img,
             level: user.highestLevelCompleted,
             joined: new Date(user.createdAt).toLocaleDateString(),
           };
         });
+        console.log("Fetched players:", players);
         setLeaderboardData(players);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
