@@ -1,478 +1,389 @@
+/* === Global Styles === */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-}
-.container {
-    width: 80%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #222;
-    border-radius: 10px;
-}
-.how-to-earn {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    text-align: left;
-     border-left: 4px solid #222;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
 }
 
-
-
-.how-to-earn p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.8;
-    text-align: justify;
-    margin-bottom: 15px;
-    padding: 10px;
-   border-color: black 2px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    
+/* 🔹 Full-page Centering & Background */
+.page-container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh; /* Full viewport height */
+background-color: #e3f2fd; /* Light blue background */
+padding: 20px; /* Prevents overflow issues */
 }
 
-@media (max-width: 768px) {
-    .how-to-earn {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .how-to-earn h1 {
-        font-size: 22px;
-    }
-
-    .how-to-earn p {
-        font-size: 14px;
-    }
+/* 🔹 Card Design */
+.earn-card {
+background: white;
+border-radius: 15px;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+padding: 30px;
+max-width: 600px;
+width: 90%;
+text-align: center;
+box-sizing: border-box;
+border-top: 5px solid #007bff; /* Blue accent */
 }
 
-
-container1 {
-    margin: auto;
-    padding: 20px;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-   
-    border-radius: 10px;
-    border-left: 4px solid #222;
-}
-.section {
-    margin-bottom: 20px;
-    padding: 50px;
-    background: #ffffff;
-  
-    border-radius: 10px;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.12);
-    transition: all 0.3s ease-in-out;
-    line-height: 1.8;
+/* 🔹 Heading Styling */
+h1 {
+font-size: 28px;
+color: #2d3748;
+margin-bottom: 15px;
 }
 
-.section p {
-    color: #333;
-    font-size: 16px;
-    text-align: justify;
-    margin-bottom: 12px;
+.highlight {
+color: #007bff; /* Blue accent */
+font-weight: bold;
 }
 
-.section strong {
-    color: #000;
-    font-weight: bold;
+/* 🔹 Text Styling */
+p {
+font-size: 16px;
+color: #444;
+line-height: 1.6;
 }
 
-.section:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.18);
+.gp-text {
+color: #28a745; /* Green GP text */
+font-weight: bold;
 }
-/* How to Play Section */
 
+.xp-text {
+color: #ff9800; /* Orange XP text */
+font-weight: bold;
+}
 
-/* Rules Section */
+/* 🔹 Reward List */
+.earn-list {
+display: flex;
+flex-direction: column;
+gap: 12px;
+margin-top: 20px;
+align-items: flex-start; /* Align items to the left */
+padding: 0 10px; /* Give some padding to the sides */
+}
+
+/* 🔹 Individual Earn Items */
+.earn-item {
+width: 100%; /* Ensures full width for alignment */
+padding: 12px;
+border-radius: 8px;
+font-size: 16px;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: space-between; /* Space text evenly */
+color: white;
+transition: 0.3s;
+text-align: left; /* Aligns text left */
+}
+
+.earn-item span {
+flex-grow: 1; /* Makes sure text is aligned properly */
+padding-left: 10px;
+text-align: left;
+}
+
+/* 🔹 Color-coded Earn Items */
+.correct { background: #28a745; }
+.incorrect { background: #dc3545; }
+.share { background: #ff9800; }
+.refer { background: #6f42c1; }
+.draw { background: #ffc107; }
+.level { background: #17a2b8; }
+.login { background: #007bff; }
+
+/* 🔹 Hover Effects */
+.earn-item:hover {
+transform: scale(1.05);
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔹 Footer Styling */
+.earn-footer {
+margin-top: 20px;
+font-size: 14px;
+font-weight: bold;
+color: #333;
+}
 
 .achievements-container {
-    text-align: center;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
+  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
 }
 
 .achievements-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .achievement-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .achievement-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30%;
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(170, 160, 160, 0.1);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(170, 160, 160, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  
 }
 
 .achievement-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
 .achievement-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    transition: transform 0.3s ease-in-out;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
 }
 
 .achievement-item p {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
 }
 
 .achievement-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30%;
-    padding: 15px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .achievement-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    transition: transform 0.3s ease-in-out;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
 }
 
 .achievement-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .achievement-item:hover img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .achievement-tooltip {
-    position: relative;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(252, 231, 231, 0.75);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    width: 220px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 10;
-    pointer-events: none;
+  position: relative;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(252, 231, 231, 0.75);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  z-index: 10;
+  pointer-events: none;
 }
 
 
 .achievement-item:hover .achievement-tooltip {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 .achievement-item::after {
-    content: attr(data-title);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(118, 117, 117, 0.75);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    width: 220px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 10;
+  content: attr(data-title);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(118, 117, 117, 0.75);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  z-index: 10;
 }
 
 .achievement-item:hover::after {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
-.badge {
-    width: 30%;
-    min-width: 150px;
-    text-align: center;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.badge img {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background: #eee;
-}
-
-.section {
-    margin-bottom: 30px;
-    padding: 15px;
-    border-left: 4px solid #333;
-    background: #fafafa;
-}
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-}
-
-/*
-
-/* How to Play Section */
-/* How to Play Section */
-.container-play {
-   
-    text-align: center;
-    padding: 25px;
-    width:50%;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    padding-top: 50px;
-    margin-top: 20px;
-}
-
-.container-play h1, .container-play h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.container-play p {
-    font-size: 16px;
-    color: #555;
-    text-align: justify;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid #222;
-}
-
-.container-play ul {
-    text-align: left;
-    margin: 15px 0;
-    padding: 0;
-    list-style-type: none;
-    
-}
-
-.container-play ul li {
-    position:block;
-    font-size: 16px;
-    color: #333;
-    padding: 8px 12px;
-    border-left: 4px solid #444;
-    background: #f2f2f2;
-    margin-bottom: 8px;
-    border-radius: 5px;
-}
-.play-rules-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 80%;
-    max-width: 1000px;
-    margin: 40px auto;
-    align-items: flex-start;
-}
-
-
-
-
+/* === Additional Container for Game Layout === */
 .game-container {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    padding: 20px;
-    margin-top: 10px;
-
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    text-align: left;
+display: flex;
+justify-content: center;
+width: 100%;
+padding: 30px;
 }
 
-.container-play, .container-rules {
-    flex: 1; /* Equal width for both containers */
-    padding: 20px;
-    border: 2px ;
-    border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+/* === How to Play Card === */
+.play-card {
+background: var(--card-bg, #ffffff);
+padding: 25px;
+border-radius: 12px;
+box-shadow: var(--shadow, 0px 4px 12px rgba(0, 0, 0, 0.1));
+transition: all 0.3s ease-in-out;
+text-align: center;
+max-width: 800px;
+width: 100%;
 }
 
-/* Responsive Design */
+.play-card:hover {
+transform: translateY(-5px);
+}
+
+/* === Titles & Subtitles === */
+.play-title {
+font-size: 26px;
+font-weight: bold;
+color: var(--primary-color, #4a90e2);
+margin-bottom: 15px;
+}
+
+.play-subtitle {
+font-size: 22px;
+font-weight: bold;
+color: #ff8800;
+margin-top: 20px;
+}
+
+/* === Row Layout for "Game Info" === */
+.game-info-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 2rem;
+font-family: Arial, sans-serif;
+background-color: #f9f9f9;
+}
+
+/* Each "row" holds two columns side by side */
+.row {
+display: flex;
+gap: 2rem;
+margin-bottom: 2rem;
+}
+
+/* Stack columns on smaller screens */
 @media (max-width: 768px) {
-    .container-play {
-        width: 90%;
-        padding: 15px;
-    }
-    
-    .container-play h1, .container-play h2 {
-        font-size: 22px;
-    }
-    
-    .container-play p, .container-play ul li {
-        font-size: 14px;
-    }
+.row {
+  flex-direction: column;
+}
+}
+
+/* Shared card styling */
+.info-box {
+flex: 1;
+background-color: #ffffff;
+border-radius: 8px;
+padding: 1.5rem;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-title {
+margin-top: 0;
+margin-bottom: 1rem;
+font-size: 1.3rem;
+color: #333;
+text-align: center;
+}
+
+/* Basic UL/LI reset */
+.info-box ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+/* Slight hover highlight on items */
+.info-box ul li {
+margin-bottom: 0.5rem;
+line-height: 1.4;
+padding: 0.2rem 0;
+transition: background-color 0.2s ease;
+}
+
+.info-box ul li:hover {
+background-color: #f2f2f2;
+}
+
+/* Additional text styling */
+.info-box p {
+margin-bottom: 1rem;
+color: #555;
+}
+
+/* ===== Level List (colored badges) ===== */
+.level-list {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+.level-item {
+margin-bottom: 0.5rem;
+padding: 0.5rem 1rem;
+border-radius: 4px;
+color: #fff;
+font-weight: 500;
+transition: opacity 0.3s ease;
+}
+
+.level-item:hover {
+opacity: 0.8;
+}
+
+/* Different colors for each level */
+.blue {
+background-color: #3498db;
+}
+.green {
+background-color: #2ecc71;
+}
+.orange {
+background-color: #e67e22;
+}
+.red {
+background-color: #e74c3c;
+}
+.purple {
+background-color: #9b59b6;
 }
 
 
-/* Rules Section */
-.container-rules {
-   
-    text-align: center;
-    padding: 25px;
-    width:50%;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    padding-top: 50px;
-    margin-top: 20px;
-}
-
-.container-rules h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.container-rules p {
-    font-size: 16px;
-    color: #555;
-    text-align: justify;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid #222;
-}
 
 
-
-/* Terms and Conditions Section */
-.container-terms {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto 20px auto;
-   
-    
-    text-align: left;
-}
-
-.container-terms h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-   
-    margin-bottom: 15px;
-}
-
-.container-terms p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.8;
-    
-  
-    padding: 4px;
-    border-radius: 5px;
-   
-}
-
-
-@media (max-width: 768px) {
-    .achievement-row {
-        flex-direction: column;
-        align-items: center;
-    }
-    .achievement-item {
-        width: 80%;
-    }
-    .achievement-item img {
-        width: 60px;
-        height: 60px;
-    }
-}
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container, .how-to-earn, .container-play, .container-rules, .container-terms {
-        width: 90%;
-        padding: 15px;
-    }
-    
-    .how-to-earn h1, .container-play h1, .container-play h2, .container-rules h2, .container-terms h2 {
-        font-size: 22px;
-    }
-    
-    .how-to-earn p, .container-play p, .container-rules p, .container-terms p, .container-play ul li {
-        font-size: 14px;
-    }
-    
-    .badges-container, .achievement-row {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .badge, .achievement-item {
-        width: 80%;
-    }
-    
-    .achievement-item img {
-        width: 60px;
-        height: 60px;
-    }
-}
