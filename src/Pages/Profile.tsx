@@ -12,6 +12,7 @@ import {
   FaEdit, FaUser,FaEnvelope,FaPhone, FaMapMarkerAlt
  } from 'react-icons/fa';
 
+
 interface Badge {
   id: number;
   name: string;
@@ -166,26 +167,22 @@ const Profile: React.FC = () => {
               )}
             </div>
             <div className="basic-info">
-              <h2>Hello {profile.firstName || profile.username}</h2>
+              <h2>Hello {profile.firstName || profile.username},</h2>
+              <span className="user-gp">{profile.score} GP</span>
               <p className="bio">
               Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
-               I'm passionate about creating innovative solutions and continuously learning new skills. 
-               Welcome to my profile.
+              <p> Welcome to my profile.</p>
               </p>
-                 <span className="user-gp">{profile.score} GP</span>
-            </div>
-          </div>
+              <button className="change-profile-btn">Change Profile</button>
 
-          {/* Right side: Change Profile Button */}
-          <div className="header-right">
-            <button className="change-profile-btn">Change Profile</button>
+            </div>
           </div>
         </div>
 
         {/* ===== Stats Row ===== */}
         <div className="stats-row">
           <div className="stats-item">
-            <span className="stat-title">Joined</span>
+            <span className="stat-title"><b>Joined</b></span>
             <span className="stat-value">
               {profile.joinedAt
                 ? new Date(profile.joinedAt).toLocaleDateString()
