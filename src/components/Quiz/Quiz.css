@@ -9,6 +9,17 @@
   padding: 20px;
   height: 100vh;
 }
+.total-score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
 
 /* Mascot container on the left (or inside result) */
 .mascot-container {

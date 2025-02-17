@@ -5,6 +5,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import '../styles/profile.css';
+import GP from '../assets/GP.png';
 
 // Import social media icons from react-icons
 import { 
@@ -167,11 +168,14 @@ const Profile: React.FC = () => {
               )}
             </div>
             <div className="basic-info">
-              <h2>Hello {profile.firstName || profile.username},</h2>
-              <span className="user-gp">{profile.score} GP</span>
+              <h2>{profile.username}</h2>
+              <span className="flex items-center space-x-2">
+  <img src={GP} className="h-5 w-5" alt="GP Icon" />
+  <span>{profile.score} GP</span>
+</span>
               <p className="bio">
               Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
-              <p> Welcome to my profile.</p>
+              <p> And i am currently looking for Job</p>
               </p>
               <button className="change-profile-btn">Change Profile</button>
 

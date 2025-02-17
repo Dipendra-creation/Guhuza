@@ -3,6 +3,7 @@ import { resultInitialState } from "../../constants";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 import axios from "axios";
+import GP from '../assets/GP.png';
 
 // 1) IMPORT YOUR MASCOTS
 import GerrieInfo from "../../assets/Gerrie Mascot/Gerrie_info.png";
@@ -221,7 +222,7 @@ const Quiz: React.FC<QuizProps> = ({
 
   return (
     <div className="quiz-wrapper">
-      <p>
+      <p className="total-score ">
         <strong>Total GP:</strong> {profile.score}
       </p>
 
@@ -263,8 +264,8 @@ const Quiz: React.FC<QuizProps> = ({
               })}
             </ul>
             <div className="footer">
-              <p className="level">
-                Level: <span className="current-level">{currentLevel}</span>
+              <p className="level bg-transparent">
+                Level: <span className="bg-transparent">{currentLevel}</span>
               </p>
               {!isChecked && (
                 <button
