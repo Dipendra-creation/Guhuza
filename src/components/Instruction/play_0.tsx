@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./play_0.css";
 import Play1 from "../select level/play_1";
 
@@ -156,7 +156,18 @@ const Play0: React.FC = () => {
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
 
+    // Check localStorage on mount. If the user has already seen the instructions, go directly to Play1.
+    useEffect(() => {
+      const instructionsSeen = localStorage.getItem("instructionsSeen");
+      if (instructionsSeen === "true") {
+        setStartGame(true);
+      }
+    }, []);
+
+
   const handleStartGame = (): void => {
+     // Save a flag to localStorage so that instructions are only shown once.
+     localStorage.setItem("instructionsSeen", "true");
     setStartGame(true);
   };
 

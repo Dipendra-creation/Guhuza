@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
 
-
 const prisma = new PrismaClient();
 const app = express();
 
@@ -55,8 +54,6 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
     const imagePath = req.file ? req.file.path : null;
 
     // Create the user, including the image path if available.
-    // Although Prisma defaults exist for score, correctAnswers, wrongAnswers, and highestLevelCompleted,
-    // you can explicitly set them here if desired.
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -173,9 +170,38 @@ app.put('/api/auth/update-score', async (req, res) => {
   }
 });
 
+// =========================
+//  Leaderboard Endpoint
+// =========================
+// This endpoint fetches all users and returns key fields for the leaderboard.
+// The users are sorted by their 'score' in descending order.
+app.get('/api/leaderboard', async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        image: true,
+        score: true,
+        highestLevelCompleted: true,
+        createdAt: true,
+      },
+      orderBy: {
+        score: 'desc',
+      },
+    });
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching leaderboard:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-
-// Start the server
+// =========================
+//  Start the Server
+// =========================
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Backend server is running on port ${PORT}`);

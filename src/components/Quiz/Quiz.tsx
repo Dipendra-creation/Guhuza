@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { resultInitialState } from "../../constants";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
@@ -8,6 +8,11 @@ import axios from "axios";
 import GerrieInfo from "../../assets/Gerrie Mascot/Gerrie_info.png";
 import GerrieHappy from "../../assets/Gerrie Mascot/Happy_Gerrie.png";
 import GerrieSad from "../../assets/Gerrie Mascot/Sad_gerrie.png";
+
+interface UserProfile {
+  score: number;
+  highestLevelCompleted: number;
+}
 
 interface Question {
   question: string;
@@ -34,6 +39,9 @@ const Quiz: React.FC<QuizProps> = ({
   currentLevel,
   maxLevel,
 }) => {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answerIdx, setAnswerIdx] = useState<number | null>(null);
   const [result, setResult] = useState<QuizResult>(resultInitialState);
@@ -45,6 +53,31 @@ const Quiz: React.FC<QuizProps> = ({
 
   const hasNextLevel = currentLevel < maxLevel;
   const { question, test_answer, answers } = questions[currentQuestion];
+
+  // Fetch profile from backend
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Not authenticated. Please log in.");
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await axios.get("http://localhost:5001/api/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProfile(response.data.user);
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+      setError("Failed to fetch profile.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   // Only allow answer selection if not checked already
   const onAnswerClick = (answer: string, index: number): void => {
@@ -58,7 +91,7 @@ const Quiz: React.FC<QuizProps> = ({
     setIsChecked(true);
   };
 
-  // Move to the next question (or show results), also update the score
+  // Move to the next question (or show results) and update the score
   const onClickNext = async (finalAnswer: boolean): Promise<void> => {
     const deltaGP = finalAnswer ? 10 : -5;
     const deltaCorrect = finalAnswer ? 1 : 0;
@@ -105,6 +138,8 @@ const Quiz: React.FC<QuizProps> = ({
       await axios.put("http://localhost:5001/api/auth/update-score", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      // Re-fetch profile after score update
+      await fetchProfile();
     } catch (error) {
       console.error("Error updating user score:", error);
       setUpdateError("Unable to update score, please try again.");
@@ -158,7 +193,7 @@ const Quiz: React.FC<QuizProps> = ({
     }
   };
 
-  // If we want a final comment based on the score:
+  // Final comment based on the score:
   const getScoreComment = () => {
     const total = questions.length;
     const correct = result.correctAnswers;
@@ -170,14 +205,25 @@ const Quiz: React.FC<QuizProps> = ({
     return "Don’t worry, practice makes perfect!";
   };
 
-  // For question phase
   const { image, comment } = getMascotAndComment();
+
+  if (loading) {
+    return <div className="score-page-container">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="score-page-container error">{error}</div>;
+  }
+
+  if (!profile) {
+    return <div className="score-page-container">No profile data available.</div>;
+  }
 
   return (
     <div className="quiz-wrapper">
-      {/* LEFT SIDE: Show a relevant mascot + bubble */}
-
-
+      <p>
+        <strong>Total GP:</strong> {profile.score}
+      </p>
 
       <div className="quiz-container">
         {!showResult ? (
@@ -239,7 +285,6 @@ const Quiz: React.FC<QuizProps> = ({
         ) : (
           // RESULT SCREEN
           <div className="result">
-            {/* Show the info mascot + final comment bubble */}
             <div className="mascot-container result-mascot">
               <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />
               <div className="comment-bubble">{getScoreComment()}</div>
@@ -288,4 +333,4 @@ const Quiz: React.FC<QuizProps> = ({
   );
 };
 
-export default Quiz;
+export default Quiz; 
