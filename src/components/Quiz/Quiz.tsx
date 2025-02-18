@@ -195,7 +195,7 @@ const Quiz: React.FC<QuizProps> = ({
     } else {
       return {
         image: GerrieSad,
-        comment: "Don’t worry, try again!",
+        comment: "Don't worry, try again!",
       };
     }
   };
@@ -209,7 +209,7 @@ const Quiz: React.FC<QuizProps> = ({
     if (ratio === 1) return "Perfect score! You nailed it!";
     if (ratio >= 0.7) return "Awesome job! Keep it up!";
     if (ratio >= 0.4) return "Not bad! A bit more practice will help!";
-    return "Don’t worry, practice makes perfect!";
+    return "Don't worry, practice makes perfect!";
   };
 
   const { image, comment } = getMascotAndComment();
@@ -242,13 +242,23 @@ const Quiz: React.FC<QuizProps> = ({
                 duration={10}
                 onTimeUp={handleTimeUp}
               />
-              
             )}
-
-
+            
+           
             <span className="active-question-no">
               Question {currentQuestion + 1} of {questions.length}
             </span>
+            <div className="timer">
+            <CountTimer 
+              key={currentQuestion}
+              duration={10} 
+              onTimeUp={handleTimeUp} 
+            />
+
+            </div>
+
+
+
             <h2>{question}</h2>
             <ul>
               {answers.map((answer, index) => {
@@ -342,6 +352,5 @@ const Quiz: React.FC<QuizProps> = ({
       )}
     </div>
   );
-};
 
-export default Quiz; 
+};export default Quiz; 

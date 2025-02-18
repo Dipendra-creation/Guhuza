@@ -124,13 +124,10 @@ app.get('/api/profile', async (req, res) => {
 
     // Calculate rank: count how many users have a higher score
     const higherScoreCount = await prisma.user.count({
-      where: {
-        score: { gt: user.score }
-      }
+      where: { score: { gt: user.score } },
     });
     const rank = higherScoreCount + 1;
 
-    // Return the user with the calculated rank
     res.json({ user: { ...user, rank } });
   } catch (error) {
     console.error('Profile error:', error);
@@ -166,6 +163,40 @@ app.post('/api/profile/image', upload.single('profileImage'), async (req: Multer
 });
 
 // =========================
+//  Update Profile Information Endpoint
+// =========================
+// This endpoint updates only the firstName and lastName fields.
+app.put('/api/profile/edit', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader)
+    return res.status(401).json({ error: 'No token provided' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
+    const { firstName, lastName } = req.body;
+
+    // Update the user's firstName and lastName
+    const updatedUser = await prisma.user.update({
+      where: { id: decoded.userId },
+      data: { firstName, lastName },
+      include: { scores: true, badges: true },
+    });
+
+    // Recalculate rank
+    const higherScoreCount = await prisma.user.count({
+      where: { score: { gt: updatedUser.score } },
+    });
+    const rank = higherScoreCount + 1;
+
+    res.json({ user: { ...updatedUser, rank } });
+  } catch (error) {
+    console.error('Error editing profile:', error);
+    res.status(500).json({ error: 'Internal server error editing profile' });
+  }
+});
+
+// =========================
 //  Update Score Endpoint
 // =========================
 app.put('/api/auth/update-score', async (req, res) => {
@@ -176,17 +207,14 @@ app.put('/api/auth/update-score', async (req, res) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    // Expecting delta values from the frontend and an optional new level completed
     const { deltaGP, deltaCorrect, deltaWrong, newLevelCompleted } = req.body;
 
-    // Build the update data using the increment operator:
     let dataToUpdate: any = {
       score: { increment: deltaGP },
       correctAnswers: { increment: deltaCorrect },
       wrongAnswers: { increment: deltaWrong },
     };
 
-    // If newLevelCompleted is provided and it's higher than current, update it:
     if (newLevelCompleted !== undefined) {
       const currentUser = await prisma.user.findUnique({ where: { id: decoded.userId } });
       if (currentUser && newLevelCompleted > currentUser.highestLevelCompleted) {
@@ -222,9 +250,7 @@ app.get('/api/leaderboard', async (req, res) => {
         highestLevelCompleted: true,
         createdAt: true,
       },
-      orderBy: {
-        score: 'desc',
-      },
+      orderBy: { score: 'desc' },
     });
     res.json(users);
   } catch (error) {

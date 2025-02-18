@@ -31,28 +31,33 @@ interface UserProfile {
   id: number;
   email: string;
   username: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   image?: string;
   score: number;
   correctAnswers: number;
   wrongAnswers: number;
   highestLevelCompleted: number;
-  badges: Badge[];
+  createdAt: string;
   scores: Score[];
-  contactNo?: string;
-  address?: string;
+  badges: Badge[];
   rank?: number;
-  createdAt?: string; // Use createdAt as the join date
 }
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  
+  // Edit mode state for personal information (first name and last name)
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editForm, setEditForm] = useState({
+    firstName: '',
+    lastName: '',
+  });
 
   const profileRef = useRef<HTMLDivElement>(null);
-  // Ref for the hidden file input element
+  // Ref for the hidden file input element (for profile picture update)
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Helper: Convert relative image path to absolute URL with cache busting
@@ -74,6 +79,11 @@ const Profile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProfile(response.data.user);
+      // Pre-populate edit form with current values
+      setEditForm({
+        firstName: response.data.user.firstName || '',
+        lastName: response.data.user.lastName || '',
+      });
     } catch (err: any) {
       console.error('Error fetching profile:', err);
       setError(err.response?.data?.error || 'Failed to fetch profile');
@@ -128,7 +138,6 @@ const Profile: React.FC = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Prepare form data
     const formData = new FormData();
     formData.append('profileImage', file);
 
@@ -136,7 +145,6 @@ const Profile: React.FC = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('User not authenticated');
 
-      // Send the image to your backend (adjust endpoint if needed)
       const response = await axios.post(
         'http://localhost:5001/api/profile/image',
         formData,
@@ -149,12 +157,53 @@ const Profile: React.FC = () => {
       );
 
       console.log('Updated profile response:', response.data);
-      // Assume your backend returns the updated user profile; update state
       setProfile(response.data.user);
     } catch (err: any) {
       console.error('Error updating profile picture:', err);
       setError('Error updating profile picture');
     }
+  };
+
+  // Handle changes in the edit form inputs
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+
+  // Submit the edited info to the backend
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('User not authenticated');
+
+      // Sends updated firstName and lastName to the backend
+      const response = await axios.put(
+        'http://localhost:5001/api/profile/edit',
+        { ...editForm },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log('Profile updated:', response.data);
+      setProfile(response.data.user);
+      setIsEditing(false);
+    } catch (err: any) {
+      console.error('Error updating profile information:', err);
+      setError('Error updating profile information');
+    }
+  };
+
+  // Cancel editing and reset form values
+  const handleCancelEdit = () => {
+    if (profile) {
+      setEditForm({
+        firstName: profile.firstName || '',
+        lastName: profile.lastName || '',
+      });
+    }
+    setIsEditing(false);
+  };
+
+  // Toggle edit mode for personal information
+  const toggleEditMode = () => {
+    setIsEditing(true);
   };
 
   // Example sign out
@@ -207,7 +256,6 @@ const Profile: React.FC = () => {
 
         {/* ===== Header Section ===== */}
         <div className="profile-header">
-          {/* Left side: Profile Picture & Basic Info */}
           <div className="header-left">
             <div className="profile-picture-wrapper">
               {imageUrl ? (
@@ -218,12 +266,12 @@ const Profile: React.FC = () => {
             </div>
             <div className="basic-info">
               <h2>{profile.username}</h2>
-              <span className="flex items-center space-x-2 ">
-  <img src={GP} className="h-5 w-5" alt="GP Icon" />
-  <span>{profile.score} GP</span>
-</span>
+              <span className="flex items-center space-x-2">
+                <img src={GP} className="h-5 w-5" alt="GP Icon" />
+                <span>{profile.score} GP</span>
+              </span>
               <p className="bio">
-                Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
+                Hello, I'm {profile.firstName || 'N/A'} {profile.lastName || 'N/A'} (aka {profile.username}).
                 <br />
                 And I am currently looking for a job.
               </p>
@@ -264,36 +312,71 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        {/* ===== Personal Information ===== */}
+        {/* ===== Personal Information Section ===== */}
         <div className="personal-info-section">
           <div className="section-header">
             <h3><b>Personal Information</b></h3>
-            <button className="edit-profile-btn">
-              <FaEdit className="edit-icon" /> Edit Info
-            </button>
+            {isEditing ? null : (
+              <button className="edit-profile-btn" onClick={toggleEditMode}>
+                <FaEdit className="edit-icon" /> Edit Info
+              </button>
+            )}
           </div>
-          <div className="info-items">
-            <div className="info-item">
-              <span className="info-label"><FaUser /> First Name:</span>
-              <span className="info-value">{profile.firstName}</span>
+          {isEditing ? (
+            <div className="edit-form">
+              <div className="info-item">
+                <label>
+                  <FaUser /> First Name:
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={editForm.firstName}
+                    onChange={handleEditChange}
+                  />
+                </label>
+              </div>
+              <div className="info-item">
+                <label>
+                  <FaUser /> Last Name:
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={editForm.lastName}
+                    onChange={handleEditChange}
+                  />
+                </label>
+              </div>
+              <div className="info-item">
+                <label>
+                  <FaEnvelope /> Email:
+                  <input type="email" value={profile.email} readOnly />
+                </label>
+              </div>
+              <div className="form-buttons">
+                <button className="save-btn" onClick={handleSaveChanges}>
+                  Save Changes
+                </button>
+                <button className="cancel-btn" onClick={handleCancelEdit}>
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div className="info-item">
-              <span className="info-label"><FaUser /> Last Name:</span>
-              <span className="info-value">{profile.lastName}</span>
+          ) : (
+            <div className="info-items">
+              <div className="info-item">
+                <span className="info-label"><FaUser /> First Name:</span>
+                <span className="info-value">{profile.firstName || 'N/A'}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label"><FaUser /> Last Name:</span>
+                <span className="info-value">{profile.lastName || 'N/A'}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label"><FaEnvelope /> Email:</span>
+                <span className="info-value">{profile.email}</span>
+              </div>
             </div>
-            <div className="info-item">
-              <span className="info-label"><FaEnvelope /> Email:</span>
-              <span className="info-value">{profile.email}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label"><FaPhone /> Contact No:</span>
-              <span className="info-value">{profile.contactNo || 'N/A'}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label"><FaMapMarkerAlt /> Address:</span>
-              <span className="info-value">{profile.address || 'N/A'}</span>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* ===== Badges Section ===== */}
@@ -323,7 +406,7 @@ const Profile: React.FC = () => {
           </button>
         </div>
       </div>
-      
+
       {/* ===== Footer Section with Share Profile ===== */}
       <footer className="profile-footer">
         <div className="share-buttons">
