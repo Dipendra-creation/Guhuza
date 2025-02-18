@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { resultInitialState } from "../../constants";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
+import CountTimer from "../CountTimer/CountTimer";
 import axios from "axios";
+import GP from '../../assets/GP.png';
 
 // 1) IMPORT YOUR MASCOTS
 import GerrieInfo from "../../assets/Gerrie Mascot/Gerrie_info.png";
@@ -173,6 +175,11 @@ const Quiz: React.FC<QuizProps> = ({
     }
   };
 
+  //for countdown
+  const handleTimeUps = () => {
+    alert('Time is up!');
+  };
+
   // Decide which mascot image + comment to show during the question phase
   const getMascotAndComment = () => {
     if (!isChecked) {
@@ -221,8 +228,9 @@ const Quiz: React.FC<QuizProps> = ({
 
   return (
     <div className="quiz-wrapper">
-      <p>
-        <strong>Total GP:</strong> {profile.score}
+      <p className="total-score gap-2.5" >
+      <img src={GP} className="h-9 w-9" alt="GP Icon" />
+        <strong> {profile.score} GP</strong> 
       </p>
 
       <div className="quiz-container">
@@ -234,7 +242,10 @@ const Quiz: React.FC<QuizProps> = ({
                 duration={10}
                 onTimeUp={handleTimeUp}
               />
+              
             )}
+
+
             <span className="active-question-no">
               Question {currentQuestion + 1} of {questions.length}
             </span>
@@ -263,8 +274,8 @@ const Quiz: React.FC<QuizProps> = ({
               })}
             </ul>
             <div className="footer">
-              <p className="level">
-                Level: <span className="current-level">{currentLevel}</span>
+              <p className="level bg-transparent">
+                Level: <span className="bg-transparent">{currentLevel}</span>
               </p>
               {!isChecked && (
                 <button

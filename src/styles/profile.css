@@ -27,16 +27,16 @@
   .user-gp {
     display: inline-block;
     margin-top: 5px;
-    background-color: #eee;
+    background-color: #3eeb64;
     padding: 5px 10px;
     border-radius: 4px;
     font-weight: 600;
-    color: #555;
+    color: #000502;
   }
   
   .change-profile-btn {
     padding: 8px 16px;
-    border: 1px solid #888;
+    border: 1px solid #1b8bf4;
     background: transparent;
     border-radius: 4px;
     cursor: pointer;
@@ -45,7 +45,7 @@
   }
   
   .change-profile-btn:hover {
-    background: #eaeaea;
+    background: #4db1f4;
   }
   
   /* ===== Stats Row ===== */

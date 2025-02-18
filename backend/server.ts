@@ -106,7 +106,7 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // =========================
-//  Protected Profile Endpoint
+//  Protected Profile Endpoint (with Rank Calculation)
 // =========================
 app.get('/api/profile', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -122,10 +122,46 @@ app.get('/api/profile', async (req, res) => {
     });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    res.json({ user });
+    // Calculate rank: count how many users have a higher score
+    const higherScoreCount = await prisma.user.count({
+      where: {
+        score: { gt: user.score }
+      }
+    });
+    const rank = higherScoreCount + 1;
+
+    // Return the user with the calculated rank
+    res.json({ user: { ...user, rank } });
   } catch (error) {
     console.error('Profile error:', error);
     res.status(401).json({ error: 'Invalid token' });
+  }
+});
+
+// =========================
+//  Update Profile Picture Endpoint
+// =========================
+app.post('/api/profile/image', upload.single('profileImage'), async (req: MulterRequest, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    // Update the user's image field with the new file path
+    const updatedUser = await prisma.user.update({
+      where: { id: decoded.userId },
+      data: { image: req.file.path },
+      include: { scores: true, badges: true },
+    });
+    res.json({ user: updatedUser });
+  } catch (error) {
+    console.error('Error updating profile image:', error);
+    res.status(500).json({ error: 'Internal server error updating profile image' });
   }
 });
 
@@ -173,8 +209,6 @@ app.put('/api/auth/update-score', async (req, res) => {
 // =========================
 //  Leaderboard Endpoint
 // =========================
-// This endpoint fetches all users and returns key fields for the leaderboard.
-// The users are sorted by their 'score' in descending order.
 app.get('/api/leaderboard', async (req, res) => {
   try {
     const users = await prisma.user.findMany({

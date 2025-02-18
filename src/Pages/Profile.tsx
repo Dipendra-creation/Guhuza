@@ -5,12 +5,13 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import '../styles/profile.css';
+import GP from '../assets/GP.png';
 
 // Import social media icons from react-icons
 import { 
   FaInstagram, FaFacebookF, FaLinkedinIn, 
-  FaEdit, FaUser,FaEnvelope,FaPhone, FaMapMarkerAlt
- } from 'react-icons/fa';
+  FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt 
+} from 'react-icons/fa';
 
 interface Badge {
   id: number;
@@ -39,12 +40,10 @@ interface UserProfile {
   highestLevelCompleted: number;
   badges: Badge[];
   scores: Score[];
-
-  // Additional fields if needed
   contactNo?: string;
   address?: string;
   rank?: number;
-  joinedAt?: string;
+  createdAt?: string; // Use createdAt as the join date
 }
 
 const Profile: React.FC = () => {
@@ -53,13 +52,15 @@ const Profile: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const profileRef = useRef<HTMLDivElement>(null);
+  // Ref for the hidden file input element
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Helper: Convert relative image path to absolute URL
+  // Helper: Convert relative image path to absolute URL with cache busting
   const getImageUrl = (path?: string): string | null => {
     if (!path) return null;
     const parts = path.split('/');
     const filename = parts[parts.length - 1];
-    return `http://localhost:5001/uploads/${filename}`;
+    return `http://localhost:5001/uploads/${filename}?t=${new Date().getTime()}`;
   };
 
   const fetchProfile = async () => {
@@ -115,6 +116,47 @@ const Profile: React.FC = () => {
     }
   };
 
+  // Trigger file selection when "Change Profile Picture" button is clicked
+  const handleProfilePictureClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Handle file input change and update profile picture
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('profileImage', file);
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('User not authenticated');
+
+      // Send the image to your backend (adjust endpoint if needed)
+      const response = await axios.post(
+        'http://localhost:5001/api/profile/image',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log('Updated profile response:', response.data);
+      // Assume your backend returns the updated user profile; update state
+      setProfile(response.data.user);
+    } catch (err: any) {
+      console.error('Error updating profile picture:', err);
+      setError('Error updating profile picture');
+    }
+  };
+
   // Example sign out
   const handleSignOut = () => {
     localStorage.removeItem('token');
@@ -154,6 +196,15 @@ const Profile: React.FC = () => {
   return (
     <ProtectedRoute>
       <div className="profile-container" ref={profileRef}>
+        {/* Hidden file input for profile image change */}
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+
         {/* ===== Header Section ===== */}
         <div className="profile-header">
           {/* Left side: Profile Picture & Basic Info */}
@@ -166,30 +217,29 @@ const Profile: React.FC = () => {
               )}
             </div>
             <div className="basic-info">
-              <h2>Hello {profile.firstName || profile.username}</h2>
+              <h2>{profile.username}</h2>
+              <span className="flex items-center space-x-2 ">
+  <img src={GP} className="h-5 w-5" alt="GP Icon" />
+  <span>{profile.score} GP</span>
+</span>
               <p className="bio">
-              Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
-               I'm passionate about creating innovative solutions and continuously learning new skills. 
-               Welcome to my profile.
+                Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
+                <br />
+                And I am currently looking for a job.
               </p>
-                 <span className="user-gp">{profile.score} GP</span>
+              <button className="change-profile-btn" onClick={handleProfilePictureClick}>
+                Change Profile Picture
+              </button>
             </div>
-          </div>
-
-          {/* Right side: Change Profile Button */}
-          <div className="header-right">
-            <button className="change-profile-btn">Change Profile</button>
           </div>
         </div>
 
         {/* ===== Stats Row ===== */}
         <div className="stats-row">
           <div className="stats-item">
-            <span className="stat-title">Joined</span>
+            <span className="stat-title"><b>Joined</b></span>
             <span className="stat-value">
-              {profile.joinedAt
-                ? new Date(profile.joinedAt).toLocaleDateString()
-                : 'N/A'}
+              {profile.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'N/A'}
             </span>
           </div>
           <div className="stats-item">
@@ -214,38 +264,37 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-   {/* ===== Personal Information ===== */}
-<div className="personal-info-section">
-  <div className="section-header">
-    <h3><b>Personal Information</b></h3>
-    <button className="edit-profile-btn">
-      <FaEdit className="edit-icon" /> Edit Info
-    </button>
-  </div>
-  <div className="info-items">
-    <div className="info-item">
-      <span className="info-label"><FaUser  /> First Name:</span>
-      <span className="info-value">{profile.firstName}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaUser  /> Last Name:</span>
-      <span className="info-value">{profile.lastName}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaEnvelope /> Email:</span>
-      <span className="info-value">{profile.email}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaPhone /> Contact No:</span>
-      <span className="info-value">{profile.contactNo || 'N/A'}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaMapMarkerAlt /> Address:</span>
-      <span className="info-value">{profile.address || 'N/A'}</span>
-    </div>
-  </div>
-</div>
-
+        {/* ===== Personal Information ===== */}
+        <div className="personal-info-section">
+          <div className="section-header">
+            <h3><b>Personal Information</b></h3>
+            <button className="edit-profile-btn">
+              <FaEdit className="edit-icon" /> Edit Info
+            </button>
+          </div>
+          <div className="info-items">
+            <div className="info-item">
+              <span className="info-label"><FaUser /> First Name:</span>
+              <span className="info-value">{profile.firstName}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label"><FaUser /> Last Name:</span>
+              <span className="info-value">{profile.lastName}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label"><FaEnvelope /> Email:</span>
+              <span className="info-value">{profile.email}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label"><FaPhone /> Contact No:</span>
+              <span className="info-value">{profile.contactNo || 'N/A'}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label"><FaMapMarkerAlt /> Address:</span>
+              <span className="info-value">{profile.address || 'N/A'}</span>
+            </div>
+          </div>
+        </div>
 
         {/* ===== Badges Section ===== */}
         <div className="badges-section">
@@ -262,7 +311,6 @@ const Profile: React.FC = () => {
               <p>No badges yet.</p>
             )}
           </div>
-          
         </div>
 
         {/* ===== Action Buttons (Sign Out & Delete) ===== */}
@@ -275,21 +323,22 @@ const Profile: React.FC = () => {
           </button>
         </div>
       </div>
-              {/* ===== Footer Section with Share Profile ===== */}
-<footer className="profile-footer">
-  <div className="share-buttons">
-    <button onClick={() => handleShareScreenshot('instagram')}>
-      <FaInstagram className="Share-icon" />
-    </button>
-    <button onClick={() => handleShareScreenshot('facebook')}>
-      <FaFacebookF className="Share-icon" />
-    </button>
-    <button onClick={() => handleShareScreenshot('linkedin')}>
-      <FaLinkedinIn className="Share-icon" />
-    </button>
-  </div>
-  <p>© 2023 YourApp. All rights reserved</p>
-</footer>
+      
+      {/* ===== Footer Section with Share Profile ===== */}
+      <footer className="profile-footer">
+        <div className="share-buttons">
+          <button onClick={() => handleShareScreenshot('instagram')}>
+            <FaInstagram className="Share-icon" />
+          </button>
+          <button onClick={() => handleShareScreenshot('facebook')}>
+            <FaFacebookF className="Share-icon" />
+          </button>
+          <button onClick={() => handleShareScreenshot('linkedin')}>
+            <FaLinkedinIn className="Share-icon" />
+          </button>
+        </div>
+        <p>© 2023 YourApp. All rights reserved</p>
+      </footer>
     </ProtectedRoute>
   );
 };
