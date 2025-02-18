@@ -67,10 +67,10 @@ Guhuza is a gaming cooperative platform designed to offer interactive and engagi
 ### **1. Clone the Repository**
 ```sh
 # Using HTTPS
-git clone https://github.com/yourusername/guhuza.git
+git clone https://github.com/Dipendra-creation/Guhuza.git
 
 # Using SSH
-git clone git@github.com:yourusername/guhuza.git
+git clone https://github.com/Dipendra-creation/Guhuza.git
 ```
 ```sh
 cd guhuza
