@@ -1,54 +1,42 @@
-import React from 'react'; 
+import React, { useState, useEffect } from "react";
 import '../styles/aboutgame.css';
 
+import { AnimatedList, AnimatedListItem } from "../components/ui/animated-list";
+
 const AboutGame: React.FC = () => {
+  const earnItems = [
+    { id: "correct", icon: "✅", text: "Correct answers:", points: "+10 GP" },
+    { id: "incorrect", icon: "❌", text: "Incorrect answers:", points: "-5 GP" },
+    { id: "share", icon: "📢", text: "Share the game:", points: "+100 GP per share" },
+    { id: "refer", icon: "👥", text: "Refer a friend:", points: "+100 GP" },
+    { id: "draw", icon: "🎁", text: "Daily Lucky Draw:", points: "10 GP - 100 GP" },
+    { id: "level", icon: "📚", text: "Complete a level:", points: "Answer 7 questions correctly" },
+    { id: "login", icon: "🎉", text: "Daily login rewards (7 days):", points: "10 GP - 70 GP" },
+  ];
+
+
+  // Create a state key to force remounting the AnimatedList component.
+  const [listKey, setListKey] = useState(0);
+
+  // The delay prop is 500ms, and assume each item takes about 300ms to animate.
+  // Adjust these values to match your actual animation timing.
+  const delay = 600;
+  const itemAnimationDuration = 600;
+  const extraPause = 600;
+  const totalAnimationDuration = delay + earnItems.length * itemAnimationDuration;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setListKey(prevKey => prevKey + 1);
+    }, totalAnimationDuration);
+    
+
+    return () => clearInterval(interval);
+  }, [totalAnimationDuration]);
   return (
     <>
-    <div className="page-container">
-      <div className="earn-card">
-        <h1>How to Earn <span className="highlight">GP</span></h1>
-        <p>
-          In <b className="highlight">Guhuza</b>, players earn 
-          <b className="gp-text"> Guhuza Points (GP) </b> and 
-          <b className="xp-text"> Guhuza Experience (GxP) </b>
-          by participating in quizzes and engaging in platform activities.
-        </p>
-
-        <div className="earn-list">
-          <div className="earn-item correct">
-            ✅ <span>Correct answers:</span> <b>+10 GP</b>
-          </div>
-          <div className="earn-item incorrect">
-            ❌ <span>Incorrect answers:</span> <b>-5 GP</b>
-          </div>
-          <div className="earn-item share">
-            📢 <span>Share the game:</span> <b>+100 GP per share</b>
-          </div>
-          <div className="earn-item refer">
-            👥 <span>Refer a friend:</span> <b>+100 GP</b> 
-          </div>
-          <div className="earn-item draw">
-            🎁 <span>Daily Lucky Draw:</span> <b>10 GP - 100 GP</b>
-          </div>
-          <div className="earn-item level">
-            📚 <span>Complete a level:</span> Answer <b>7 questions correctly</b>
-          </div>
-          <div className="earn-item login">
-            🎉 <span>Daily login rewards (7 days):</span> <b>10 GP - 70 GP</b>
-          </div>
-        </div>
-
-        <p className="earn-footer">
-          Each question is timed, making the experience fast-paced and competitive.
-          Players with higher <b className="gp-text">GP scores</b> rank higher on the leaderboard,
-          increasing their visibility to companies posting jobs on the platform.  
-          <b className="highlight"> Strategic gameplay and consistency </b> are key 
-          to maximizing rewards and climbing the leaderboard!
-        </p>
-      </div>
-    </div>
     <div className="section achievements-container">
-        <h1>
+        <h1 className='header font-bold text-3xl mb-4 mt-10'>
           <b>Badges</b>
         </h1>
         <div className="achievements-grid">
@@ -122,6 +110,36 @@ const AboutGame: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className="page-container">
+      <div className="earn-card">
+        <h1>How to Earn <span className="highlight">GP</span></h1>
+        <p>
+          In <b className="highlight">Guhuza</b>, players earn 
+          <b className="gp-text"> Guhuza Points (GP) </b> and 
+          <b className="xp-text"> Guhuza Experience (GxP) </b>
+          by participating in quizzes and engaging in platform activities.
+        </p>
+
+        <p className="earn-footer">
+          Each question is timed, making the experience fast-paced and competitive.
+          Players with higher <b className="gp-text">GP scores</b> rank higher on the leaderboard,
+          increasing their visibility to companies posting jobs on the platform.  
+          <b className="highlight"> Strategic gameplay and consistency </b> are key 
+          to maximizing rewards and climbing the leaderboard!
+          <AnimatedList key={listKey} className="earn-list" delay={delay}>
+      {earnItems.map((item) => (
+        <AnimatedListItem key={item.id}>
+          <div className={`earn-item ${item.id}`}>
+            {item.icon} <span>{item.text}</span> <b>{item.points}</b>
+          </div>
+        </AnimatedListItem>
+      ))}
+    </AnimatedList>
+        </p>
+      </div>
+    </div>
+
+      
 
       <div className="game-info-container">
       {/* ===== Row 1: How to Play (left) & Level Progression (right) ===== */}
@@ -148,9 +166,9 @@ const AboutGame: React.FC = () => {
             Players must complete smaller levels to unlock the next stage. There are five distinct
             player categories:
           </p>
-          <ul className="level-list">
+          <ul className="level-list ">
             {[
-              { level: "1-10", title: "Intern", color: "blue" },
+              { level: "1-10", title: "Intern", color: "blue"},
               { level: "11-20", title: "Associate", color: "green" },
               { level: "21-30", title: "Specialist", color: "orange" },
               { level: "31-40", title: "Expert", color: "red" },
