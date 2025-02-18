@@ -169,7 +169,7 @@ const Profile: React.FC = () => {
             </div>
             <div className="basic-info">
               <h2>{profile.username}</h2>
-              <span className="flex items-center space-x-2">
+              <span className="flex items-center space-x-2 ">
   <img src={GP} className="h-5 w-5" alt="GP Icon" />
   <span>{profile.score} GP</span>
 </span>
