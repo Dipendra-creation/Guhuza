@@ -32,7 +32,7 @@ border-top: 5px solid #007bff; /* Blue accent */
 
 /* 🔹 Heading Styling */
 h1 {
-font-size: 28px;
+font-size: 30px;
 color: #2d3748;
 margin-bottom: 15px;
 }
@@ -133,30 +133,6 @@ color: #333;
   gap: 15px;
 }
 
-.achievement-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-  padding: 10px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 0px 5px rgba(170, 160, 160, 0.1);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  
-}
-
-.achievement-item img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-}
-.achievement-item img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  transition: transform 0.3s ease-in-out;
-}
 
 .achievement-item p {
   margin-top: 10px;
@@ -180,8 +156,8 @@ color: #333;
 }
 
 .achievement-item img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   transition: transform 0.3s ease-in-out;
 }
@@ -345,26 +321,24 @@ background-color: #f2f2f2;
 .info-box p {
 margin-bottom: 1rem;
 color: #555;
+padding-left: 10px;
 }
 
 /* ===== Level List (colored badges) ===== */
-.level-list {
+.level-list li {
 list-style: none;
 margin: 0;
-padding: 0;
+padding-left: 10px;
 }
 
-.level-item {
+.level-item{
 margin-bottom: 0.5rem;
-padding: 0.5rem 1rem;
-border-radius: 4px;
+padding-left:50px;
+border-radius: 40px;
 color: #fff;
-font-weight: 500;
+font-weight: 400;
+margin-left: 10px;
 transition: opacity 0.3s ease;
-}
-
-.level-item:hover {
-opacity: 0.8;
 }
 
 /* Different colors for each level */
