@@ -218,10 +218,17 @@ const Profile: React.FC = () => {
             </div>
             <div className="basic-info">
               <h2>{profile.username}</h2>
+<<<<<<< HEAD
               <span className="flex items-center space-x-2">
                 <img src={GP} className="h-5 w-5" alt="GP Icon" />
                 <span>{profile.score} GP</span>
               </span>
+=======
+              <span className="flex items-center space-x-2 ">
+  <img src={GP} className="h-5 w-5" alt="GP Icon" />
+  <span>{profile.score} GP</span>
+</span>
+>>>>>>> origin/main
               <p className="bio">
                 Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
                 <br />
