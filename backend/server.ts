@@ -53,7 +53,7 @@ app.post('/api/auth/signup', upload.single('image'), async (req: MulterRequest, 
     // Determine the image path if an image was uploaded
     const imagePath = req.file ? req.file.path : null;
 
-    // Create the user, including the image path if available.
+    // Create the user
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -110,15 +110,14 @@ app.post('/api/auth/login', async (req, res) => {
 // =========================
 app.get('/api/profile', async (req, res) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader)
-    return res.status(401).json({ error: 'No token provided' });
+  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
 
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      include: { scores: true, badges: true },
+      include: { badges: true },
     });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -140,20 +139,18 @@ app.get('/api/profile', async (req, res) => {
 // =========================
 app.post('/api/profile/image', upload.single('profileImage'), async (req: MulterRequest, res) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).json({ error: 'No token provided' });
-  }
+  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
+
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
-    }
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
     // Update the user's image field with the new file path
     const updatedUser = await prisma.user.update({
       where: { id: decoded.userId },
       data: { image: req.file.path },
-      include: { scores: true, badges: true },
+      include: { badges: true },
     });
     res.json({ user: updatedUser });
   } catch (error) {
@@ -163,46 +160,11 @@ app.post('/api/profile/image', upload.single('profileImage'), async (req: Multer
 });
 
 // =========================
-//  Update Profile Information Endpoint
-// =========================
-// This endpoint updates only the firstName and lastName fields.
-app.put('/api/profile/edit', async (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader)
-    return res.status(401).json({ error: 'No token provided' });
-
-  const token = authHeader.split(' ')[1];
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    const { firstName, lastName } = req.body;
-
-    // Update the user's firstName and lastName
-    const updatedUser = await prisma.user.update({
-      where: { id: decoded.userId },
-      data: { firstName, lastName },
-      include: { scores: true, badges: true },
-    });
-
-    // Recalculate rank
-    const higherScoreCount = await prisma.user.count({
-      where: { score: { gt: updatedUser.score } },
-    });
-    const rank = higherScoreCount + 1;
-
-    res.json({ user: { ...updatedUser, rank } });
-  } catch (error) {
-    console.error('Error editing profile:', error);
-    res.status(500).json({ error: 'Internal server error editing profile' });
-  }
-});
-
-// =========================
-//  Update Score Endpoint
+//  Update Score & Level Completion
 // =========================
 app.put('/api/auth/update-score', async (req, res) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader)
-    return res.status(401).json({ error: 'No token provided' });
+  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
 
   const token = authHeader.split(' ')[1];
   try {
