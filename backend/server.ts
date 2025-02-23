@@ -117,7 +117,13 @@ app.get('/api/profile', async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      include: { badges: true },
+      include: { 
+        userBadges: {
+          select: {
+            badge: true,
+          },
+        },
+      },
     });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -146,11 +152,17 @@ app.post('/api/profile/image', upload.single('profileImage'), async (req: Multer
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
-    // Update the user's image field with the new file path
+    // Update the user's image field with the new file path and include awarded badges
     const updatedUser = await prisma.user.update({
       where: { id: decoded.userId },
       data: { image: req.file.path },
-      include: { badges: true },
+      include: { 
+        userBadges: {
+          select: {
+            badge: true,
+          },
+        },
+      },
     });
     res.json({ user: updatedUser });
   } catch (error) {
@@ -160,7 +172,7 @@ app.post('/api/profile/image', upload.single('profileImage'), async (req: Multer
 });
 
 // =========================
-//  Update Score & Level Completion
+//  Update Score & Level Completion Endpoint
 // =========================
 app.put('/api/auth/update-score', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -218,6 +230,50 @@ app.get('/api/leaderboard', async (req, res) => {
   } catch (error) {
     console.error('Error fetching leaderboard:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// =========================
+//  Award Badge Endpoint
+// =========================
+app.post('/api/auth/award-badge', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
+    const { badgeId } = req.body;
+    if (!badgeId) {
+      return res.status(400).json({ error: 'Badge ID is required' });
+    }
+
+    // Check if the badge exists
+    const badge = await prisma.badge.findUnique({ where: { id: badgeId } });
+    if (!badge) {
+      return res.status(404).json({ error: 'Badge not found' });
+    }
+
+    // Check if the user already has this badge
+    const existingAward = await prisma.userBadge.findFirst({
+      where: { userId: decoded.userId, badgeId },
+    });
+    if (existingAward) {
+      return res.status(400).json({ error: 'Badge already awarded' });
+    }
+
+    // Award the badge by creating a record in the UserBadge table
+    const awardedBadge = await prisma.userBadge.create({
+      data: {
+        userId: decoded.userId,
+        badgeId: badgeId,
+      },
+    });
+
+    res.json({ message: 'Badge awarded', awardedBadge });
+  } catch (error) {
+    console.error("Error awarding badge:", error);
+    res.status(401).json({ error: 'Invalid token or award failed' });
   }
 });
 

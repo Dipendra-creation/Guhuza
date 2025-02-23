@@ -21,6 +21,10 @@ interface Badge {
   awardedAt: string;
 }
 
+interface UserBadge {
+  badge: Badge;
+}
+
 interface UserProfile {
   id: number;
   email: string;
@@ -33,7 +37,8 @@ interface UserProfile {
   wrongAnswers: number;
   highestLevelCompleted: number;
   createdAt: string;
-  badges: Badge[];
+  // Using a fallback to an empty array if userBadges is not provided
+  userBadges?: UserBadge[];
   rank?: number;
 }
 
@@ -64,12 +69,15 @@ const Profile: React.FC = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
+      setError("User not authenticated");
       return;
     }
     try {
       const response = await axios.get('http://localhost:5001/api/profile', {
         headers: { Authorization: `Bearer ${token}` },
       });
+      // Log response for debugging
+      console.log("Profile fetched:", response.data);
       setProfile(response.data.user);
       setEditForm({
         firstName: response.data.user.firstName || '',
@@ -363,11 +371,11 @@ const Profile: React.FC = () => {
         <div className="badges-section">
           <h3>Badges</h3>
           <div className="badges-list">
-            {profile.badges.length > 0 ? (
-              profile.badges.map((badge) => (
-                <div key={badge.id} className="badge-item">
-                  <img src={badge.image} alt={badge.name} />
-                  <p>{badge.name}</p>
+            {profile.userBadges && profile.userBadges.length > 0 ? (
+              profile.userBadges.map((userBadge) => (
+                <div key={userBadge.badge.id} className="badge-item">
+                  <img src={userBadge.badge.image} alt={userBadge.badge.name} />
+                  <p>{userBadge.badge.name}</p>
                 </div>
               ))
             ) : (

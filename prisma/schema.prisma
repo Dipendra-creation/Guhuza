@@ -14,29 +14,40 @@ datasource db {
 }
 
 model User {
-  id                   Int      @id @default(autoincrement())
-  email                String   @unique
-  username             String   @unique
+  id                   Int          @id @default(autoincrement())
+  email                String       @unique
+  username             String       @unique
   password             String
-  firstName            String?  // Optional: add first name
-  lastName             String?  // Optional: add last name
-  image                String?  // Optional: store the profile image URL or path
-  score                Int      @default(0)  // Total GP or score for the user
-  correctAnswers       Int      @default(0)  // Total correct answers count
-  wrongAnswers         Int      @default(0)  // Total wrong answers count
-  highestLevelCompleted Int      @default(0)  // New field to track the highest level completed
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  firstName            String?
+  lastName             String?
+  image                String?
+  score                Int          @default(0)
+  correctAnswers       Int          @default(0)
+  wrongAnswers         Int          @default(0)
+  highestLevelCompleted Int         @default(0)
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
 
-  badges               Badge[]
+  // Relation: A user can earn many badges
+  userBadges           UserBadge[]
 }
 
 model Badge {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  description String
-  image       String   // This will store the URL/path to the image
-  awardedAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
+  description String?
+  image       String    // Store the URL/path to the image
+  createdAt   DateTime  @default(now())
+
+  // Relation: A badge can be awarded to many users
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id         Int      @id @default(autoincrement())
+  awardedAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  badge      Badge    @relation(fields: [badgeId], references: [id])
+  badgeId    Int
 }
