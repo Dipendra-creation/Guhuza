@@ -154,7 +154,6 @@
 .info-items {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
-    gap: 15px; /* Space between items */
 }
 
 .info-item {
@@ -163,6 +162,8 @@
     border-radius: 4px;
     box-shadow: 0 1px 5px var(--shadow-color);
     transition: transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+    width: max-content; /* Full width for each item */
+    
 }
 
 .info-item:hover {
