@@ -376,6 +376,7 @@ const Profile: React.FC = () => {
                 <div key={userBadge.badge.id} className="badge-item">
                   <img src={userBadge.badge.image} alt={userBadge.badge.name} />
                   <p>{userBadge.badge.name}</p>
+                  <span>{userBadge.badge.description}</span>
                 </div>
               ))
             ) : (
