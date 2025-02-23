@@ -259,7 +259,8 @@
   }
   
   .sign-out-btn {
-    background-color: #007bff;
+    background-color: #4d99eb;
+    border: 2px solid blue;
   }
   
   .sign-out-btn:hover {
@@ -267,7 +268,8 @@
   }
   
   .delete-account-btn {
-    background-color: #dc3545;
+    background-color: #ff6676;
+    border: 2px solid red;
   }
   
   .delete-account-btn:hover {
@@ -310,7 +312,81 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
     font-size: 1.2rem;
   }
   
-  
+/* Badges Section */
+.badges-section {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badges-section h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Grid container for badges */
+.badges-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+/* Each badge item */
+.badge-item {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Needed for tooltip positioning */
+}
+
+.badge-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge image styling */
+.badge-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* Badge name styling */
+.badge-item p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Badge description tooltip (hidden by default) */
+.badge-item span {
+  display: none;
+  position: absolute;
+  bottom: -40px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+/* Show tooltip on hover */
+.badge-item:hover span {
+  display: block;
+}
 
   /* ===== Responsive Adjustments ===== */
   @media (max-width: 768px) {

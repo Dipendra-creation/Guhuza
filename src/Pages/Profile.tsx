@@ -5,13 +5,16 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import '../styles/profile.css';
+import GP from '../assets/GP.png';
 
 // Import social media icons from react-icons
 import { 
   FaInstagram, FaFacebookF, FaLinkedinIn, 
-  FaEdit, FaUser,FaEnvelope,FaPhone, FaMapMarkerAlt
- } from 'react-icons/fa';
+  FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt 
+} from 'react-icons/fa';
 
+// Import the badge checker component
+import CheckBadgesOnLoad from '../CheckBadgesOnLoad';
 
 interface Badge {
   id: number;
@@ -21,59 +24,66 @@ interface Badge {
   awardedAt: string;
 }
 
-interface Score {
-  id: number;
-  points: number;
-  achievedAt: string;
+interface UserBadge {
+  badge: Badge;
 }
 
 interface UserProfile {
   id: number;
   email: string;
   username: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   image?: string;
   score: number;
   correctAnswers: number;
   wrongAnswers: number;
   highestLevelCompleted: number;
-  badges: Badge[];
-  scores: Score[];
-
-  // Additional fields if needed
-  contactNo?: string;
-  address?: string;
+  createdAt: string;
+  userBadges?: UserBadge[];
   rank?: number;
-  joinedAt?: string;
 }
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  
+  // Edit mode for personal info
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editForm, setEditForm] = useState({
+    firstName: '',
+    lastName: '',
+  });
 
   const profileRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Helper: Convert relative image path to absolute URL
+  // Helper: Convert relative image path to absolute URL with cache busting
   const getImageUrl = (path?: string): string | null => {
     if (!path) return null;
     const parts = path.split('/');
     const filename = parts[parts.length - 1];
-    return `http://localhost:5001/uploads/${filename}`;
+    return `http://localhost:5001/uploads/${filename}?t=${new Date().getTime()}`;
   };
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
+      setError("User not authenticated");
       return;
     }
     try {
       const response = await axios.get('http://localhost:5001/api/profile', {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Profile fetched:", response.data);
       setProfile(response.data.user);
+      setEditForm({
+        firstName: response.data.user.firstName || '',
+        lastName: response.data.user.lastName || '',
+      });
     } catch (err: any) {
       console.error('Error fetching profile:', err);
       setError(err.response?.data?.error || 'Failed to fetch profile');
@@ -88,7 +98,7 @@ const Profile: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Capture screenshot & prompt user to share
+  // Capture screenshot for sharing
   const handleShareScreenshot = async (platform: 'facebook' | 'instagram' | 'linkedin') => {
     if (!profileRef.current) return;
     try {
@@ -107,22 +117,91 @@ const Profile: React.FC = () => {
         } else if (platform === 'linkedin') {
           window.open('https://www.linkedin.com/', '_blank');
         }
-        alert(
-          `Your screenshot has been downloaded. Please open your ${platform} account and share the image manually.`
-        );
+        alert(`Your screenshot has been downloaded. Please share it on ${platform}.`);
       }, 500);
     } catch (error) {
       console.error('Error capturing screenshot:', error);
     }
   };
 
-  // Example sign out
+  // Trigger file selection for profile picture update
+  const handleProfilePictureClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('profileImage', file);
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('User not authenticated');
+
+      const response = await axios.post(
+        'http://localhost:5001/api/profile/image',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log('Updated profile response:', response.data);
+      setProfile(response.data.user);
+    } catch (err: any) {
+      console.error('Error updating profile picture:', err);
+      setError('Error updating profile picture');
+    }
+  };
+
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('User not authenticated');
+
+      const response = await axios.put(
+        'http://localhost:5001/api/profile/edit',
+        { ...editForm },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log('Profile updated:', response.data);
+      setProfile(response.data.user);
+      setIsEditing(false);
+    } catch (err: any) {
+      console.error('Error updating profile information:', err);
+      setError('Error updating profile information');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    if (profile) {
+      setEditForm({
+        firstName: profile.firstName || '',
+        lastName: profile.lastName || '',
+      });
+    }
+    setIsEditing(false);
+  };
+
+  const toggleEditMode = () => {
+    setIsEditing(true);
+  };
+
   const handleSignOut = () => {
     localStorage.removeItem('token');
     window.location.href = '/login';
   };
 
-  // Example delete account
   const handleDeleteAccount = async () => {
     if (!window.confirm('Are you sure you want to delete your account?')) return;
     try {
@@ -155,9 +234,20 @@ const Profile: React.FC = () => {
   return (
     <ProtectedRoute>
       <div className="profile-container" ref={profileRef}>
+        {/* Trigger badge condition checks on load */}
+        <CheckBadgesOnLoad profile={profile} />
+
+        {/* Hidden file input for profile image change */}
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+
         {/* ===== Header Section ===== */}
         <div className="profile-header">
-          {/* Left side: Profile Picture & Basic Info */}
           <div className="header-left">
             <div className="profile-picture-wrapper">
               {imageUrl ? (
@@ -167,14 +257,19 @@ const Profile: React.FC = () => {
               )}
             </div>
             <div className="basic-info">
-              <h2>Hello {profile.firstName || profile.username},</h2>
-              <span className="user-gp">{profile.score} GP</span>
+              <h2>{profile.username}</h2>
+              <span className="flex items-center space-x-2">
+                <img src={GP} className="h-5 w-5" alt="GP Icon" />
+                <span>{profile.score} GP</span>
+              </span>
               <p className="bio">
-              Hello, I'm {profile.firstName} {profile.lastName} (aka {profile.username}).
-              <p> Welcome to my profile.</p>
+                Hello, I'm {profile.firstName || 'N/A'} {profile.lastName || 'N/A'} (aka {profile.username}).
+                <br />
+                And I am currently looking for a job.
               </p>
-              <button className="change-profile-btn">Change Profile</button>
-
+              <button className="change-profile-btn" onClick={handleProfilePictureClick}>
+                Change Profile Picture
+              </button>
             </div>
           </div>
         </div>
@@ -184,9 +279,7 @@ const Profile: React.FC = () => {
           <div className="stats-item">
             <span className="stat-title"><b>Joined</b></span>
             <span className="stat-value">
-              {profile.joinedAt
-                ? new Date(profile.joinedAt).toLocaleDateString()
-                : 'N/A'}
+              {profile.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'N/A'}
             </span>
           </div>
           <div className="stats-item">
@@ -211,55 +304,89 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-   {/* ===== Personal Information ===== */}
-<div className="personal-info-section">
-  <div className="section-header">
-    <h3><b>Personal Information</b></h3>
-    <button className="edit-profile-btn">
-      <FaEdit className="edit-icon" /> Edit Info
-    </button>
-  </div>
-  <div className="info-items">
-    <div className="info-item">
-      <span className="info-label"><FaUser  /> First Name:</span>
-      <span className="info-value">{profile.firstName}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaUser  /> Last Name:</span>
-      <span className="info-value">{profile.lastName}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaEnvelope /> Email:</span>
-      <span className="info-value">{profile.email}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaPhone /> Contact No:</span>
-      <span className="info-value">{profile.contactNo || 'N/A'}</span>
-    </div>
-    <div className="info-item">
-      <span className="info-label"><FaMapMarkerAlt /> Address:</span>
-      <span className="info-value">{profile.address || 'N/A'}</span>
-    </div>
-  </div>
-</div>
-
+        {/* ===== Personal Information Section ===== */}
+        <div className="personal-info-section">
+          <div className="section-header">
+            <h3><b>Personal Information</b></h3>
+            {isEditing ? null : (
+              <button className="edit-profile-btn" onClick={toggleEditMode}>
+                <FaEdit className="edit-icon" /> Edit Info
+              </button>
+            )}
+          </div>
+          {isEditing ? (
+            <div className="edit-form">
+              <div className="info-item">
+                <label>
+                  <FaUser /> First Name:
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={editForm.firstName}
+                    onChange={handleEditChange}
+                  />
+                </label>
+              </div>
+              <div className="info-item">
+                <label>
+                  <FaUser /> Last Name:
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={editForm.lastName}
+                    onChange={handleEditChange}
+                  />
+                </label>
+              </div>
+              <div className="info-item">
+                <label>
+                  <FaEnvelope /> Email:
+                  <input type="email" value={profile.email} readOnly />
+                </label>
+              </div>
+              <div className="form-buttons">
+                <button className="save-btn" onClick={handleSaveChanges}>
+                  Save Changes
+                </button>
+                <button className="cancel-btn" onClick={handleCancelEdit}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="info-items">
+              <div className="info-item">
+                <span className="info-label"><FaUser /> First Name:</span>
+                <span className="info-value">{profile.firstName || 'N/A'}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label"><FaUser /> Last Name:</span>
+                <span className="info-value">{profile.lastName || 'N/A'}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label"><FaEnvelope /> Email:</span>
+                <span className="info-value">{profile.email}</span>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* ===== Badges Section ===== */}
         <div className="badges-section">
           <h3>Badges</h3>
           <div className="badges-list">
-            {profile.badges.length > 0 ? (
-              profile.badges.map((badge) => (
-                <div key={badge.id} className="badge-item">
-                  <img src={badge.image} alt={badge.name} />
-                  <p>{badge.name}</p>
+            {profile.userBadges && profile.userBadges.length > 0 ? (
+              profile.userBadges.map((userBadge) => (
+                <div key={userBadge.badge.id} className="badge-item">
+                  <img src={userBadge.badge.image} alt={userBadge.badge.name} />
+                  <p>{userBadge.badge.name}</p>
+                  <span>{userBadge.badge.description}</span>
                 </div>
               ))
             ) : (
               <p>No badges yet.</p>
             )}
           </div>
-          
         </div>
 
         {/* ===== Action Buttons (Sign Out & Delete) ===== */}
@@ -272,21 +399,22 @@ const Profile: React.FC = () => {
           </button>
         </div>
       </div>
-              {/* ===== Footer Section with Share Profile ===== */}
-<footer className="profile-footer">
-  <div className="share-buttons">
-    <button onClick={() => handleShareScreenshot('instagram')}>
-      <FaInstagram className="Share-icon" />
-    </button>
-    <button onClick={() => handleShareScreenshot('facebook')}>
-      <FaFacebookF className="Share-icon" />
-    </button>
-    <button onClick={() => handleShareScreenshot('linkedin')}>
-      <FaLinkedinIn className="Share-icon" />
-    </button>
-  </div>
-  <p>© 2023 YourApp. All rights reserved</p>
-</footer>
+
+      {/* ===== Footer Section with Share Profile ===== */}
+      <footer className="profile-footer">
+        <div className="share-buttons">
+          <button onClick={() => handleShareScreenshot('instagram')}>
+            <FaInstagram className="Share-icon" />
+          </button>
+          <button onClick={() => handleShareScreenshot('facebook')}>
+            <FaFacebookF className="Share-icon" />
+          </button>
+          <button onClick={() => handleShareScreenshot('linkedin')}>
+            <FaLinkedinIn className="Share-icon" />
+          </button>
+        </div>
+        <p>© 2023 YourApp. All rights reserved</p>
+      </footer>
     </ProtectedRoute>
   );
 };

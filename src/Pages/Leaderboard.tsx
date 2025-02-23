@@ -1,6 +1,5 @@
-import React, { useState, useEffect, ChangeEvent, FC, useMemo } from "react";
+import { useState, useEffect, ChangeEvent, FC, useMemo } from "react";
 import axios from "axios";
-import jwtDecode, { JwtPayload as JwtDecodePayload } from "jwt-decode";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProtectedRoute from "../components/ProtectedRoute";
 import "../styles/leaderboard.css";

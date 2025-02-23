@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './Navbar.css';
 import logo_w from '../../assets/logo_w.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { IoHome } from 'react-icons/io5';
-import { MdLeaderboard } from 'react-icons/md';
-import { FaPlay } from 'react-icons/fa6';
-import { LuScrollText } from 'react-icons/lu';
+import { TbHome } from "react-icons/tb";
+import { SlGameController } from "react-icons/sl";
+import { PiRankingDuotone } from "react-icons/pi";
 import { CgProfile } from 'react-icons/cg';
+import { PiSignInThin } from "react-icons/pi";
 import { FiMenu, FiX } from 'react-icons/fi';
+import { TbMedal } from "react-icons/tb";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -79,25 +80,25 @@ const Navbar: React.FC = () => {
         <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
           <li className="nav-item">
             <Link to="/home" className={location.pathname === '/home' ? 'active' : ''}>
-              <IoHome className="nav-icon" />
+              <TbHome className="nav-icon" />
               <span>Home</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/aboutgame" className={location.pathname === '/aboutgame' ? 'active' : ''}>
-              <LuScrollText className="nav-icon" />
-              <span>About Game</span>
+            <Link to="/badges" className={location.pathname === '/badges' ? 'active' : ''}>
+              <TbMedal className="nav-icon" />
+              <span>Badges</span>
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/play" className={location.pathname === '/play' ? 'active' : ''}>
-              <FaPlay className="nav-icon" />
+              <SlGameController className="nav-icon" />
               <span>Play</span>
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/leaderboard" className={location.pathname === '/leaderboard' ? 'active' : ''}>
-              <MdLeaderboard className="nav-icon" />
+              <PiRankingDuotone className="nav-icon" />
               <span>Leaderboard</span>
             </Link>
           </li>
@@ -124,11 +125,12 @@ const Navbar: React.FC = () => {
               </li>
             </>
           ) : (
-            <li >
+            <button >
               <Link to="/sign-up" className={location.pathname === '/sign-up' ? 'active' : ''}>
-                <span className='signup-btn'>Sign Up</span>
+               
+                <span className='signup-btn'> Sign Up</span>
               </Link>
-            </li>
+            </button>
           )}
         </ul>
       </div>
