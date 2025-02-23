@@ -4,7 +4,7 @@ import "./styles/index.css"; // Import global styles
 import Home from "./Pages/Home"; // Import Home page component
 import Leaderboard from "./Pages/Leaderboard"; // Import Leaderboard page component
 import Play from "./Pages/Play"; // Import Play page component
-import AboutGame from "./Pages/AboutGame"; // Import AboutGame page component
+import Badges from "./Pages/Badges"; // Import AboutGame page component
 import Profile from "./Pages/Profile"; // Import Profile page component
 import SignIn from "./components/form/SignInForm"; // Import SignInForm component
 import SignUp from "./components/form/SignUpForm"; // Import SignUpForm component
@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/play" element={<Play />} />
-        <Route path="/aboutgame" element={<AboutGame />} />
+        <Route path="/badges" element={<Badges />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />

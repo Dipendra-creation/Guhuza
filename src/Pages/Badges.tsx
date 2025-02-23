@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../styles/aboutgame.css';
 
-const AboutGame: React.FC = () => {
+const Badges: React.FC = () => {
   return (
     <div className="section achievements-container">
       <h1 className="header font-bold text-3xl mb-4 mt-10">
@@ -42,4 +42,4 @@ const AboutGame: React.FC = () => {
   );
 };
 
-export default AboutGame;
+export default Badges;
