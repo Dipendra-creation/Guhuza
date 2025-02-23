@@ -184,6 +184,8 @@
 
 .info-value {
     color: var(--value-color);
+    width:auto;
+    
 }
 
 .edit-profile-btn {
