@@ -52,8 +52,8 @@
 }
 
 .achievement-front img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
 }
 
@@ -65,8 +65,8 @@
 }
 
 .achievement-back {
-  background: rgb(67, 64, 64);
-  color: #00f7ff;
+  background: rgb(227, 227, 227);
+  color: black;
   font-weight: bolder;
   transform: rotateY(180deg);
   text-align: center;

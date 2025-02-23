@@ -28,7 +28,7 @@ const Badges: React.FC = () => {
           <div key={index} className="achievement-item">
             <div className="achievement-content">
               <div className="achievement-front">
-                <img src={`/src/assets/badges/${badge.src}`} alt={badge.alt} />
+                <img src={`/public/assets/badges/${badge.src}`} alt={badge.alt} />
                 <p>{badge.alt}</p>
               </div>
               <div className="achievement-back">

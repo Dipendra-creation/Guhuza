@@ -13,6 +13,9 @@ import {
   FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt 
 } from 'react-icons/fa';
 
+// Import the badge checker component
+import CheckBadgesOnLoad from '../CheckBadgesOnLoad';
+
 interface Badge {
   id: number;
   name: string;
@@ -37,7 +40,6 @@ interface UserProfile {
   wrongAnswers: number;
   highestLevelCompleted: number;
   createdAt: string;
-  // Using a fallback to an empty array if userBadges is not provided
   userBadges?: UserBadge[];
   rank?: number;
 }
@@ -76,7 +78,6 @@ const Profile: React.FC = () => {
       const response = await axios.get('http://localhost:5001/api/profile', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // Log response for debugging
       console.log("Profile fetched:", response.data);
       setProfile(response.data.user);
       setEditForm({
@@ -233,6 +234,9 @@ const Profile: React.FC = () => {
   return (
     <ProtectedRoute>
       <div className="profile-container" ref={profileRef}>
+        {/* Trigger badge condition checks on load */}
+        <CheckBadgesOnLoad profile={profile} />
+
         {/* Hidden file input for profile image change */}
         <input
           type="file"

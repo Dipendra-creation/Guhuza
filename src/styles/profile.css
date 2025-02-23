@@ -259,7 +259,8 @@
   }
   
   .sign-out-btn {
-    background-color: #007bff;
+    background-color: #4d99eb;
+    border: 2px solid blue;
   }
   
   .sign-out-btn:hover {
@@ -267,7 +268,8 @@
   }
   
   .delete-account-btn {
-    background-color: #dc3545;
+    background-color: #ff6676;
+    border: 2px solid red;
   }
   
   .delete-account-btn:hover {
