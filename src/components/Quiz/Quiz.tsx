@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { resultInitialState } from "../../constants";
 import "./Quiz.css";
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 import CountTimer from "../CountTimer/CountTimer";
 import axios from "axios";
 import GP from '../../assets/GP.png';
+import { FaFacebook,FaLinkedin } from "react-icons/fa";
+import { FaXTwitter,FaInstagram } from "react-icons/fa6";
+import { LiaDownloadSolid } from "react-icons/lia";
+import { TbRepeat } from "react-icons/tb";
+import { GrUnlock } from "react-icons/gr";
+
+import html2canvas from "html2canvas";
 
 // 1) IMPORT YOUR MASCOTS
 import GerrieInfo from "../../assets/Gerrie Mascot/Gerrie_info.png";
@@ -41,6 +48,7 @@ const Quiz: React.FC<QuizProps> = ({
   currentLevel,
   maxLevel,
 }) => {
+  const resultRef = useRef<HTMLDivElement>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -52,9 +60,58 @@ const Quiz: React.FC<QuizProps> = ({
   const [updateError, setUpdateError] = useState<string | null>(null);
   // Track if the answer has been checked
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [screenshotData, setScreenshotData] = useState<string | null>(null);
+  const shareUrl = encodeURIComponent(
+    window.location.hostname === 'localhost' 
+      ? 'http://localhost:5173/play'  // Your local development URL
+      : 'https://your-production-domain.com/play'  // Your live domain
+  );
+  const shareText = encodeURIComponent(
+    `I scored ${result.GP} GP on level ${currentLevel} in Guhuza's Quiz! 🚀`
+  );
+  const socialLinks = {
+
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}"e=${shareText}`,
+    twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}&title=${encodeURIComponent('Quiz Result')}&summary=${shareText}`,
+    instagram: 'https://www.instagram.com/'
+  };
+
+  const captureScreenshot = async () => {
+    if (resultRef.current) {
+      try {
+        const canvas = await html2canvas(resultRef.current);
+        return canvas.toDataURL('image/png');
+      } catch (error) {
+        console.error('Error capturing screenshot:', error);
+      }
+    }
+  };
+  const handleDownload = async () => {
+    const dataUrl = await captureScreenshot();
+    if (dataUrl) {
+      const link = document.createElement('a');
+      link.download = `gerrie-quiz-L${currentLevel}-result.png`;
+      link.href = dataUrl;
+      link.click();
+    }
+  };
+
+  const handleSocialShare = (url: string) => {
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  useEffect(() => {
+    if (showResult) {
+      captureScreenshot().then(dataUrl => {
+        if (dataUrl) setScreenshotData(dataUrl);
+      });
+    }
+  }, [showResult]);
 
   const hasNextLevel = currentLevel < maxLevel;
   const { question, test_answer, answers } = questions[currentQuestion];
+
 
   // Fetch profile from backend
   const fetchProfile = async () => {
@@ -80,6 +137,17 @@ const Quiz: React.FC<QuizProps> = ({
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  // Add this with your other useEffect hooks
+useEffect(() => {
+  if (showResult) {
+    const capture = async () => {
+      const dataUrl = await captureScreenshot();
+      if (dataUrl) setScreenshotData(dataUrl);
+    };
+    capture();
+  }
+}, [showResult]);
 
   // Only allow answer selection if not checked already
   const onAnswerClick = (answer: string, index: number): void => {
@@ -172,12 +240,8 @@ const Quiz: React.FC<QuizProps> = ({
   const handleTimeUp = (): void => {
     if (!isChecked) {
       setIsChecked(true);
+      alert('Time is up!');
     }
-  };
-
-  //for countdown
-  const handleTimeUps = () => {
-    alert('Time is up!');
   };
 
   // Decide which mascot image + comment to show during the question phase
@@ -228,11 +292,11 @@ const Quiz: React.FC<QuizProps> = ({
 
   return (
     <div className="quiz-wrapper">
-      <p className="total-score gap-2.5" >
-      <img src={GP} className="h-9 w-9" alt="GP Icon" />
-        <strong> {profile.score} GP</strong> 
+      <p className="total-score gap-2.5">
+        <img src={GP} className="h-9 w-9" alt="GP Icon" />
+        <strong> {profile.score || 0} GP</strong>
       </p>
-
+  
       <div className="quiz-container">
         {!showResult ? (
           <>
@@ -244,21 +308,17 @@ const Quiz: React.FC<QuizProps> = ({
               />
             )}
             
-           
             <span className="active-question-no">
               Question {currentQuestion + 1} of {questions.length}
             </span>
             <div className="timer">
-            <CountTimer 
-              key={currentQuestion}
-              duration={10} 
-              onTimeUp={handleTimeUp} 
-            />
-
+              <CountTimer 
+                key={currentQuestion}
+                duration={10} 
+                onTimeUp={handleTimeUp} 
+              />
             </div>
-
-
-
+  
             <h2>{question}</h2>
             <ul>
               {answers.map((answer, index) => {
@@ -304,46 +364,142 @@ const Quiz: React.FC<QuizProps> = ({
             </div>
           </>
         ) : (
-          // RESULT SCREEN
-          <div className="result">
-            <div className="mascot-container result-mascot">
-              <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />
-              <div className="comment-bubble">{getScoreComment()}</div>
-            </div>
+          // Updated RESULT SCREEN
+          <div ref={resultRef}>
+            <div className="result">
+              <div className="mascot-container">
+                <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />
+                <div className="comment-bubble">{getScoreComment()}</div>
+              </div>
+  
+              <div className="result-info">     
+                <p className="your-score">
+                  Your Score: <span className="result-GP ml-8 font-mono">{result.GP}</span>
+                </p>
+                <h3>Result</h3>
+                <p>
+                  Total Questions: <span>{questions.length}</span>
+                </p>
+                <p>
+                  Correct Answers: <span>{result.correctAnswers}</span>
+                </p>
+                <p>
+                  Wrong Answers: <span>{result.wrongAnswers}</span>
+                </p>
+                <p className="result-level">
+                  Level: <span>{currentLevel}</span>
+                </p>
+                {updateError && <p className="update-error">{updateError}</p>}
+                <div className="button-container flex items-center justify-evenly gap-2 w-full">
+  
+  <button onClick={onTryAgain} className="try-again-button flex items-center gap-1 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transition-all">
+    <TbRepeat /> Try again
+  </button>
 
-            <h3>Result</h3>
-            <p>
-              Total Questions: <span>{questions.length}</span>
-            </p>
-            <p>
-              Total GP: <span>{result.GP}</span>
-            </p>
-            <p>
-              Correct Answers: <span>{result.correctAnswers}</span>
-            </p>
-            <p>
-              Wrong Answers: <span>{result.wrongAnswers}</span>
-            </p>
-            <p>
-              Level: <span>{currentLevel}</span>
-            </p>
-            {updateError && <p className="update-error">{updateError}</p>}
-            <button onClick={onTryAgain}>Try again</button>
-            {hasNextLevel && (
-              <button onClick={handleNextLevel} disabled={isUpdatingScore}>
-                {isUpdatingScore ? (
-                  <>
-                    Updating...
-                    <div className="spinner"></div>
-                  </>
-                ) : (
-                  "Unlock Next Level"
-                )}
-              </button>
-            )}
+  {hasNextLevel && (
+    <button 
+      onClick={handleNextLevel} 
+      disabled={isUpdatingScore}
+      className={`flex items-center gap-1 px-4 py-2 font-semibold rounded-lg shadow-md transition-all 
+                  ${isUpdatingScore ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 text-white'}`}
+    >
+      {isUpdatingScore ? (
+        <>
+          Updating...
+          <div className="spinner border-t-2 border-white border-solid rounded-full w-4 h-4 animate-spin"></div>
+        </>
+      ) : (
+        <div className="flex items-center gap-1">
+          <GrUnlock /> Unlock Next Level
+        </div>
+      )}
+    </button>
+  )}
+
+</div>
+
+              </div>
+            </div>
+  
+{/* Updated Share Section (remove preview) */}
+<div className="share-section">
+  <p className="share-text flex flex-col items-center font-bold text-lg">Share your score and earn more GP!</p>
+  
+  <div className="share-controls">
+    
+    <div className="social-buttons">
+    <button
+        onClick={() => {
+          const url = encodeURIComponent(window.location.href);
+          const text = encodeURIComponent(`🎉 I scored ${result.GP} GP on Level ${currentLevel} in Guhuza's Quiz!`);
+          window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${url}"e=${text}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
+        className="social-btn facebook"
+      >
+        <FaFacebook />
+      </button>
+
+      <button
+        onClick={() => handleSocialShare(socialLinks.instagram)}
+        className="social-btn instagram"
+      >
+        <FaInstagram />
+      </button>
+
+
+      <button
+        onClick={() => {
+          const text = encodeURIComponent(`🏆 I scored ${result.GP} GP on Level ${currentLevel}! Challenge me: ${window.location.href}`);
+          const hashtags = encodeURIComponent('GuhuzaQuiz');
+          window.open(
+            `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
+        className="social-btn twitter"
+      >
+        <FaXTwitter />
+      </button>
+
+      <button
+        onClick={() => {
+          const url = encodeURIComponent(window.location.href);
+          const title = encodeURIComponent(`Scored ${result.GP} GP on Level ${currentLevel}`);
+          const summary = encodeURIComponent(`Join me in Guhuza's Quiz and beat my score!`);
+          window.open(
+            `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
+        className="social-btn linkedin"
+      >
+        <FaLinkedin />
+      </button>
+     
+
+    </div>
+    <div className="flex flex-col items-center">
+    <button 
+        onClick={handleDownload} 
+        className="download-btn flex items-center gap-2 px-5"
+    >
+        <LiaDownloadSolid className=" text-xl" /> 
+        Download Result
+    </button>
+</div>
+
+  </div>
+</div>
           </div>
         )}
       </div>
+      
       {!showResult && (
         <div className="mascot-container">
           <img src={image} alt="Mascot" className="mascot-image" />
