@@ -5,8 +5,12 @@ import AnswerTimer from "../AnswerTimer/AnswerTimer";
 import CountTimer from "../CountTimer/CountTimer";
 import axios from "axios";
 import GP from '../../assets/GP.png';
-import { FaFacebook,FaInstagramSquare,FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook,FaLinkedin } from "react-icons/fa";
+import { FaXTwitter,FaInstagram } from "react-icons/fa6";
+import { LiaDownloadSolid } from "react-icons/lia";
+import { TbRepeat } from "react-icons/tb";
+import { GrUnlock } from "react-icons/gr";
+
 import html2canvas from "html2canvas";
 
 // 1) IMPORT YOUR MASCOTS
@@ -66,7 +70,8 @@ const Quiz: React.FC<QuizProps> = ({
     `I scored ${result.GP} GP on level ${currentLevel} in Guhuza's Quiz! 🚀`
   );
   const socialLinks = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`,
+
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}"e=${shareText}`,
     twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}&title=${encodeURIComponent('Quiz Result')}&summary=${shareText}`,
     instagram: 'https://www.instagram.com/'
@@ -368,8 +373,8 @@ useEffect(() => {
               </div>
   
               <div className="result-info">     
-                <p className="your-score text-lime-500">
-                  Your Score: <span className="result-GP ml-8">{result.GP}</span>
+                <p className="your-score">
+                  Your Score: <span className="result-GP ml-8 font-mono">{result.GP}</span>
                 </p>
                 <h3>Result</h3>
                 <p>
@@ -381,53 +386,97 @@ useEffect(() => {
                 <p>
                   Wrong Answers: <span>{result.wrongAnswers}</span>
                 </p>
-                <p>
+                <p className="result-level">
                   Level: <span>{currentLevel}</span>
                 </p>
                 {updateError && <p className="update-error">{updateError}</p>}
-                <button onClick={onTryAgain}>Try again</button>
-                {hasNextLevel && (
-                  <button onClick={handleNextLevel} disabled={isUpdatingScore}>
-                    {isUpdatingScore ? (
-                      <>
-                        Updating...
-                        <div className="spinner"></div>
-                      </>
-                    ) : (
-                      "Unlock Next Level"
-                    )}
-                  </button>
-                )}
+                <div className="button-container flex items-center justify-evenly gap-2 w-full">
+  
+  <button onClick={onTryAgain} className="try-again-button flex items-center gap-1 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transition-all">
+    <TbRepeat /> Try again
+  </button>
+
+  {hasNextLevel && (
+    <button 
+      onClick={handleNextLevel} 
+      disabled={isUpdatingScore}
+      className={`flex items-center gap-1 px-4 py-2 font-semibold rounded-lg shadow-md transition-all 
+                  ${isUpdatingScore ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 text-white'}`}
+    >
+      {isUpdatingScore ? (
+        <>
+          Updating...
+          <div className="spinner border-t-2 border-white border-solid rounded-full w-4 h-4 animate-spin"></div>
+        </>
+      ) : (
+        <div className="flex items-center gap-1">
+          <GrUnlock /> Unlock Next Level
+        </div>
+      )}
+    </button>
+  )}
+
+</div>
+
               </div>
             </div>
   
 {/* Updated Share Section (remove preview) */}
 <div className="share-section">
-  <p className="share-text">Share your score and earn more GP!</p>
+  <p className="share-text flex flex-col items-center font-bold text-lg">Share your score and earn more GP!</p>
   
   <div className="share-controls">
     
     <div className="social-buttons">
-      <button
-        onClick={() => handleSocialShare(socialLinks.facebook)}
+    <button
+        onClick={() => {
+          const url = encodeURIComponent(window.location.href);
+          const text = encodeURIComponent(`🎉 I scored ${result.GP} GP on Level ${currentLevel} in Guhuza's Quiz!`);
+          window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${url}"e=${text}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
         className="social-btn facebook"
       >
         <FaFacebook />
       </button>
+
       <button
         onClick={() => handleSocialShare(socialLinks.instagram)}
         className="social-btn instagram"
       >
-        <FaInstagramSquare />
+        <FaInstagram />
       </button>
+
+
       <button
-        onClick={() => handleSocialShare(socialLinks.twitter)}
+        onClick={() => {
+          const text = encodeURIComponent(`🏆 I scored ${result.GP} GP on Level ${currentLevel}! Challenge me: ${window.location.href}`);
+          const hashtags = encodeURIComponent('GuhuzaQuiz');
+          window.open(
+            `https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
         className="social-btn twitter"
       >
         <FaXTwitter />
       </button>
+
       <button
-        onClick={() => handleSocialShare(socialLinks.linkedin)}
+        onClick={() => {
+          const url = encodeURIComponent(window.location.href);
+          const title = encodeURIComponent(`Scored ${result.GP} GP on Level ${currentLevel}`);
+          const summary = encodeURIComponent(`Join me in Guhuza's Quiz and beat my score!`);
+          window.open(
+            `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`,
+            '_blank',
+            'width=600,height=400'
+          );
+        }}
         className="social-btn linkedin"
       >
         <FaLinkedin />
@@ -435,9 +484,16 @@ useEffect(() => {
      
 
     </div>
-    <button onClick={handleDownload} className="download-btn">
-      Download Result
+    <div className="flex flex-col items-center">
+    <button 
+        onClick={handleDownload} 
+        className="download-btn flex items-center gap-2 px-5"
+    >
+        <LiaDownloadSolid className=" text-xl" /> 
+        Download Result
     </button>
+</div>
+
   </div>
 </div>
           </div>

@@ -7,7 +7,7 @@
   align-items: center;
   gap: 2rem;
   padding: 20px;
-  height: 100vh;
+  height: fit-content;
 }
 .total-score {
   font-size: 1.5rem;
@@ -88,7 +88,7 @@
 
 /* Keep your existing .quiz-container rules */
 .quiz-container {
-  width: 1000px;
+  width: 1200px;
   background: #ffffff;
   border-radius: 12px;
   padding: 30px 60px;
@@ -175,7 +175,7 @@
   border-radius: 20px;
   font-size: 18px;
   color: #ffffff;
-  padding: 5px 30px;
+  padding: 10px 20px;
   margin: 10px;
   outline: none;
   border: none;
@@ -205,7 +205,7 @@
   justify-content: space-around;
 }
 .result-info {
-  width: fit-content;
+  width: 550px;
   margin-top: 20px;
 }
 
@@ -290,7 +290,7 @@
 
 .result p {
   font-size: 18px;
-  font-weight: lighter;
+  font-weight: light;
   margin: 10px 0;
 
   .result-score{
@@ -347,18 +347,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.screenshot-preview {
-  margin: 1rem 0;
-  text-align: center;
-}
-
-.preview-image {
-  max-width: 100%;
-  height: auto;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-}
-
 .share-controls {
   display: flex;
   flex-direction: column;
@@ -367,18 +355,19 @@
 }
 
 .download-btn {
-  background: #4CAF50;
-  color: white;
+  background: #b4ffb8;
+  border: 2px solid green;
+  color: black;
   padding: 12px 24px;
-  border: none;
   border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s ease;
+  width: max-content;
 }
 
 .download-btn:hover {
-  background: #45a049;
+  background: #5cfc64;
 }
 
 .social-buttons {
@@ -407,10 +396,10 @@
   font-size: 1.4rem;
 }
 
-.facebook { background: #3b5998; color: white; }
+.facebook { background: #1877F2; color: white; }
 .twitter { background: #000000; color: white; }
-.instagram { background: #e4405f; color: white; }
-.linkedin { background: #0077b5; color: white; }
+.instagram {background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); color:white; }
+.linkedin { background: #0077B5; color: white; }
 
 @keyframes spin {
   0% {
@@ -425,4 +414,7 @@
   font-size: 50px !important;
   font-weight: bold !important;
   color: #2c3e50 !important;
+}
+.result-level{
+  margin-bottom: 40px !important;
 }
