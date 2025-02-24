@@ -233,6 +233,7 @@ const Profile: React.FC = () => {
 
   return (
     <ProtectedRoute>
+      
       <div className="profile-container" ref={profileRef}>
         {/* Trigger badge condition checks on load */}
         <CheckBadgesOnLoad profile={profile} />
@@ -415,6 +416,7 @@ const Profile: React.FC = () => {
         </div>
         <p>© 2023 YourApp. All rights reserved</p>
       </footer>
+      
     </ProtectedRoute>
   );
 };
