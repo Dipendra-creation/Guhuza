@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+// src/components/Instruction/play_0.tsx
+
+import React, { useState } from "react";
 import "./play_0.css";
 import Play1 from "../select level/play_1";
-
-//import Spline from '@splinetool/react-spline';
 
 const termsText = `
 Terms and Conditions for Guhuza Game
@@ -25,7 +25,7 @@ By using Guhuza Game, you acknowledge that you have read, understood, and agree 
 • Scoring System:
     ✅ Correct Answer: +10 GP
     ❌ Wrong Answer: -5 GP
-    ⏳ Timeout (No Answer): -5 GP
+    ⁉️ Unanswered (Time Out): -5 GP
 • Any form of cheating, hacking, or exploitation is strictly prohibited. Players caught violating this rule may face account suspension or permanent ban.
 
 4. User Accounts & Data
@@ -88,7 +88,7 @@ These rules ensure fair play, a smooth gaming experience, and an engaging enviro
 • GP (Guhuza Points) System:
     ✅ Correct Answer: +10 GP
     ❌ Wrong Answer: -5 GP
-    ⏳ Timeout (No Answer): -5 GP
+    ⁉️ Timeout (No Answer): -5 GP
 • Each question has a 10-second timer; failing to answer results in a penalty.
 
 2. Fair Play & Conduct
@@ -150,159 +150,126 @@ By playing Guhuza Game, you agree to follow these rules. Enjoy the game and play
 `;
 
 const Play0: React.FC = () => {
-  const [startGame, setStartGame] = useState<boolean>(false);
   const [termsChecked, setTermsChecked] = useState<boolean>(false);
   const [rulesChecked, setRulesChecked] = useState<boolean>(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
-
-    // Check localStorage on mount. If the user has already seen the instructions, go directly to Play1.
-    useEffect(() => {
-      const instructionsSeen = localStorage.getItem("instructionsSeen");
-      if (instructionsSeen === "true") {
-        setStartGame(true);
-      }
-    }, []);
-
+  const [startGame, setStartGame] = useState<boolean>(false); // State to track game start
 
   const handleStartGame = (): void => {
-     // Save a flag to localStorage so that instructions are only shown once.
-     localStorage.setItem("instructionsSeen", "true");
-    setStartGame(true);
+    setStartGame(true); // Set state to render Play1
   };
-
-  if (startGame) {
-    return <Play1 />;
-  }
 
   return (
     <div className="page-container">
-      {/* Spline Background */}
-    {/*
-    <div className="spline-bg">
-        <Spline scene="https://prod.spline.design/UfRVyyUTzUTkcswR/scene.splinecode" />
-      </div>
-    */}  
-
-      {/* Instructions Container */}
-      <div className="instructions-container">
-        {/* Welcome Section */}
-        <div className="welcome-section">
-          <h1 className="header-title">Welcome to Guhuza Quiz</h1>
-          <p className="intro-text">
-            Guhuza is an interactive and engaging quiz game that simulates the real-world job-seeking experience. Progress through different levels, test your knowledge, and compete for the top position on the leaderboard.
-          </p>
-        </div>
-
-        {/* Instructions Section */}
-        <h2 className="header-subtitle">Game Instructions</h2>
-        <div className="instructions-box">
-          <ol className="instructions-list">
-            <li>
-              <strong>Starting the Game:</strong> Click on the <b>"Play"</b> button on the home screen to begin the quiz.
-            </li>
-            <li>
-              <strong>Answering Questions:</strong> Each question has multiple-choice answers. Click on the correct option before the timer runs out. After selecting an answer, click <b>"Next"</b> to move to the next question.
-            </li>
-            <li>
-              <strong>Scoring System:</strong>
-              <ul className="sub-list">
-                <li>✅ Correct Answer: <b>+10 points</b></li>
-                <li>❌ Wrong Answer: <b>-5 points</b></li>
-                <li>⁉️ Unanswered (Time Out): <b>-5 points</b></li>
-              </ul>
-            </li>
-            <li>
-              <strong>⏰ Timer System:</strong> Each question has a <b>10-second</b> countdown. If no answer is selected within the time, it will be considered incorrect.
-            </li>
-            <li>
-              <strong>✔️ Completing a Level:</strong> Each level consists of <b>10 questions</b>. After completing all questions, you will receive a score summary.
-            </li>
-            <li>
-              <strong>⬆️ Advancing to the Next Level:</strong> After completing a level, click <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.
-            </li>
-            <li>
-              <strong>🪜 Leaderboard:</strong> Track your ranking and total score in the <b>Leaderboard</b> section to see how you compare with other players.
-            </li>
-            <li>
-              <strong>👨‍🎤 Profile & Progress:</strong> Your completed levels, scores, and progress are stored in the <b>Profile</b> section for future reference.
-            </li>
-            <li>
-              <strong>Troubleshooting:</strong>
-              <ul className="sub-list">
-                <li>🔃 If the game does not load, refresh the page.</li>
-                <li>🛜 Ensure a stable internet connection.</li>
-                <li>🥇 Check the <b>Leaderboard</b> if the quiz is temporarily unavailable.</li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-
-        {/* Checkbox Section with Modal Links */}
-        <div className="checkboxes-container">
-          <label className="checkbox-label">
-            <input 
-              type="checkbox"
-              checked={termsChecked}
-              onChange={(e) => setTermsChecked(e.target.checked)}
-            />
-            I agree to the&nbsp;
-            <span 
-              className="modal-link" 
-              onClick={() => setShowTermsModal(true)}
-            >
-              Terms and Conditions
-            </span>.
-          </label>
-          <label className="checkbox-label">
-            <input 
-              type="checkbox"
-              checked={rulesChecked}
-              onChange={(e) => setRulesChecked(e.target.checked)}
-            />
-            I agree to the&nbsp;
-            <span 
-              className="modal-link" 
-              onClick={() => setShowRulesModal(true)}
-            >
-              Game Rules
-            </span>.
-          </label>
-        </div>
-
-        {/* Modal for Terms & Conditions */}
-        {showTermsModal && (
-          <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>Terms and Conditions</h2>
-              <pre className="modal-text">{termsText}</pre>
-              <button className="modal-close" onClick={() => setShowTermsModal(false)}>Close</button>
-            </div>
+      {!startGame ? (
+        <div className="instructions-container">
+          {/* Welcome Section */}
+          <div className="welcome-section">
+            <h1 className="header-title">Welcome to Guhuza Quiz</h1>
+            <p className="intro-text">
+              Guhuza is an interactive and engaging quiz game that simulates the real-world job-seeking experience. Progress through different levels, test your knowledge, and compete for the top position on the leaderboard.
+            </p>
           </div>
-        )}
 
-        {/* Modal for Game Rules */}
-        {showRulesModal && (
-          <div className="modal-overlay" onClick={() => setShowRulesModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>Game Rules</h2>
-              <pre className="modal-text">{rulesText}</pre>
-              <button className="modal-close" onClick={() => setShowRulesModal(false)}>Close</button>
-            </div>
+          {/* Instructions Section */}
+          <h2 className="header-subtitle">Game Instructions</h2>
+          <div className="instructions-box">
+            <ol className="instructions-list">
+              <li><strong>Starting the Game:</strong> Click on the <b>"Play"</b> button on the home screen to begin the quiz.</li>
+              <li><strong>Answering Questions:</strong> Each question has multiple-choice answers. Click on the correct option before the timer runs out. After selecting an answer, click <b>"Next"</b> to move to the next question.</li>
+              <li>
+                <strong>Scoring System:</strong>
+                <ul className="sub-list">
+                  <li>✅ Correct Answer: <b>+10 points</b></li>
+                  <li>❌ Wrong Answer: <b>-5 points</b></li>
+                  <li>⁉️ Unanswered (Time Out): <b>-5 points</b></li>
+                </ul>
+              </li>
+              <li><strong>⏰ Timer System:</strong> Each question has a <b>10-second</b> countdown. If no answer is selected within the time, it will be considered incorrect.</li>
+              <li><strong>✔️ Completing a Level:</strong> Each level consists of <b>10 questions</b>. After completing all questions, you will receive a score summary.</li>
+              <li><strong>⬆️ Advancing to the Next Level:</strong> After completing a level, click <b>"Next Level"</b> to continue. The game progresses up to <b>Level 50</b>.</li>
+              <li><strong>🪜 Leaderboard:</strong> Track your ranking and total score in the <b>Leaderboard</b> section to see how you compare with other players.</li>
+              <li><strong>👨‍🎤 Profile & Progress:</strong> Your completed levels, scores, and progress are stored in the <b>Profile</b> section for future reference.</li>
+              <li>
+                <strong>Troubleshooting:</strong>
+                <ul className="sub-list">
+                  <li>🔃 If the game does not load, refresh the page.</li>
+                  <li>🛜 Ensure a stable internet connection.</li>
+                  <li>🥇 Check the <b>Leaderboard</b> if the quiz is temporarily unavailable.</li>
+                </ul>
+              </li>
+            </ol>
           </div>
-        )}
 
-        {/* Start Button */}
-        <div className="button-container">
-          <button 
-            className="play-button" 
-            onClick={handleStartGame}
-            disabled={!(termsChecked && rulesChecked)}
-          >
-            Start Playing
-          </button>
+          {/* Checkbox Section with Modal Links */}
+          <div className="checkboxes-container">
+            <label className="checkbox-label">
+              <input 
+                type="checkbox"
+                checked={termsChecked}
+                onChange={(e) => setTermsChecked(e.target.checked)}
+              />
+              I agree to the&nbsp;
+              <span 
+                className="modal-link" 
+                onClick={() => setShowTermsModal(true)}
+              >
+                Terms and Conditions
+              </span>.
+            </label>
+            <label className="checkbox-label">
+              <input 
+                type="checkbox"
+                checked={rulesChecked}
+                onChange={(e) => setRulesChecked(e.target.checked)}
+              />
+              I agree to the&nbsp;
+              <span 
+                className="modal-link" 
+                onClick={() => setShowRulesModal(true)}
+              >
+                Game Rules
+              </span>.
+            </label>
+          </div>
+
+          {/* Modal for Terms & Conditions */}
+          {showTermsModal && (
+            <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>Terms and Conditions</h2>
+                <pre className="modal-text">{termsText}</pre>
+                <button className="modal-close" onClick={() => setShowTermsModal(false)}>Close</button>
+              </div>
+            </div>
+          )}
+
+          {/* Modal for Game Rules */}
+          {showRulesModal && (
+            <div className="modal-overlay" onClick={() => setShowRulesModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>Game Rules</h2>
+                <pre className="modal-text">{rulesText}</pre>
+                <button className="modal-close" onClick={() => setShowRulesModal(false)}>Close</button>
+              </div>
+            </div>
+          )}
+
+          {/* Start Button */}
+          <div className="button-container">
+            <button 
+              className="play-button" 
+              onClick={handleStartGame}
+              disabled={!(termsChecked && rulesChecked)}
+            >
+              Start Playing
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Play1 />
+      )}
     </div>
   );
 };
