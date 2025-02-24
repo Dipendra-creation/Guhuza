@@ -298,6 +298,124 @@ const Home: React.FC = () => {
     </div>
   </div>
 </div>
+<div className="container mx-auto max-w-3xl">
+      <h2 className="text-center relative text-3xl font-bold mb-10">
+        Our Partners
+        <span className="absolute left-1/2 transform -translate-x-1/2 bottom-[-5px] w-6 h-px " />
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mt-2.5">
+        <div className="flex items-center justify-center">
+          <a
+            href="https://guhuza.com/media/1025/guhuza-and-monster-join-forces-to-transform-hiring-with-ai-technology"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://guhuza.com/partners/monstor.jpg"
+              className="w-[70%] h-auto"
+              alt="Monster"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a href="https://torontojobs.ca/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://guhuza.com/partners/TorontoJobs.ca.jpg"
+              className="w-[70%] h-auto"
+              alt="TorontoJobs.ca"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a
+            href="https://www.resume-library.com/hiring/request-a-demo?source=Guhuza%20ATS%20Demo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://guhuza.com/partners/resume-library-logo.png"
+              className="w-[70%] h-auto"
+              alt="ResumeLibrary"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a href="https://dmz.torontomu.ca/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://guhuza.com/partners/DMZ.png"
+              className="w-[70%] h-auto"
+              alt="DMZ"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a
+            href="https://www.linkedin.com/company/torontorecruitersconference"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://guhuza.com/partners/TorontoRecruitersConference.webp"
+              className="w-[70%] h-auto"
+              alt="Toronto Recruiters Conference"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a
+            href="https://www.linkedin.com/company/totech-career-fair/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://guhuza.com/partners/TotechCareerFair.png"
+              className="w-[70%] h-auto"
+              alt="ToTech Career Fair"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a
+            href="https://www.linkedin.com/company/torontoentrepreneurs-ca/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://guhuza.com/partners/TorontoEntrePreneursConference.jpg"
+              className="w-[70%] h-auto"
+              alt="Toronto EntrePreneurs Conference"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a href="https://www.venturelab.ca/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://guhuza.com/partners/ventureLAB_full_color.png"
+              className="w-[70%] h-auto"
+              alt="Venture Labs"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a href="https://humber.ca" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://guhuza.com/partners/Humber_Logo.png"
+              className="w-[70%] h-auto"
+              alt="Humber College"
+            />
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a href="https://www.trios.com/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://guhuza.com/partners/TriosCollege.png"
+              className="w-[70%] h-auto"
+              alt="Trios College"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
 <div className="w-full h-[651px] px-16 py-20 bg-white flex flex-col justify-start items-start gap-20 ">
       <div className="self-stretch flex justify-start items-start gap-[120px]">
         <div className="flex-grow flex flex-col justify-start items-start gap-8">
@@ -352,18 +470,13 @@ const Home: React.FC = () => {
 
       <div className="h-12 w-full justify-between items-center inline-flex  ">
       <div className="w-[300px] h-[150px] bg-contain bg-center bg-no-repeat" style={{ backgroundImage: `url(${logo_b})` }}></div>
-
-    <div className="justify-start items-center flex gap-7">
-        <img className="w-30 h-20  border-2 border-white" src="https://guhuza.com/partners/TorontoJobs.ca.jpg" />
-        <img className="w-30 h-10  border-2 border-white" src="https://guhuza.com/partners/monstor.jpg" />
-
-    </div>
      </div>
 
 
 
 
     </div>
+    
     </div>
   );
 };
