@@ -345,6 +345,7 @@ const Profile: React.FC = () => {
                   <input type="email" value={profile.email} readOnly />
                 </label>
               </div>
+              
               <div className="form-buttons">
                 <button className="save-btn" onClick={handleSaveChanges}>
                   Save Changes
