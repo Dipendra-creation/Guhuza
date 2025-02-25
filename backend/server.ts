@@ -223,6 +223,11 @@ app.get('/api/leaderboard', async (req, res) => {
         score: true,
         highestLevelCompleted: true,
         createdAt: true,
+        userBadges: {
+          select: {
+            badge: true,
+          },
+        },
       },
       orderBy: { score: 'desc' },
     });
