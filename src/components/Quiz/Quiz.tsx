@@ -293,13 +293,13 @@ useEffect(() => {
   }
 
   return (
-    <div className="quiz-wrapper border-2 border-red-700 rounded-lg p-4">
+    <div className="quiz-wrapper">
       <p className="total-score gap-2.5">
         <img src={GP} className="h-9 w-9" alt="GP Icon" />
         <strong> {profile.score || 0} GP</strong>
       </p>
   
-      <div className="quiz-container ">
+      <div className="quiz-container">
         {!showResult ? (
           <>
             {!isChecked && (
@@ -379,7 +379,7 @@ useEffect(() => {
           </>
         ) : (
           // Updated RESULT SCREEN
-          <div ref={resultRef} className="border-2">
+          <div ref={resultRef} className="result-1">
             <div className="result">
               <div className="mascot-container">
                 <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />

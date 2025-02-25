@@ -7,7 +7,7 @@
   align-items: center;
   gap: 2rem;
   padding: 20px;
-
+  height: fit-content;
 }
 .total-score {
   font-size: 1.5rem;
@@ -44,7 +44,7 @@
 /* Mascot container on the left (or inside result) */
 .mascot-container {
   position: relative;
-  width: 200px; /* Adjust as needed */
+  width: 150px; /* Adjust as needed */
   text-align: center;
   margin-left: 0px;
   margin-top: 100px;
@@ -52,7 +52,7 @@
 }
 
 .mascot-image {
-  width: 200px;
+  width: 150px;
   height: auto;
 }
 
@@ -88,7 +88,10 @@
 
 /* Keep your existing .quiz-container rules */
 .quiz-container {
+  margin-top: 100px;
+  margin-left: 50px;
   width: 1200px;
+  height: 808px auto;
   background: #ffffff;
   border-radius: 12px;
   padding: 30px 60px;
@@ -140,7 +143,7 @@
 }
 
 .quiz-container ul .selected-answer {
-  border: 1px solid #0056b3;
+  border: 2px solid #0056b3;
   background: #a2caf4;
   color: #685e5e;
 }
@@ -344,7 +347,6 @@
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .share-controls {
