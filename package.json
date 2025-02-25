@@ -40,6 +40,7 @@
     "react-router-dom": "^7.1.5",
     "react-share": "^5.2.0",
     "react-share-social": "^0.1.60",
+    "react-toastify": "^11.0.5",
     "styled-components": "^6.1.15",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",

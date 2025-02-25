@@ -7,14 +7,14 @@
   align-items: center;
   gap: 2rem;
   padding: 20px;
-  height: fit-content;
+
 }
 .total-score {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.2rem;
   position: absolute;
-  top: 80px;
+  top: 20px;
   right: 20px;
   padding: 10px;
   border: 1px solid #1b1b1b;

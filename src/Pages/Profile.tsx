@@ -1,5 +1,3 @@
-// src/pages/Profile.tsx
-
 import React, { useEffect, useRef, useState } from 'react';
 import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
@@ -10,7 +8,7 @@ import GP from '../assets/GP.png';
 // Import social media icons from react-icons
 import { 
   FaInstagram, FaFacebookF, FaLinkedinIn, 
-  FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt 
+  FaEdit, FaUser, FaEnvelope 
 } from 'react-icons/fa';
 
 // Import the badge checker component
@@ -126,9 +124,7 @@ const Profile: React.FC = () => {
 
   // Trigger file selection for profile picture update
   const handleProfilePictureClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,9 +229,8 @@ const Profile: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      
       <div className="profile-container" ref={profileRef}>
-        {/* Trigger badge condition checks on load */}
+        {/* Trigger badge checks */}
         <CheckBadgesOnLoad profile={profile} />
 
         {/* Hidden file input for profile image change */}
@@ -309,7 +304,7 @@ const Profile: React.FC = () => {
         <div className="personal-info-section">
           <div className="section-header">
             <h3><b>Personal Information</b></h3>
-            {isEditing ? null : (
+            {!isEditing && (
               <button className="edit-profile-btn" onClick={toggleEditMode}>
                 <FaEdit className="edit-icon" /> Edit Info
               </button>
@@ -345,7 +340,6 @@ const Profile: React.FC = () => {
                   <input type="email" value={profile.email} readOnly />
                 </label>
               </div>
-              
               <div className="form-buttons">
                 <button className="save-btn" onClick={handleSaveChanges}>
                   Save Changes
@@ -357,15 +351,15 @@ const Profile: React.FC = () => {
             </div>
           ) : (
             <div className="info-items">
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaUser /> First Name:</span>
                 <span className="info-value">{profile.firstName || 'N/A'}</span>
               </div>
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaUser /> Last Name:</span>
                 <span className="info-value">{profile.lastName || 'N/A'}</span>
               </div>
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaEnvelope /> Email:</span>
                 <span className="info-value">{profile.email}</span>
               </div>
@@ -391,7 +385,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        {/* ===== Action Buttons (Sign Out & Delete) ===== */}
+        {/* ===== Action Buttons ===== */}
         <div className="action-buttons">
           <button className="sign-out-btn" onClick={handleSignOut}>
             Sign out
@@ -402,7 +396,7 @@ const Profile: React.FC = () => {
         </div>
       </div>
 
-      {/* ===== Footer Section with Share Profile ===== */}
+      {/* ===== Footer Section ===== */}
       <footer className="profile-footer">
         <div className="share-buttons">
           <button onClick={() => handleShareScreenshot('instagram')}>
@@ -415,9 +409,8 @@ const Profile: React.FC = () => {
             <FaLinkedinIn className="Share-icon" />
           </button>
         </div>
-        <p>© 2023 YourApp. All rights reserved</p>
+        <p>© 2025 Guhuza. All rights reserved</p>
       </footer>
-      
     </ProtectedRoute>
   );
 };
