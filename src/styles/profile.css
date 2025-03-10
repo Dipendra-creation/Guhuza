@@ -255,18 +255,6 @@
 }
 
 .info-item {
-<<<<<<< HEAD
-  display: block;
-  padding: 15px;
-  background-color: var(--card-background);
-  border-radius: 4px;
-  box-shadow: 0 1px 5px var(--shadow-color);
-  transition: transform 0.2s, box-shadow 0.2s;
-  white-space: nowrap;  /* Prevents text from wrapping */
-  overflow: hidden;      /* Hides overflow */
-  text-overflow: ellipsis; /* Adds "..." if text is too long */
-  max-width: 100%; /* Ensures it doesn't overflow its parent */
-=======
     padding: 15px;
     background-color: var(--card-background);
     border-radius: 4px;
@@ -274,7 +262,6 @@
     transition: transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
     width: max-content; /* Full width for each item */
     
->>>>>>> eb1d3e355572f9670a36c9adbea724f234b1b7de
 }
 
 
