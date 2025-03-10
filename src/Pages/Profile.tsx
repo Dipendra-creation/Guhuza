@@ -1,5 +1,3 @@
-// src/pages/Profile.tsx
-
 import React, { useEffect, useRef, useState } from 'react';
 import ProtectedRoute from '../components/ProtectedRoute';
 import axios from 'axios';
@@ -9,9 +7,10 @@ import GP from '../assets/GP.png';
 
 // Import social media icons from react-icons
 import { 
-  FaInstagram, FaFacebookF, FaLinkedinIn, 
-  FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt 
+  FaFacebookF, FaLinkedinIn, FaTwitter,
+  FaEdit, FaUser, FaEnvelope 
 } from 'react-icons/fa';
+import { FaXTwitter,FaInstagram } from "react-icons/fa6";
 
 // Import the badge checker component
 import CheckBadgesOnLoad from '../CheckBadgesOnLoad';
@@ -98,37 +97,30 @@ const Profile: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Capture screenshot for sharing
-  const handleShareScreenshot = async (platform: 'facebook' | 'instagram' | 'linkedin') => {
-    if (!profileRef.current) return;
-    try {
-      const canvas = await html2canvas(profileRef.current, { useCORS: true });
-      const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = 'profile.png';
-      link.click();
+  // New Generic Social Share function
+  const handleSocialShare = (url: string) => {
+    window.open(url, '_blank', 'width=600,height=400');
+  };
 
-      setTimeout(() => {
-        if (platform === 'facebook') {
-          window.open('https://www.facebook.com/', '_blank');
-        } else if (platform === 'instagram') {
-          window.open('https://www.instagram.com/', '_blank');
-        } else if (platform === 'linkedin') {
-          window.open('https://www.linkedin.com/', '_blank');
-        }
-        alert(`Your screenshot has been downloaded. Please share it on ${platform}.`);
-      }, 500);
-    } catch (error) {
-      console.error('Error capturing screenshot:', error);
+  // New Download function (captures profile section as an image)
+  const handleDownload = async () => {
+    if (profileRef.current) {
+      try {
+        const canvas = await html2canvas(profileRef.current, { useCORS: true });
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `profile-${profile?.username}.png`;
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error('Error capturing screenshot:', error);
+      }
     }
   };
 
   // Trigger file selection for profile picture update
   const handleProfilePictureClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,11 +223,22 @@ const Profile: React.FC = () => {
 
   const imageUrl = getImageUrl(profile.image);
 
+  // Build sharing information based on profile data
+  const shareUrl = encodeURIComponent(window.location.href);
+  const shareText = encodeURIComponent(
+    `🎉 Check out my Guhuza profile! I have ${profile.score} GP, reached level ${profile.highestLevelCompleted}, and my rank is ${profile.rank || 'N/A'}.`
+  );
+  const socialLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`,
+    twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}&title=${encodeURIComponent('My Guhuza Profile')}&summary=${shareText}`,
+    instagram: 'https://www.instagram.com/'
+  };
+
   return (
     <ProtectedRoute>
-      
       <div className="profile-container" ref={profileRef}>
-        {/* Trigger badge condition checks on load */}
+        {/* Trigger badge checks */}
         <CheckBadgesOnLoad profile={profile} />
 
         {/* Hidden file input for profile image change */}
@@ -260,16 +263,16 @@ const Profile: React.FC = () => {
             <div className="basic-info">
               <h2>{profile.username}</h2>
               <span className="flex items-center space-x-2">
-                <img src={GP} className="h-5 w-5" alt="GP Icon" />
-                <span>{profile.score} GP</span>
+                <img src={GP} className="h-8 w-8" alt="GP Icon" />
+                <span className='font-extrabold text-[30px]'>{profile.score} GP</span>
               </span>
               <p className="bio">
                 Hello, I'm {profile.firstName || 'N/A'} {profile.lastName || 'N/A'} (aka {profile.username}).
                 <br />
                 And I am currently looking for a job.
               </p>
-              <button className="change-profile-btn" onClick={handleProfilePictureClick}>
-                Change Profile Picture
+              <button className="change-profile-btn bg-slate-400" onClick={handleProfilePictureClick}>
+                Change Profile
               </button>
             </div>
           </div>
@@ -277,8 +280,8 @@ const Profile: React.FC = () => {
 
         {/* ===== Stats Row ===== */}
         <div className="stats-row">
-          <div className="stats-item">
-            <span className="stat-title"><b>Joined</b></span>
+          <div className="stats-item ">
+            <span className="stat-title "><b>Joined</b></span>
             <span className="stat-value">
               {profile.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'N/A'}
             </span>
@@ -309,7 +312,7 @@ const Profile: React.FC = () => {
         <div className="personal-info-section">
           <div className="section-header">
             <h3><b>Personal Information</b></h3>
-            {isEditing ? null : (
+            {!isEditing && (
               <button className="edit-profile-btn" onClick={toggleEditMode}>
                 <FaEdit className="edit-icon" /> Edit Info
               </button>
@@ -345,7 +348,6 @@ const Profile: React.FC = () => {
                   <input type="email" value={profile.email} readOnly />
                 </label>
               </div>
-              
               <div className="form-buttons">
                 <button className="save-btn" onClick={handleSaveChanges}>
                   Save Changes
@@ -357,15 +359,15 @@ const Profile: React.FC = () => {
             </div>
           ) : (
             <div className="info-items">
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaUser /> First Name:</span>
                 <span className="info-value">{profile.firstName || 'N/A'}</span>
               </div>
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaUser /> Last Name:</span>
                 <span className="info-value">{profile.lastName || 'N/A'}</span>
               </div>
-              <div className="info-item">
+              <div className="info-item readonly">
                 <span className="info-label"><FaEnvelope /> Email:</span>
                 <span className="info-value">{profile.email}</span>
               </div>
@@ -391,7 +393,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        {/* ===== Action Buttons (Sign Out & Delete) ===== */}
+        {/* ===== Action Buttons ===== */}
         <div className="action-buttons">
           <button className="sign-out-btn" onClick={handleSignOut}>
             Sign out
@@ -402,22 +404,51 @@ const Profile: React.FC = () => {
         </div>
       </div>
 
-      {/* ===== Footer Section with Share Profile ===== */}
+      {/* ===== Footer Section with New Sharing Buttons ===== */}
       <footer className="profile-footer">
-        <div className="share-buttons">
-          <button onClick={() => handleShareScreenshot('instagram')}>
-            <FaInstagram className="Share-icon" />
-          </button>
-          <button onClick={() => handleShareScreenshot('facebook')}>
-            <FaFacebookF className="Share-icon" />
-          </button>
-          <button onClick={() => handleShareScreenshot('linkedin')}>
-            <FaLinkedinIn className="Share-icon" />
-          </button>
+        <div className="share-section">
+          <p className="share-text flex flex-col items-center font-bold text-lg">
+            Share your profile and connect with friends!
+          </p>
+          <div className="share-controls">
+            <div className="social-buttons">
+              <button
+                onClick={() => handleSocialShare(socialLinks.facebook)}
+                className="social-btn facebook"
+              >
+                <FaFacebookF />
+              </button>
+              <button
+                onClick={() => handleSocialShare(socialLinks.twitter)}
+                className="social-btn twitter"
+              >
+                <FaXTwitter />
+              </button>
+              <button
+                onClick={() => handleSocialShare(socialLinks.instagram)}
+                className="social-btn instagram"
+              >
+                <FaInstagram />
+              </button>
+              <button
+                onClick={() => handleSocialShare(socialLinks.linkedin)}
+                className="social-btn linkedin"
+              >
+                <FaLinkedinIn />
+              </button>
+            </div>
+            <div className="flex flex-col items-center">
+              <button 
+                onClick={handleDownload} 
+                className="download-btn flex items-center gap-2 px-5"
+              >
+                Download Profile
+              </button>
+            </div>
+          </div>
         </div>
-        <p>© 2023 YourApp. All rights reserved</p>
+        <p>© 2025 Guhuza. All rights reserved</p>
       </footer>
-      
     </ProtectedRoute>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { resultInitialState } from "../../constants";
 import "./Quiz.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AnswerTimer from "../AnswerTimer/AnswerTimer";
 import CountTimer from "../CountTimer/CountTimer";
 import axios from "axios";
@@ -240,7 +242,7 @@ useEffect(() => {
   const handleTimeUp = (): void => {
     if (!isChecked) {
       setIsChecked(true);
-      alert('Time is up!');
+      toast("Time is up!"); // Changed alert to toast
     }
   };
 
@@ -305,6 +307,7 @@ useEffect(() => {
                 key={currentQuestion}
                 duration={10}
                 onTimeUp={handleTimeUp}
+                
               />
             )}
             
@@ -317,6 +320,17 @@ useEffect(() => {
                 duration={10} 
                 onTimeUp={handleTimeUp} 
               />
+              
+              <ToastContainer 
+    position="bottom-right"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+  />
             </div>
   
             <h2>{question}</h2>
@@ -365,7 +379,7 @@ useEffect(() => {
           </>
         ) : (
           // Updated RESULT SCREEN
-          <div ref={resultRef}>
+          <div ref={resultRef} className="result-1">
             <div className="result">
               <div className="mascot-container">
                 <img src={GerrieInfo} alt="Info Mascot" className="mascot-image" />

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Form,
@@ -37,7 +37,6 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -83,8 +82,8 @@ const SignUpForm = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      // Redirect to the profile page
-      navigate('/profile');
+      // Refresh the page by setting the window location to the profile page
+      window.location.href = '/profile';
     } catch (err: any) {
       console.error('Signup error:', err);
       setError(err.response?.data?.error || 'Signup failed. Please try again.');
@@ -93,9 +92,7 @@ const SignUpForm = () => {
 
   return (
     <div className="relative bg-black overflow-hidden">
-      {/* Background Boxes with hover events enabled */}
       <Boxes />
-
       <div className="flex items-center justify-center min-h-screen">
         <div className="max-w-md w-full p-8 bg-[rgba(255,255,255,0.15)] 
             shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] 
@@ -112,7 +109,7 @@ const SignUpForm = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Username</FormLabel>
+                      <FormLabel className="text-white">Username</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="johndoe"
@@ -129,7 +126,7 @@ const SignUpForm = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>First Name</FormLabel>
+                      <FormLabel className="text-white">First Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="John"
@@ -146,7 +143,7 @@ const SignUpForm = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Last Name</FormLabel>
+                      <FormLabel className="text-white">Last Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Doe"
@@ -163,7 +160,7 @@ const SignUpForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Email</FormLabel>
+                      <FormLabel className="text-white">Email</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="mail@example.com"
@@ -180,7 +177,7 @@ const SignUpForm = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Password</FormLabel>
+                      <FormLabel className="text-white">Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -198,7 +195,9 @@ const SignUpForm = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Re-Enter your password</FormLabel>
+                      <FormLabel className="text-white">
+                        Re-Enter your password
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -216,12 +215,14 @@ const SignUpForm = () => {
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Upload Profile Image</FormLabel>
-                      <FormControl className='text-white'>
+                      <FormLabel className="text-white">
+                        Upload Profile Image
+                      </FormLabel>
+                      <FormControl className="text-white">
                         <Input
                           type="file"
                           onChange={(e) => field.onChange(e.target.files)}
-                          className="w-full  text-white"
+                          className="w-full text-white"
                         />
                       </FormControl>
                       <FormMessage />

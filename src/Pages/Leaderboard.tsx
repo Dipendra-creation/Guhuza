@@ -4,11 +4,19 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProtectedRoute from "../components/ProtectedRoute";
 import "../styles/leaderboard.css";
 
+interface Badge {
+  id: number;
+  name: string;
+  description?: string;
+  image: string;
+  awardedAt: string;
+}
+
 interface Player {
   id: number;
   name: string;
   gp: number;
-  badge: string;
+  badges: Badge[];
   img: string;
   level: number;   // HighestLevelCompleted
   joined: string;  // CreatedAt date (formatted)
@@ -41,11 +49,15 @@ const Leaderboard: FC = () => {
             ? `${user.firstName} ${user.lastName || ""}`.trim()
             : user.username;
           const img = user.image ? getImageUrl(user.image) : "";
+          // Map user badges if available. We assume the backend returns userBadges similar to profile.tsx.
+          const badges: Badge[] = user.userBadges
+            ? user.userBadges.map((userBadge: any) => userBadge.badge)
+            : [];
           return {
             id: user.id,
             name,
             gp: user.score,
-            badge: "", // Logic for badges if needed.
+            badges,
             img,
             level: user.highestLevelCompleted,
             joined: new Date(user.createdAt).toLocaleDateString(),
@@ -159,7 +171,23 @@ const Leaderboard: FC = () => {
                     <span>{player.name}</span>
                   </div>
                 </td>
-                <td>{player.badge}</td>
+                <td>
+                  {player.badges && player.badges.length > 0 ? (
+                    <div className="leaderboard-badges">
+                      {player.badges.map((badge) => (
+                        <div key={badge.id} className="leaderboard-badge-item">
+                          <img
+                            src={badge.image}
+                            alt={badge.name}
+                            className="leaderboard-badge-img"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    "No badges"
+                  )}
+                </td>
                 <td>{player.level}</td>
                 <td>{player.joined}</td>
                 <td>{player.gp}</td>

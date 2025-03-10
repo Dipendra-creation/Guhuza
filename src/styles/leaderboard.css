@@ -1,178 +1,254 @@
 /* General Leaderboard Container */
 .leaderboard-container {
-   width: 80%;
-   margin: auto;
-   text-align: center;
-   background: #9ededeeb;
-   padding: 20px;
-   border-radius: 12px;
-   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
- }
- 
- /* Title Styling */
- .header-title {
-   font-family: monospace;
-   color: #333;
-   margin-bottom: 15px;
-   font-size: 40px;
-   font-weight: bold;
- }
- 
- /* Search Input */
- .search-input {
-   width: 50%;
-   padding: 10px;
-   margin: 10px 0 20px;
-   border-radius: 8px;
-   border: 1px solid #ccc;
-   font-size: 16px;
- }
- 
- /* Sorting Options */
- .sorting {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 10px;
-   margin-bottom: 15px;
- }
- 
- .sorting label {
-   font-size: 16px;
-   font-weight: bold;
- }
- 
- .sorting select,
- .sorting button {
-   padding: 8px 12px;
-   font-size: 14px;
-   border-radius: 6px;
-   border: 1px solid #aaa;
-   cursor: pointer;
-   transition: all 0.3s ease;
- }
- 
- .sorting button:hover {
-   background: #007bff;
-   color: white;
- }
- 
- /* Podium Styling */
- .podium {
-   display: flex;
-   justify-content: center;
-   align-items: flex-end;
-   gap: 20px;
-   margin: 30px 0;
- }
- 
- /* Podium Player Card */
- .player {
-   width: 120px;
-   height: 160px;
-   border-radius: 8px;
-   text-align: center;
-   padding: 10px;
-   color: white;
-   font-weight: bold;
-   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   position: relative;
- }
- 
- /* Profile Image in Podium */
- .player img {
-   width: 50px;
-   height: 50px;
-   border-radius: 50%;
-   object-fit: cover;
-   display: block;
-   margin: 0 auto 10px;
- }
- 
- .player p {
-   font-size: 14px;
-   margin: 5px 0;
- }
- 
- /* Rank Colors for Podium */
- .first {
-   background: linear-gradient(to bottom, gold, #ffd700);
-   height: 190px;
- }
- 
- .second {
-   background: linear-gradient(to bottom, silver, #c0c0c0);
-   height: 170px;
- }
- 
- .third {
-   background: linear-gradient(to bottom, #cd7f32, #b87333);
-   height: 160px;
- }
- 
- .rank {
-   font-size: 16px;
-   font-weight: bold;
-   margin-top: 5px;
- }
- 
- .gp {
-   font-size: 14px;
-   font-weight: bold;
- }
- 
- /* Leaderboard Table */
- .leaderboard-table {
-   width: 100%;
-   border-collapse: collapse;
-   margin-top: 20px;
-   border: 2px solid #007bff;
- }
- 
- .leaderboard-table th {
-   background: #007bff;
-   color: #fff;
-   font-size: 16px;
-   text-align: center;
-   padding: 12px;
-   border: 2px solid #fff;
- }
- 
- .leaderboard-table td {
-   padding: 12px;
-   border: 2px solid #007bff;
-   text-align: left;
- }
- 
- /* Alternating Row Colors */
- .leaderboard-table tbody tr:nth-child(even) {
-   background: #f9f9f9;
- }
- 
- .leaderboard-table tbody tr:nth-child(odd) {
-   background: #d4edda;
- }
- 
- /* Hover Effect */
- .leaderboard-table tbody tr:hover {
-   background: #398aa1;
- }
- 
- /* Player Info in Table */
- .player-info {
-   display: flex;
-   align-items: center;
-   gap: 12px;
-   padding-left: 10px;
- }
- 
- .player-img {
-   width: 40px;
-   height: 40px;
-   border-radius: 50%;
-   object-fit: cover;
- }
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  background: #9ededeeb;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Title Styling */
+.header-title {
+  font-family: monospace;
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* Search Input */
+.search-input {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Sorting Options */
+.sorting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.sorting label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.sorting select,
+.sorting button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sorting button:hover {
+  background: #007bff;
+  color: white;
+}
+
+/* Podium Styling */
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+/* Podium Player Card */
+.player {
+  width: 120px;
+  height: 160px;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Profile Image in Podium */
+.player img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.player p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* Rank Colors for Podium */
+.first {
+  background: linear-gradient(to bottom, gold, #ffd700);
+  height: 190px;
+}
+
+.second {
+  background: linear-gradient(to bottom, silver, #c0c0c0);
+  height: 170px;
+}
+
+.third {
+  background: linear-gradient(to bottom, #cd7f32, #b87333);
+  height: 160px;
+}
+
+.rank {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.gp {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Leaderboard Table */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 2px solid #007bff;
+}
+
+.leaderboard-table th {
+  background: #007bff;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px;
+  border: 2px solid #fff;
+}
+
+.leaderboard-table td {
+  padding: 12px;
+  border: 2px solid #007bff;
+  text-align: left;
+}
+
+/* Alternating Row Colors */
+.leaderboard-table tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.leaderboard-table tbody tr:nth-child(odd) {
+  background: #d4edda;
+}
+
+/* Hover Effect */
+.leaderboard-table tbody tr:hover {
+  background: #398aa1;
+}
+
+/* Player Info in Table */
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 10px;
+}
+
+.player-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+/* Leaderboard-specific Badge Styles */
+.leaderboard-badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.leaderboard-badge-item {
+  width: 30px;
+  height: 30px;
+}
+
+.leaderboard-badge-img {
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+  border-radius: 50%;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .leaderboard-container {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  .search-input {
+    width: 90%;
+    font-size: 14px;
+  }
+  
+  .sorting select,
+  .sorting button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .podium {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .podium .player {
+    width: 90%;
+    margin-bottom: 15px;
+  }
+  
+  .leaderboard-table {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 28px;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .player {
+    padding: 5px;
+  }
+  
+  .podium .player img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .leaderboard-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

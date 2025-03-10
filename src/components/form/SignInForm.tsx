@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Form,
@@ -25,7 +25,6 @@ const FormSchema = z.object({
 });
 
 const SignInForm: React.FC = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -43,11 +42,11 @@ const SignInForm: React.FC = () => {
         'http://localhost:5001/api/auth/login',
         values
       );
-      // Save the token and user data in localStorage
+      // Save token and user data in localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      // Redirect to the profile page
-      navigate('/profile');
+      // Refresh the page by setting the window location to the profile page
+      window.location.href = '/profile';
     } catch (err: any) {
       console.error('Signin error:', err);
       setError(
@@ -58,9 +57,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <div className="bg-black relative overflow-hidden">
-      {/* Animated Background Boxes */}
       <Boxes />
-
       <div className="flex items-center justify-center min-h-screen">
         <div className="max-w-md w-full p-8 bg-[rgba(255,255,255,0.15)] 
             shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] 
@@ -79,7 +76,7 @@ const SignInForm: React.FC = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Email</FormLabel>
+                      <FormLabel className="text-white">Email</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="mail@example.com"
@@ -96,7 +93,7 @@ const SignInForm: React.FC = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-white'>Password</FormLabel>
+                      <FormLabel className="text-white">Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -132,4 +129,5 @@ const SignInForm: React.FC = () => {
     </div>
   );
 };
+
 export default SignInForm;
